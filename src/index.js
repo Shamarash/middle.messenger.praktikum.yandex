@@ -5,7 +5,6 @@ const data = {
 	h1: 'Title',
 	content: 'Содержимое'
 }
-
 console.log(tpl(data));
 
 import './style.css';
