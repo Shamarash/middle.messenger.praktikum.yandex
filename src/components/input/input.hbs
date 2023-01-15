@@ -1,0 +1,13 @@
+{{#if label}}
+    <label for="{{id}}">
+        {{label}}
+    </label>
+{{/if}}
+<input id="{{id}}"
+       placeholder="{{placeholder}}"
+       type="{{type}}"
+       title="{{title}}"
+    {{#if disabled}}
+       disabled
+    {{/if}}
+       class="input {{class}}"/>
