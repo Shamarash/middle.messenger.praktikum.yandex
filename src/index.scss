@@ -27,12 +27,14 @@ input {
   font-weight: 500;
   font-size: 13px;
   line-height: 13px;
+
   ::placeholder {
     font-weight: 500;
     font-size: 13px;
     line-height: 13px;
     color: #999999;
   }
+
   :focus {
     outline: none;
   }
@@ -70,6 +72,7 @@ a {
   font-size: 11px;
   line-height: 11px;
   color: #3369F3;
+
   :visited {
     color: #3369F3;
   }
@@ -77,12 +80,15 @@ a {
 
 a, button {
   cursor: pointer;
-  :active {
-    filter: opacity(.9);
+
+  &:hover {
+  opacity: .9;
   }
-  :focus {
-    filter: opacity(.7);
+
+  &:active {
+  opacity: .7;
   }
+
 }
 
 .centeredFlex {
@@ -94,6 +100,7 @@ a, button {
   flex-direction: column;
 
 }
+
 .centeredFlexContent {
   align-items: center;
   padding: 50px 30px 30px;
@@ -104,10 +111,12 @@ a, button {
   border-radius: 12px;
   width: 340px;
   display: flex;
+
   form {
     width: 100%;
   }
 }
+
 button {
   background: #3369F3;
   border-radius: 8px;

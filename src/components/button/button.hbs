@@ -1,5 +1,7 @@
 <button id="{{id}}"
-        disabled="{{disabled}}"
+    {{#if disabled}}
+        disabled
+    {{/if}}
         class="button {{type}}">
     {{name}}
 </button>
