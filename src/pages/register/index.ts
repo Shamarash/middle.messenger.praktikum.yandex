@@ -12,32 +12,55 @@ interface IRegisterProps {
 	title: string
 	inputs: (() => HTMLElement)[]
 	submitBtn: HTMLElement
-	linkToRegister: HTMLElement
+	linkToLogin: HTMLElement
 }
 
 const content: IRegisterProps = {
 	title: 'Регистрация',
 	inputs: [
 		input({
+			id: 'Почта',
+			title: 'Введите свой E-mail',
+			placeholder: 'Почта'
+		}),
+		input({
 			id: 'login',
-			label: 'Логин',
 			title: 'Введите свой логин',
-			placeholder: 'Введите логин'
+			placeholder: 'Логин'
+		}),
+		input({
+			id: 'name',
+			title: 'Введите своё имя',
+			placeholder: 'Имя'
+		}),
+		input({
+			id: 'surname',
+			title: 'Введите свою фамилию',
+			placeholder: 'Фамилия'
+		}),
+		input({
+			id: 'phone',
+			title: 'Введите номер телефона',
+			placeholder: 'Номер телефона'
 		}),
 		input({
 			id: 'password',
-			type: InputTypeEnum.password,
-			label: 'Пароль',
-			title: 'Введите свой пароль',
-			placeholder: 'Введите пароль'
+			title: 'Введите пароль',
+			placeholder: 'Пароль'
+		}),
+		input({
+			id: 'password_repeat',
+			title: 'Повторите пароль',
+			placeholder: 'Пароль (ещё раз)'
 		}),
 	],
 	submitBtn: button({
 		name: 'Зарегистрироваться',
 		type: ButtonTypeEnum.primary,
-		disabled: false
+		disabled: false,
+		submit: true
 	}),
-	linkToRegister: link({
+	linkToLogin: link({
 		name: 'Уже зарегистрированы? Войти',
 		href: '#login'
 	}),

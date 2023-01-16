@@ -1,14 +1,18 @@
 <div class="centeredFlex">
     <div class="centeredFlexContent">
-    <h1>
-        {{title}}
-    </h1>
-    <form>
-        {{#each inputs}}
-            {{{this}}}
-        {{/each}}
-        {{{submitBtn}}}
-    </form>
-    {{{linkToRegister}}}
+        <h2>
+            {{title}}
+        </h2>
+        <form>
+            <div class="formInputs">
+                {{#each inputs}}
+                    {{{this}}}
+                {{/each}}
+            </div>
+            <div class="formButtons">
+                {{{submitBtn}}}
+                {{{linkToRegister}}}
+            </div>
+        </form>
     </div>
 </div>

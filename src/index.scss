@@ -11,6 +11,7 @@
   background: none;
   border: none;
   outline: none;
+  border-radius: 0;
 }
 
 #root {
@@ -27,12 +28,16 @@ input {
   font-weight: 500;
   font-size: 13px;
   line-height: 13px;
-
+  border-bottom: 1px solid #3369F3;
+  padding: 7px 0;
+width: 100%;
   ::placeholder {
+    font-family: 'Inter', serif;
+    font-style: normal;
+    color: #999999;
     font-weight: 500;
     font-size: 13px;
     line-height: 13px;
-    color: #999999;
   }
 
   :focus {
@@ -40,6 +45,27 @@ input {
   }
 }
 
+.inputContainer {
+  display: flex;
+  position: relative;
+
+
+
+}
+
+// @TODO включить когда можно будет управлять value инпута
+//.inputContainer input:not([value=""]) ~ label {
+//    transform: translateY(-20px);
+//    top: -5px;
+//    font-size: 9px;
+//}
+
+input:focus ~ label {
+
+    transform: translateY(0px);
+    top: -5px;
+    font-size: 9px;
+}
 /* Заголовки 404, 500 и тд*/
 h1 {
   font-weight: 500;
@@ -47,23 +73,23 @@ h1 {
   line-height: 40px;
 }
 
-/* Входб регистрация, мы уже фиксим и тд*/
+/* Вход, регистрация, мы уже фиксим и тд*/
 h2 {
   font-weight: 500;
   font-size: 20px;
   line-height: 20px;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-}
 
 label {
   font-weight: 500;
   font-size: 9px;
   line-height: 9px;
   color: #999999;
+  position: absolute;
+top: 50%;
+  transform: translateY(-50%);
+  transition: .5s;
 }
 
 
@@ -82,11 +108,11 @@ a, button {
   cursor: pointer;
 
   &:hover {
-  opacity: .9;
+    opacity: .9;
   }
 
   &:active {
-  opacity: .7;
+    opacity: .7;
   }
 
 }
@@ -111,18 +137,42 @@ a, button {
   border-radius: 12px;
   width: 340px;
   display: flex;
+min-height: 450px;
+  h2 {
+    margin-bottom: 40px;
+  }
 
   form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
     width: 100%;
+    justify-content: space-between;
+  }
+  a {
+    margin-top: 14px;
   }
 }
 
+.formInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+.formButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 button {
-  background: #3369F3;
   border-radius: 8px;
   padding: 12px 0;
   width: 100%;
   max-width: 280px;
+  background: #3369F3;
   color: white;
 }
 

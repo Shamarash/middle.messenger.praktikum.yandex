@@ -19,21 +19,20 @@ const content: ILoginProps = {
 	inputs: [
 		input({
 			id: 'login',
-			label: 'Логин',
 			title: 'Введите свой логин',
-			placeholder: 'Введите логин'
+			placeholder: 'Логин'
 		}),
 		input({
-			id: 'login',
-			label: 'Логин',
-			title: 'Введите свой логин',
-			placeholder: 'Введите логин'
+			id: 'password',
+			title: 'Введите свой пароль',
+			placeholder: 'Пароль'
 		}),
 	],
 	submitBtn: button({
 		name: 'Войти',
 		type: ButtonTypeEnum.primary,
-		disabled: false
+		disabled: false,
+		submit: true
 	}),
 	linkToRegister: link({
 		name: 'Нет аккаунта? Зарегистрироваться',

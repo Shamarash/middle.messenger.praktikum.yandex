@@ -5,7 +5,6 @@ import {InputTypeEnum} from "../../enum/input";
 export interface IInputProps {
 	id: string
 	title: string
-	label?: string
 	class?: string
 	placeholder?: string
 	disabled?: boolean

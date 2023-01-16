@@ -1,13 +1,13 @@
-{{#if label}}
-    <label for="{{id}}">
-        {{label}}
-    </label>
-{{/if}}
+<div class="inputContainer">
 <input id="{{id}}"
-       placeholder="{{placeholder}}"
        type="{{type}}"
        title="{{title}}"
     {{#if disabled}}
        disabled
     {{/if}}
+        value=""
        class="input {{class}}"/>
+    <label for="{{id}}">
+        {{placeholder}}
+    </label>
+</div>
