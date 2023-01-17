@@ -2,6 +2,9 @@ import Handlebars from 'handlebars';
 import chatsTemplate from './chats.hbs';
 
 Handlebars.registerPartial('chats', chatsTemplate);
+Handlebars.registerHelper('isMineMessage',  (id: string) => {
+	return id === '0';
+});
 
 enum MessageTypeEnum {
 	text = 'text',
@@ -15,6 +18,7 @@ enum AttachmentEnum {
 }
 interface IAttachment {
 	type: AttachmentEnum,
+	url?: string,
 }
 
 interface IMessage {
@@ -44,6 +48,13 @@ interface IChatsProps {
 	selectedChat: IChat | null
 }
 
+const randomTime = (): string => {
+	const hours = Math.floor( Math.random() * 24 )
+	const minutes = Math.floor( Math.random() * 60 )
+
+	return `${hours < 10 ? '0' + hours: hours}:${minutes < 10 ? '0' + minutes : minutes}`
+}
+
 const chats: IChats = {
 	'1' : {
 		person: {
@@ -57,7 +68,7 @@ const chats: IChats = {
 				to: '0',
 				type: MessageTypeEnum.text,
 				text: 'Hello',
-				dateTime: Date.now().toString(),
+				dateTime: randomTime(),
 				attachments: []
 			},
 			{
@@ -66,7 +77,7 @@ const chats: IChats = {
 				to: '1',
 				type: MessageTypeEnum.text,
 				text: 'Hi',
-				dateTime: Date.now().toString(),
+				dateTime: randomTime(),
 				attachments: []
 			},
 		]
@@ -83,8 +94,22 @@ const chats: IChats = {
 				to: '0',
 				type: MessageTypeEnum.text,
 				text: 'Hello donkey',
-				dateTime: Date.now().toString(),
+				dateTime: randomTime(),
 				attachments: []
+			},
+			{
+				read: true,
+				from: '2',
+				to: '0',
+				type: MessageTypeEnum.text,
+				text: null,
+				dateTime: randomTime(),
+				attachments: [
+					{
+						type: AttachmentEnum.image,
+						url: './images/camera.png'
+					}
+				]
 			},
 			{
 				read: true,
@@ -92,7 +117,7 @@ const chats: IChats = {
 				to: '2',
 				type: MessageTypeEnum.text,
 				text: 'Hi donkey',
-				dateTime: Date.now().toString(),
+				dateTime: randomTime(),
 				attachments: []
 			},
 		]

@@ -1,33 +1,43 @@
 <div class="chat">
     <div class="contacts">
-<div class="searchContainer">
-<input placeholder="Поиск"/>
-</div>
-<ul>
-{{#each chats}}
-<li onclick="(function() {
+        <div class="searchContainer">
+            <input id="search"/>
+            <label for="search"></label>
+        </div>
+        <ul>
+            {{#each chats}}
 
-window.selectedChatId = {{@key}}
-
-window.dispatchEvent(new CustomEvent('selectedChatChange'))
-
-})()">{{this.person.name}}</li>
-{{else}}
-<li class="empty">Список чатов пуст</li>
- {{/each}}
- </ul>
+                <li onclick="(function() {
+                        window.selectedChatId = {{@key}}
+                        window.dispatchEvent(new CustomEvent('selectedChatChange'))
+                        })()">{{this.person.name}}</li>
+            {{else}}
+                <li class="empty">Список чатов пуст</li>
+            {{/each}}
+        </ul>
     </div>
     <div class="messages">
-{{#if selectedChat}}
-<ul>
-    {{#each selectedChat.messages}}
-    <p>{{this.text}}</p>
-     {{/each}}
-    </ul>
-{{else}}
-<div class="centeredFlex">
-<p>Выберите чат чтобы отправить сообщение</p>
-</div>
-{{/if}}
+        {{#if selectedChat}}
+            <ul>
+                {{#each selectedChat.messages}}
+                    <div class="message{{#if (isMineMessage this.to)}}messageMine{{/if}}">
+                        {{#if this.text}}
+                            <p>{{this.text}}</p>
+                        {{else}}
+<img src="{{this.}}"/>
+                        {{/if}}
+
+
+                        {{#if this.read}}
+                            <div class="readIcon"></div>{{/if}}
+                        <div class="messageTime">{{this.dateTime}}</div>
+                    </div>
+                {{/each}}
+            </ul>
+        {{else}}
+            <div class="centeredFlex">
+                <p>Выберите чат чтобы отправить сообщение</p>
+            </div>
+        {{/if}}
     </div>
 </div>
