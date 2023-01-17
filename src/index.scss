@@ -21,7 +21,19 @@
   height: 100vh;
   background: white;
 }
+::-webkit-scrollbar {
+  width: 10px;
+  height: 12px;
+}
 
+::-webkit-scrollbar-thumb {
+  background: rgba(51, 51, 51, 0.4);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 input {
   background: none;
   border: none;
@@ -30,7 +42,8 @@ input {
   line-height: 13px;
   border-bottom: 1px solid #3369F3;
   padding: 7px 0;
-width: 100%;
+  width: 100%;
+
   ::placeholder {
     font-family: 'Inter', serif;
     font-style: normal;
@@ -50,7 +63,6 @@ width: 100%;
   position: relative;
 
 
-
 }
 
 // @TODO включить когда можно будет управлять value инпута
@@ -61,11 +73,11 @@ width: 100%;
 //}
 
 input:focus ~ label {
-
-    transform: translateY(0px);
-    top: -5px;
-    font-size: 9px;
+  transform: translateY(0px);
+  top: -5px;
+  font-size: 9px;
 }
+
 /* Заголовки 404, 500 и тд*/
 h1 {
   font-weight: 500;
@@ -87,7 +99,7 @@ label {
   line-height: 9px;
   color: #999999;
   position: absolute;
-top: 50%;
+  top: 50%;
   transform: translateY(-50%);
   transition: .5s;
 }
@@ -124,8 +136,8 @@ a, button {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
 }
+
 
 .centeredFlexContent {
   align-items: center;
@@ -137,7 +149,8 @@ a, button {
   border-radius: 12px;
   width: 340px;
   display: flex;
-min-height: 450px;
+  min-height: 450px;
+
   h2 {
     margin-bottom: 40px;
   }
@@ -150,6 +163,7 @@ min-height: 450px;
     width: 100%;
     justify-content: space-between;
   }
+
   a {
     margin-top: 14px;
   }
@@ -161,6 +175,7 @@ min-height: 450px;
   gap: 16px;
   width: 100%;
 }
+
 .formButtons {
   display: flex;
   flex-direction: column;
@@ -187,6 +202,35 @@ button {
   display: flex;
   height: 100%;
   width: 310px;
+  flex-direction: column;
+  border-right: 1px solid rgba(0,0,0,.2);
+  .searchContainer {
+    display: flex;
+    padding: 12px;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgba(0,0,0,.2);
+  }
+  input {
+    border: none;
+    background: rgba(0,0,0,.1);
+    border-radius: 8px;
+    padding: 8px 10px;
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: overlay;
+  }
+  li {
+    display: flex;
+    padding: 20px;
+    cursor: pointer;
+    &:not(:last-child) {
+      border-bottom: 1px solid rgba(0,0,0,.2);
+    }
+  }
 }
 
 .messages {
