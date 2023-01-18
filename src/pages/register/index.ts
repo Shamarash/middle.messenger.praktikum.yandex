@@ -21,17 +21,20 @@ const content: IRegisterProps = {
 		input({
 			id: 'Почта',
 			title: 'Введите свой E-mail',
-			placeholder: 'Почта'
+			placeholder: 'Почта',
+			required: true
 		}),
 		input({
 			id: 'login',
 			title: 'Введите свой логин',
-			placeholder: 'Логин'
+			placeholder: 'Логин',
+			required: true
 		}),
 		input({
 			id: 'name',
 			title: 'Введите своё имя',
-			placeholder: 'Имя'
+			placeholder: 'Имя',
+			required: true
 		}),
 		input({
 			id: 'surname',
@@ -46,12 +49,14 @@ const content: IRegisterProps = {
 		input({
 			id: 'password',
 			title: 'Введите пароль',
-			placeholder: 'Пароль'
+			placeholder: 'Пароль',
+			required: true
 		}),
 		input({
 			id: 'password_repeat',
 			title: 'Повторите пароль',
-			placeholder: 'Пароль (ещё раз)'
+			placeholder: 'Пароль (ещё раз)',
+			required: true
 		}),
 	],
 	submitBtn: button({

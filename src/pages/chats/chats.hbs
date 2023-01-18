@@ -1,13 +1,14 @@
 <div class="chat">
     <div class="contacts">
+    <a href="#profile" class="linkToProfile">Профиль</a>
         <div class="searchContainer">
-            <input id="search"/>
+            <input id="search" placeholder="Поиск"/>
             <label for="search"></label>
         </div>
         <ul>
             {{#each chats}}
 
-                <li onclick="(function() {
+                <li class="{{#if (isChatSelected @key)}}selectedChat{{/if}}" onclick="(function() {
                         window.selectedChatId = {{@key}}
                         window.dispatchEvent(new CustomEvent('selectedChatChange'))
                         })()">{{this.person.name}}</li>
@@ -20,11 +21,18 @@
         {{#if selectedChat}}
             <ul>
                 {{#each selectedChat.messages}}
-                    <div class="message{{#if (isMineMessage this.to)}}messageMine{{/if}}">
+                    <div class="message
+                    {{#if (isMineMessage this.to)}}messageMine{{/if}}
+                    {{#if this.attachments}} messageImage{{/if}}
+                    ">
                         {{#if this.text}}
                             <p>{{this.text}}</p>
                         {{else}}
-<img src="{{this.}}"/>
+
+                        {{#each this.attachments}}
+                        <img src="{{this.url}}"/>
+                        {{/each}}
+
                         {{/if}}
 
 

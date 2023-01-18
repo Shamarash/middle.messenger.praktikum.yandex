@@ -7,7 +7,9 @@ export interface IInputProps {
 	title: string
 	class?: string
 	placeholder?: string
+	error?: string
 	disabled?: boolean
+	required?: boolean
 	type?: InputTypeEnum
 }
 

@@ -22,6 +22,7 @@ function resolveRoute(route: string) {
     try {
         root.innerHTML = getRoute(route)
     } catch (e) {
+        console.log(e)
         throw new Error(`Route ${route} not found`);
 
     }

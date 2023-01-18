@@ -1,9 +1,14 @@
 import Handlebars from 'handlebars';
 import chatsTemplate from './chats.hbs';
-
+import img from '../../images/camera.png'
+import code from '../../images/code.png'
 Handlebars.registerPartial('chats', chatsTemplate);
 Handlebars.registerHelper('isMineMessage',  (id: string) => {
 	return id === '0';
+});
+
+Handlebars.registerHelper('isChatSelected',  (id: string) => {
+	return id === window.selectedChatId?.toString();
 });
 
 enum MessageTypeEnum {
@@ -52,7 +57,7 @@ const randomTime = (): string => {
 	const hours = Math.floor( Math.random() * 24 )
 	const minutes = Math.floor( Math.random() * 60 )
 
-	return `${hours < 10 ? '0' + hours: hours}:${minutes < 10 ? '0' + minutes : minutes}`
+	return `${(hours<10) ? ('0' + hours) : hours}:${(minutes<10) ? ('0' + minutes) : minutes}`
 }
 
 const chats: IChats = {
@@ -107,7 +112,7 @@ const chats: IChats = {
 				attachments: [
 					{
 						type: AttachmentEnum.image,
-						url: './images/camera.png'
+						url: img
 					}
 				]
 			},
@@ -116,9 +121,14 @@ const chats: IChats = {
 				from: '0',
 				to: '2',
 				type: MessageTypeEnum.text,
-				text: 'Hi donkey',
+				text: null,
 				dateTime: randomTime(),
-				attachments: []
+				attachments: [
+					{
+						type: AttachmentEnum.image,
+						url: code
+					}
+				]
 			},
 		]
 	},

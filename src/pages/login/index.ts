@@ -20,12 +20,14 @@ const content: ILoginProps = {
 		input({
 			id: 'login',
 			title: 'Введите свой логин',
-			placeholder: 'Логин'
+			placeholder: 'Логин',
+			required: true
 		}),
 		input({
 			id: 'password',
 			title: 'Введите свой пароль',
-			placeholder: 'Пароль'
+			placeholder: 'Пароль',
+			required: true
 		}),
 	],
 	submitBtn: button({
