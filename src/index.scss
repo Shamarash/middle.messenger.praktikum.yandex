@@ -65,6 +65,9 @@ flex-direction: column;
 
 }
 
+.textRed {
+  color: #FF0000;
+}
 .inputErrorText {
   color: #FF2F2F;
 }
@@ -95,6 +98,13 @@ h2 {
   font-weight: 500;
   font-size: 20px;
   line-height: 20px;
+}
+
+/* Имя пользователя в профиле */
+h3 {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
 }
 
 
@@ -358,4 +368,31 @@ max-height: 300px;
   background: center no-repeat url('./icons/MessageRead.svg');
   width: 11px;
   height: 5px;
+}
+
+.profileContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 510px;
+}
+
+.goBackLink {
+  display: flex;
+  background: #FBFBFB center no-repeat url('./icons/GoBackCircle.svg');
+  width: 64px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  cursor: pointer;
+}
+
+.emptyAvatar {
+  display: flex;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: #EFEFEF center no-repeat url('./icons/EmptyAvatar.svg');
 }

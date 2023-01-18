@@ -2,6 +2,7 @@ import './index.scss'
 import login from './pages/login';
 import chats from './pages/chats';
 import register from './pages/register';
+import profile from "./pages/profile";
 
 let root: HTMLElement = document.getElementById('root')!
 
@@ -13,6 +14,8 @@ const getRoute = (route: string): string => {
             return chats()
         case "register":
             return register()
+        case "profile":
+            return profile()
         default :
             return login()
     }
@@ -22,9 +25,7 @@ function resolveRoute(route: string) {
     try {
         root.innerHTML = getRoute(route)
     } catch (e) {
-        console.log(e)
         throw new Error(`Route ${route} not found`);
-
     }
 }
 
@@ -36,3 +37,4 @@ function router() {
 window.addEventListener('load', router);
 window.addEventListener('hashchange', router);
 window.addEventListener('selectedChatChange', router);
+window.addEventListener('profileStateChange', router);

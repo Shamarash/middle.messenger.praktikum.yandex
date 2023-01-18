@@ -19,7 +19,7 @@ const content: IRegisterProps = {
 	title: 'Регистрация',
 	inputs: [
 		input({
-			id: 'Почта',
+			id: 'email',
 			title: 'Введите свой E-mail',
 			placeholder: 'Почта',
 			required: true
@@ -31,13 +31,13 @@ const content: IRegisterProps = {
 			required: true
 		}),
 		input({
-			id: 'name',
+			id: 'first_name',
 			title: 'Введите своё имя',
 			placeholder: 'Имя',
 			required: true
 		}),
 		input({
-			id: 'surname',
+			id: 'second_name',
 			title: 'Введите свою фамилию',
 			placeholder: 'Фамилия'
 		}),

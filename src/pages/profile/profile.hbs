@@ -1,0 +1,50 @@
+<div class="centeredFlex">
+    {{#if isEdit}}
+        <button href="#chats" class="goBackLink" onclick="(function() {
+            window.profileState = 'normal'
+            window.dispatchEvent(new CustomEvent('profileStateChange'))
+                        })()"></button>
+    {{else}}
+        <a href="#chats" class="goBackLink"></a>
+    {{/if}}
+
+    <div class="profileContent">
+        <div class="emptyAvatar"></div>
+        <h3>
+            {{name}}
+        </h3>
+        <form>
+            <div class="formInputs">
+                {{#each inputs}}
+                    {{{this}}}
+                {{/each}}
+            </div>
+            <div class="formButtons">
+                {{#if isEdit}}
+                    <button onclick="(function() {
+                    window.profileState = 'normal'
+            window.dispatchEvent(new CustomEvent('profileStateChange'))
+                        })()">
+                        Сохранить
+                    </button>
+                {{else}}
+                    <button onclick="(function() {
+                    window.profileState = 'changeInfo'
+            window.dispatchEvent(new CustomEvent('profileStateChange'))
+                        })()">
+                        Изменить данные
+                    </button>
+                    <button onclick="(function() {
+                     window.profileState = 'changePassword'
+            window.dispatchEvent(new CustomEvent('profileStateChange'))
+                        })()">
+                        Изменить пароль
+                    </button>
+                    <a href="#login" class="textRed">
+                        Выйти
+                    </a>
+                {{/if}}
+            </div>
+        </form>
+    </div>
+</div>
