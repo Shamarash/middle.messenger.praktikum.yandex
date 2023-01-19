@@ -3,7 +3,9 @@
         <h2>
             {{title}}
         </h2>
-        <form>
+        <form onsubmit="(function() {
+                window.location.hash = '#chats'
+                })()">
             <div class="formInputs">
                 {{#each inputs}}
                     {{{this}}}

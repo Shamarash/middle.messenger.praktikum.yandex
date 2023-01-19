@@ -1,51 +1,86 @@
 <div class="chat">
     <div class="contacts">
-    <a href="#profile" class="linkToProfile">Профиль</a>
+        <a href="#profile" class="linkToProfile">Профиль</a>
         <div class="searchContainer">
             <input id="search" placeholder="Поиск"/>
             <label for="search"></label>
         </div>
-        <ul>
-            {{#each chats}}
-
-                <li class="{{#if (isChatSelected @key)}}selectedChat{{/if}}" onclick="(function() {
-                        window.selectedChatId = {{@key}}
-                        window.dispatchEvent(new CustomEvent('selectedChatChange'))
-                        })()">{{this.person.name}}</li>
-            {{else}}
-                <li class="empty">Список чатов пуст</li>
-            {{/each}}
-        </ul>
-    </div>
-    <div class="messages">
-        {{#if selectedChat}}
+        <div class="contactsList">
             <ul>
-                {{#each selectedChat.messages}}
-                    <div class="message
-                    {{#if (isMineMessage this.to)}}messageMine{{/if}}
-                    {{#if this.attachments}} messageImage{{/if}}
-                    ">
-                        {{#if this.text}}
-                            <p>{{this.text}}</p>
-                        {{else}}
-
-                        {{#each this.attachments}}
-                        <img src="{{this.url}}"/>
-                        {{/each}}
-
+                {{#each chats}}
+                    <li class="{{#if (isChatSelected @key)}}selectedChat{{/if}}" onclick="(function() {
+                            window.selectedChatId = {{@key}}
+                            window.dispatchEvent(new CustomEvent('selectedChatChange'))
+                            })()">
+                        {{#if this.person.avatar}}
+                                <img class="contactAvatar" src={{this.person.avatar}}/>
+                            {{else}}
+                        <div class="contactWithoutAvatar"></div>
                         {{/if}}
 
+                        <div class="contactInfo">
+                            <h4>{{this.person.name}}</h4>
+                            <p>
+                                {{#if selectedChat}}<span>Вы:</span>{{/if}}
+                                {{this.person.lastMessage.text}}
+                            </p>
+                        </div>
+                        <div class="contactMessageInfo">
+                            <span class="lastMessageTime">
+                                {{this.person.lastMessage.dateTime}}
+                            </span>
+                            {{#if this.person.unreadCounter}}
+                                <span class="unreadMessagesCounter">
+                                    {{this.person.unreadCounter}}
+                            </span>
+                            {{/if}}
 
-                        {{#if this.read}}
-                            <div class="readIcon"></div>{{/if}}
-                        <div class="messageTime">{{this.dateTime}}</div>
-                    </div>
+                        </div>
+                    </li>
+                {{else}}
+                    <li class="empty">Список чатов пуст</li>
                 {{/each}}
             </ul>
-        {{else}}
-            <div class="centeredFlex">
-                <p>Выберите чат чтобы отправить сообщение</p>
-            </div>
-        {{/if}}
+        </div>
     </div>
-</div>
+        <div class="messages">
+            <div class="messagesHeader">
+                <div class="messagesHeaderProfile">
+                    <img src="" class="messagesHeaderAvatar"/>
+                    <h3 class="messagesHeaderTitle"></h3>
+                </div>
+                <button class="messagesHeaderDots"></button>
+            </div>
+            {{#if selectedChat}}
+                <div class="messagesList">
+                    <ul>
+                        {{#each selectedChat.messages}}
+                            <li class="message
+                    {{#if (isMineMessage this.to)}}messageMine{{/if}}
+                                {{#if this.attachments}} messageImage{{/if}}">
+                                {{#if this.text}}
+                                    <p>{{this.text}}</p>
+                                {{else}}
+                                    {{#each this.attachments}}
+                                        <img src="{{this.url}}"/>
+                                    {{/each}}
+                                {{/if}}
+                                {{#if this.read}}
+                                    <div class="readIcon"></div>{{/if}}
+                                <div class="messageTime">{{this.dateTime}}</div>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div class="messageInputContainer">
+                    <button class="messageAttachment"></button>
+                    <input class="messageInput"></input>
+                    <button class="sendMessage"></button>
+                </div>
+            {{else}}
+                <div class="centeredFlex">
+                    <p>Выберите чат чтобы отправить сообщение</p>
+                </div>
+            {{/if}}
+        </div>
+    </div>

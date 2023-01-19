@@ -2,6 +2,7 @@ import Handlebars from 'handlebars';
 import profile from './profile.hbs';
 import input from "../../components/input";
 import {InputTypeEnum} from "../../enum/input";
+import {testProfile} from "../../testData/profile";
 
 Handlebars.registerPartial('profile', profile);
 
@@ -16,39 +17,56 @@ interface IProfileProps {
 	inputs: (() => HTMLElement)[]
 }
 
-const profileInfoInputs = [
+Handlebars.registerHelper('showProfileTitle', () => {
+	return window.profileState === ProfileStateEnum.normal
+		|| window.profileState === undefined
+});
+
+const profileInfoInputs = (isEdit: boolean) => [
 		input({
 			id: 'email',
 			title: 'Введите свой E-mail',
 			placeholder: 'Почта',
-			required: true
+			required: true,
+			disabled: !isEdit,
+			value: testProfile.email
 		}),
 		input({
 			id: 'login',
 			title: 'Введите свой логин',
 			placeholder: 'Логин',
-			required: true
+			required: true,
+			disabled: !isEdit,
+			value: testProfile.login
 		}),
 		input({
 			id: 'first_name',
 			title: 'Введите своё имя',
 			placeholder: 'Имя',
-			required: true
+			required: true,
+			disabled: !isEdit,
+			value: testProfile.first_name
 		}),
 		input({
 			id: 'second_name',
 			title: 'Введите свою фамилию',
-			placeholder: 'Фамилия'
+			placeholder: 'Фамилия',
+			disabled: !isEdit,
+			value: testProfile.second_name
 		}),
 		input({
 			id: 'display_name',
 			title: 'Введите имя для чата',
-			placeholder: 'Имя в чате'
+			placeholder: 'Имя в чате',
+			disabled: !isEdit,
+			value: testProfile.display_name
 		}),
 		input({
 			id: 'phone',
 			title: 'Введите номер телефона',
-			placeholder: 'Номер телефона'
+			placeholder: 'Номер телефона',
+			disabled: !isEdit,
+			value: testProfile.phone
 		}),
 	]
 
@@ -82,13 +100,13 @@ const getCurrentContent = (state: string | null) : IProfileProps => {
 		default : case ProfileStateEnum.normal : {
 			return {
 				isEdit: false,
-				inputs: profileInfoInputs
+				inputs: profileInfoInputs(false)
 			}
 		}
 		case ProfileStateEnum.changeInfo : {
 			return {
 				isEdit: true,
-				inputs: profileInfoInputs
+				inputs: profileInfoInputs(true)
 			}
 		}
 		case ProfileStateEnum.changePassword : {
@@ -103,6 +121,6 @@ const getCurrentContent = (state: string | null) : IProfileProps => {
 export default (): string  => {
 
 	const state: string | null = window.profileState
-	console.log(getCurrentContent(state))
-	return profile(getCurrentContent(state));
+	console.log({...getCurrentContent(state), profile: testProfile})
+	return profile({...getCurrentContent(state), profile: testProfile});
 }

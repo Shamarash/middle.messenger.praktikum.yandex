@@ -8,11 +8,14 @@
         <a href="#chats" class="goBackLink"></a>
     {{/if}}
 
-    <div class="profileContent">
+    <div class="profileContent {{#if isEdit}} profileInputActive{{else}} profileInputDisabled{{/if}}">
         <div class="emptyAvatar"></div>
+
+    {{#if (showProfileTitle)}}
         <h3>
-            {{name}}
+            {{profile.display_name}}
         </h3>
+    {{/if}}
         <form>
             <div class="formInputs">
                 {{#each inputs}}
@@ -28,21 +31,25 @@
                         Сохранить
                     </button>
                 {{else}}
-                    <button onclick="(function() {
+                <div class="formButtonsLeft">
+                    <button class="secondaryButton" onclick="(function() {
                     window.profileState = 'changeInfo'
             window.dispatchEvent(new CustomEvent('profileStateChange'))
                         })()">
                         Изменить данные
                     </button>
-                    <button onclick="(function() {
+                    <span class="divider"></span>
+                    <button class="secondaryButton" onclick="(function() {
                      window.profileState = 'changePassword'
             window.dispatchEvent(new CustomEvent('profileStateChange'))
                         })()">
                         Изменить пароль
                     </button>
-                    <a href="#login" class="textRed">
+                    <span class="divider"></span>
+                    <a href="#login" class="exitLink">
                         Выйти
                     </a>
+                </div>
                 {{/if}}
             </div>
         </form>
