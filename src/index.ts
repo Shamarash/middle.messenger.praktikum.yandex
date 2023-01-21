@@ -2,19 +2,19 @@ import './index.scss'
 import login from './pages/login';
 import chats from './pages/chats';
 import register from './pages/register';
-import profile from "./pages/profile";
+import profile from './pages/profile';
 
 let root: HTMLElement = document.getElementById('root')!
 
 const getRoute = (route: string): string => {
     switch (route) {
-        case "login":
+        case 'login': case '' :
             return login()
-        case    "chats":
+        case 'chats':
             return chats()
-        case "register":
+        case 'register':
             return register()
-        case "profile":
+        case 'profile':
             return profile()
         default :
             return login()
