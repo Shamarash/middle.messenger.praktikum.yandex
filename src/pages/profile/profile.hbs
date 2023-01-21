@@ -8,7 +8,17 @@
         <a href="#chats" class="goBackLink"></a>
     {{/if}}
     <div class="profileContent {{#if isEdit}} profileInputActive{{else}} profileInputDisabled{{/if}}">
-        <div class="emptyAvatar"></div>
+        <div class="profileAvatarContainer">
+            {{#if profile.avatar}}
+                <img alt="profile avatar" src={{profileAvatar}}/>
+            {{else}}
+                <div class="emptyAvatar"></div>
+            {{/if}}
+            {{#if isEdit}}
+                <input id="avatar" name="avatar" type="file"/>
+                <label for="avatar">Поменять аватар</label>
+            {{/if}}
+        </div>
         {{#if (showProfileTitle)}}
             <h3>
                 {{profile.display_name}}

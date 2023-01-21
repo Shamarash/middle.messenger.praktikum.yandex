@@ -122,6 +122,6 @@ const getCurrentContent = (state: string | null): IProfileProps => {
 export default (): string => {
 
     const state: string | null = window.profileState
-    console.log({...getCurrentContent(state), profile: testProfile})
+
     return profile({...getCurrentContent(state), profile: testProfile});
 }

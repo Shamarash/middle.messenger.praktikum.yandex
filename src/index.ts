@@ -3,16 +3,18 @@ import login from './pages/login';
 import chats from './pages/chats';
 import register from './pages/register';
 import profile from './pages/profile';
-import errorPage from "./components/errorPage";
+import {notFound} from "./pages/errors/notFound";
+import {serverError} from "./pages/errors/serverError";
 
 let root: HTMLElement = document.getElementById('root')!
 
 const getRoute = (route: string, pathname: string): string => {
     if (pathname !== '/') {
-        return errorPage({code: 404, text: 'Не туда попали'})
+        return notFound()
     }
     switch (route) {
-        case 'login': case '/' :
+        case 'login':
+        case '/' :
             return login()
         case 'chats':
             return chats()
@@ -20,8 +22,10 @@ const getRoute = (route: string, pathname: string): string => {
             return register()
         case 'profile':
             return profile()
+        case '500':
+            return serverError()
         default :
-            return errorPage({code: 404, text: 'Не туда попали'})
+            return notFound()
     }
 };
 
