@@ -10,5 +10,6 @@ export interface IInputProps {
     required?: boolean
     type?: InputTypeEnum
     value?: string
+
     onChange?(value: string): void
 }

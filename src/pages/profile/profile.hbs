@@ -11,11 +11,11 @@
     <div class="profileContent {{#if isEdit}} profileInputActive{{else}} profileInputDisabled{{/if}}">
         <div class="emptyAvatar"></div>
 
-    {{#if (showProfileTitle)}}
-        <h3>
-            {{profile.display_name}}
-        </h3>
-    {{/if}}
+        {{#if (showProfileTitle)}}
+            <h3>
+                {{profile.display_name}}
+            </h3>
+        {{/if}}
         <form>
             <div class="formInputs">
                 {{#each inputs}}
@@ -31,25 +31,25 @@
                         Сохранить
                     </button>
                 {{else}}
-                <div class="formButtonsLeft">
-                    <button class="secondaryButton" onclick="(function() {
+                    <div class="formButtonsLeft">
+                        <button class="secondaryButton" onclick="(function() {
                     window.profileState = 'changeInfo'
             window.dispatchEvent(new CustomEvent('profileStateChange'))
                         })()">
-                        Изменить данные
-                    </button>
-                    <span class="divider"></span>
-                    <button class="secondaryButton" onclick="(function() {
+                            Изменить данные
+                        </button>
+                        <span class="divider"></span>
+                        <button class="secondaryButton" onclick="(function() {
                      window.profileState = 'changePassword'
             window.dispatchEvent(new CustomEvent('profileStateChange'))
                         })()">
-                        Изменить пароль
-                    </button>
-                    <span class="divider"></span>
-                    <a href="#login" class="exitLink">
-                        Выйти
-                    </a>
-                </div>
+                            Изменить пароль
+                        </button>
+                        <span class="divider"></span>
+                        <a href="#login" class="exitLink">
+                            Выйти
+                        </a>
+                    </div>
                 {{/if}}
             </div>
         </form>

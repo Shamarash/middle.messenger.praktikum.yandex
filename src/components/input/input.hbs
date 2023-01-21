@@ -1,26 +1,26 @@
 <div class="inputContainer">
-<input id="{{id}}"
-placeholder=" "
-       type="{{type}}"
-       title="{{title}}"
-       value="{{value}}"
-    {{#if error}}
-       class="inputErrorText"
-    {{/if}}
-    {{#if disabled}}
-       disabled
-    {{/if}}
-    {{#if required}}
-       required
-    {{/if}}
-        value=""
-       class="input {{class}}"/>
+    <input id="{{id}}"
+           placeholder=" "
+           type="{{type}}"
+           title="{{title}}"
+           value="{{value}}"
+        {{#if error}}
+           class="inputErrorText"
+        {{/if}}
+        {{#if disabled}}
+           disabled
+        {{/if}}
+        {{#if required}}
+           required
+        {{/if}}
+           value=""
+           class="input {{class}}"/>
     <label for="{{id}}">
         {{placeholder}}
     </label>
     {{#if error}}
-               <span class="inputError">
-                   {{error}}
-               </span>
-        {{/if}}
+        <span class="inputError">
+            {{error}}
+        </span>
+    {{/if}}
 </div>

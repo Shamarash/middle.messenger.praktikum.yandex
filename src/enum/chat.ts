@@ -1,4 +1,3 @@
-
 export enum MessageTypeEnum {
     text = 'text',
     sticker = 'sticker',

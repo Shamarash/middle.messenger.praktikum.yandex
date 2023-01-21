@@ -13,9 +13,9 @@
                             window.dispatchEvent(new CustomEvent('selectedChatChange'))
                             })()">
                         {{#if this.person.avatar}}
-                                <img class="contactAvatar" src={{this.person.avatar}}/>
-                            {{else}}
-                        <div class="contactWithoutAvatar"></div>
+                            <img class="contactAvatar" src={{this.person.avatar}}/>
+                        {{else}}
+                            <div class="contactWithoutAvatar"></div>
                         {{/if}}
 
                         <div class="contactInfo">
@@ -32,7 +32,7 @@
                             {{#if this.person.unreadCounter}}
                                 <span class="unreadMessagesCounter">
                                     {{this.person.unreadCounter}}
-                            </span>
+                                </span>
                             {{/if}}
 
                         </div>
@@ -43,44 +43,48 @@
             </ul>
         </div>
     </div>
-        <div class="messages">
+    <div class="messages">
+        {{#if selectedChat}}
             <div class="messagesHeader">
                 <div class="messagesHeaderProfile">
-                    <img src="" class="messagesHeaderAvatar"/>
-                    <h3 class="messagesHeaderTitle"></h3>
+                    {{#if selectedChat.person.avatar}}
+                        <img class="messagesHeaderAvatar" src={{selectedChat.person.avatar}}/>
+                    {{else}}
+                        <div class="messagesHeaderWithoutAvatar"></div>
+                    {{/if}}
+                    <h3 class="messagesHeaderTitle">{{selectedChat.person.name}}</h3>
                 </div>
                 <button class="messagesHeaderDots"></button>
             </div>
-            {{#if selectedChat}}
-                <div class="messagesList">
-                    <ul>
-                        {{#each selectedChat.messages}}
-                            <li class="message
+            <div class="messagesList">
+                <ul>
+                    {{#each selectedChat.messages}}
+                        <li class="message
                     {{#if (isMineMessage this.to)}}messageMine{{/if}}
-                                {{#if this.attachments}} messageImage{{/if}}">
-                                {{#if this.text}}
-                                    <p>{{this.text}}</p>
-                                {{else}}
-                                    {{#each this.attachments}}
-                                        <img src="{{this.url}}"/>
-                                    {{/each}}
-                                {{/if}}
-                                {{#if this.read}}
-                                    <div class="readIcon"></div>{{/if}}
-                                <div class="messageTime">{{this.dateTime}}</div>
-                            </li>
-                        {{/each}}
-                    </ul>
-                </div>
-                <div class="messageInputContainer">
-                    <button class="messageAttachment"></button>
-                    <input class="messageInput"></input>
-                    <button class="sendMessage"></button>
-                </div>
-            {{else}}
-                <div class="centeredFlex">
-                    <p>Выберите чат чтобы отправить сообщение</p>
-                </div>
-            {{/if}}
-        </div>
+                            {{#if this.attachments}} messageImage{{/if}}">
+                            {{#if this.text}}
+                                <p>{{this.text}}</p>
+                            {{else}}
+                                {{#each this.attachments}}
+                                    <img src="{{this.url}}"/>
+                                {{/each}}
+                            {{/if}}
+                            {{#if this.read}}
+                                <div class="readIcon"></div>{{/if}}
+                            <div class="messageTime">{{this.dateTime}}</div>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="messageInputContainer">
+                <button class="messageAttachment"></button>
+                <input placeholder="Сообщение" class="messageInput"></input>
+                <button class="sendMessage"></button>
+            </div>
+        {{else}}
+            <div class="centeredFlex">
+                <p>Выберите чат чтобы отправить сообщение</p>
+            </div>
+        {{/if}}
     </div>
+</div>

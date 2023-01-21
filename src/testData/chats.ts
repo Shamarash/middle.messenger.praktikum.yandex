@@ -204,4 +204,74 @@ export const testChats: IChats = {
             },
         ]
     },
+    '4': {
+        person: {
+            id: '4',
+            name: 'Test',
+            avatar: null,
+            lastMessage: null,
+            unreadCounter: null
+        },
+        messages: []
+    },
+    '5': {
+        person: {
+            id: '5',
+            name: 'Test',
+            avatar: null,
+            lastMessage: null,
+            unreadCounter: null
+        },
+        messages: []
+    },
+    '6': {
+        person: {
+            id: '6',
+            name: 'Test',
+            avatar: null,
+            lastMessage: null,
+            unreadCounter: null
+        },
+        messages: []
+    },
+    '7': {
+        person: {
+            id: '7',
+            name: 'Test',
+            avatar: null,
+            lastMessage: null,
+            unreadCounter: null
+        },
+        messages: []
+    },
+    '8': {
+        person: {
+            id: '8',
+            name: 'Test',
+            avatar: null,
+            lastMessage: null,
+            unreadCounter: null
+        },
+        messages: []
+    },
+    '9': {
+        person: {
+            id: '9',
+            name: 'Test',
+            avatar: null,
+            lastMessage: null,
+            unreadCounter: null
+        },
+        messages: []
+    },
+    '10': {
+        person: {
+            id: '10',
+            name: 'Test',
+            avatar: null,
+            lastMessage: null,
+            unreadCounter: null
+        },
+        messages: []
+    },
 }
