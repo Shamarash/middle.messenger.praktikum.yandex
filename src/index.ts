@@ -7,8 +7,10 @@ import errorPage from "./components/errorPage";
 
 let root: HTMLElement = document.getElementById('root')!
 
-const getRoute = (route: string): string => {
-
+const getRoute = (route: string, pathname: string): string => {
+    if (pathname !== '/') {
+        return errorPage({code: 404, text: 'Не туда попали'})
+    }
     switch (route) {
         case 'login': case '/' :
             return login()
@@ -23,17 +25,18 @@ const getRoute = (route: string): string => {
     }
 };
 
-function resolveRoute(route: string) {
+function resolveRoute(route: string, pathname: string) {
     try {
-        root.innerHTML = getRoute(route)
+        root.innerHTML = getRoute(route, pathname)
     } catch (e) {
         throw new Error(`Route ${route} not found`);
     }
 }
 
 function router() {
-    const url = window.location.hash.slice(1) || '/';
-    resolveRoute(url);
+    const route = window.location.hash.slice(1) || '/';
+    const pathname = window.location.pathname
+    resolveRoute(route, pathname);
 }
 
 window.addEventListener('load', router);
