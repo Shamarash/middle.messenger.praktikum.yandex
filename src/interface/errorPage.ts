@@ -1,4 +1,4 @@
 export interface IErrorPageProps {
-    code: string
+    code: number
     text?: string
 }

@@ -3,12 +3,14 @@ import login from './pages/login';
 import chats from './pages/chats';
 import register from './pages/register';
 import profile from './pages/profile';
+import errorPage from "./components/errorPage";
 
 let root: HTMLElement = document.getElementById('root')!
 
 const getRoute = (route: string): string => {
+
     switch (route) {
-        case 'login': case '' :
+        case 'login': case '/' :
             return login()
         case 'chats':
             return chats()
@@ -17,7 +19,7 @@ const getRoute = (route: string): string => {
         case 'profile':
             return profile()
         default :
-            return login()
+            return errorPage({code: 404, text: 'Не туда попали'})
     }
 };
 

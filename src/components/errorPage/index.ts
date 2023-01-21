@@ -4,6 +4,6 @@ import {IErrorPageProps} from "../../interface/errorPage";
 
 Handlebars.registerPartial('errorPage', errorPage);
 
-export default (props: IErrorPageProps): HTMLElement => {
+export default (props: IErrorPageProps): string => {
     return errorPage(props);
 }

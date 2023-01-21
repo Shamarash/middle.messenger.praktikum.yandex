@@ -704,3 +704,25 @@ button {
   line-height: 13px;
   margin-top: 10px;
 }
+
+.errorPage {
+  p {
+    margin-top: 20px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 20px;
+    text-align: center;
+    color: #1E1E1E;
+  }
+
+  a {
+    margin-top: 70px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 11px;
+    text-align: center;
+    color: #3369F3;
+  }
+}
