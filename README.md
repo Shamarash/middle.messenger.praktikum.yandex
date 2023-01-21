@@ -1,5 +1,7 @@
 ### Проект Messenger
 
+Ссылка на деплой в Netlify: https://euphonious-toffee-698d0a.netlify.app
+
 ---
 
 ## Описание
