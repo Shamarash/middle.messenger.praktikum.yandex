@@ -1,0 +1,37 @@
+{
+  "name": "messenger",
+  "version": "0.0.1",
+  "description": "Messenger app",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel src/index.html --port 3000 --no-source-maps --target default --dist-dir ./build --open",
+    "build": "parcel build"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-inline-string": "2.8.3",
+    "@parcel/transformer-sass": "2.8.3",
+    "@tsconfig/recommended": "1.0.2",
+    "parcel": "2.8.3",
+    "parcel-transformer-hbs": "1.0.4",
+    "postcss-modules": "4.3.1",
+    "typescript": "4.9.4"
+  },
+  "targets": {
+    "default": {
+      "sourceMap": false,
+      "engines": {
+        "browsers": ">= 50%"
+      }
+    }
+  },
+  "engines" : {
+    "node" : ">=12.0.0"
+  },
+  "dependencies": {
+    "handlebars": "4.7.7",
+    "postcss": "8.4.21",
+    "sass": "1.57.1"
+  }
+}
