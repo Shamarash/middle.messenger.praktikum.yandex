@@ -1,9 +1,29 @@
-import Handlebars from 'handlebars';
 import input from './input.hbs';
 import {IInputProps} from "../../interface/input";
+import {Component} from "../../component";
 
-Handlebars.registerPartial('input', input);
+class Input extends Component<IInputProps> {
 
-export default (props: IInputProps) => {
-    return input(props);
+    render(): Node | void {
+        return this.compile(`{{name}}`, this._props);
+    }
+
+    addEvents() {
+        super.addEvents();
+        this._element.addEventListener('click', (e) => {
+            console.log('click', e)
+        })
+    }
 }
+
+export default (props: IInputProps) => new Input(
+    'input',
+    {
+        ...props,
+        attributes: {
+            // class: `button ${props.type}`,
+            // type: props.submit ? 'submit' : 'button',
+            // disabled: props.disabled
+        },
+    }
+)

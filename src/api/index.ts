@@ -1,13 +1,5 @@
 import {HttpMethodEnum, IQueryOptions, IQueryProps} from "../interface/api";
 
-enum METHOD  {
-    GET = 'GET',
-    POST = 'POST',
-    PUT = 'PUT',
-    PATCH = 'PATCH',
-    DELETE ='DELETE'
-}
-
 const queryStringify = (data: IQueryProps): string => {
     return Object.entries(data).map((items, index) => {
         return `${index === 0 ? '?':''}${items[0]}=${items[1]}`
@@ -43,7 +35,7 @@ class HTTPTransport {
             xhr.open(method, newUrl);
 
             xhr.onload = (result) => {
-                resolve(result);
+                resolve(JSON.parse(xhr.responseText) as K);
             };
 
             xhr.onabort = reject;
@@ -51,16 +43,12 @@ class HTTPTransport {
             xhr.ontimeout = reject;
 
 
-            if (method === METHOD.GET || !data) {
-                xhr.send();
-            } else {
+            if (data) {
                 xhr.send(JSON.stringify(data));
+            } else {
+                xhr.send();
             }
             setTimeout(reject, timeout)
         });
     };
 }
-
-console.log(
-    new HTTPTransport().get<string>('https://practicum.yandex.ru')
-)

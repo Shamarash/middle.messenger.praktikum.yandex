@@ -1,20 +1,18 @@
-<div class="centeredFlex">
-    <div class="centeredFlexContent">
-        <h2>
-            {{title}}
-        </h2>
-        <form onsubmit="(function() {
+<div class="centeredFlexContent">
+    <h2>
+        {{title}}
+    </h2>
+    <form onsubmit="(function() {
                 window.location.hash = '#chats'
                 })()">
-            <div class="formInputs">
-                {{#each inputs}}
-                    {{{this}}}
-                {{/each}}
-            </div>
-            <div class="formButtons">
-                {{{submitBtn}}}
-                {{{linkToRegister}}}
-            </div>
-        </form>
-    </div>
+        <div class="formInputs">
+            {{#each inputs}}
+                {{{this}}}
+            {{/each}}
+        </div>
+        <div class="formButtons">
+            {{{submitBtn}}}
+            {{{linkToRegister}}}
+        </div>
+    </form>
 </div>

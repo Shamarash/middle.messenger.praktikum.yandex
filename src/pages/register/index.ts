@@ -1,18 +1,10 @@
-import Handlebars from 'handlebars';
-import register from './register.hbs';
 import button from "../../components/button";
 import {ButtonTypeEnum} from "../../enum/button";
 import input from "../../components/input";
 import link from "../../components/link";
+import {IRegisterProps} from "../../interface/register";
+import {Component} from "../../component";
 
-Handlebars.registerPartial('register', register);
-
-interface IRegisterProps {
-    title: string
-    inputs: (() => HTMLElement)[]
-    submitBtn: HTMLElement
-    linkToLogin: HTMLElement
-}
 
 const content: IRegisterProps = {
     title: 'Регистрация',
@@ -70,6 +62,28 @@ const content: IRegisterProps = {
     }),
 }
 
-export default (): string => {
-    return register(content);
+class Register extends Component<IRegisterProps> {
+
+    render(): Node | void {
+        return this.compile(`{{name}}`, this._props);
+    }
+
+    addEvents() {
+        super.addEvents();
+        this._element.addEventListener('click', (e) => {
+            console.log('click', e)
+        })
+    }
 }
+
+export default () => new Register(
+    'div',
+    {
+        ...content,
+        attributes: {
+            // class: `button ${props.type}`,
+            // type: props.submit ? 'submit' : 'button',
+            // disabled: props.disabled
+        },
+    }
+)

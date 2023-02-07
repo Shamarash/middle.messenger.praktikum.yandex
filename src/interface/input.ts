@@ -1,6 +1,7 @@
 import {InputTypeEnum} from "../enum/input";
+import {IBaseProps} from "./component";
 
-export interface IInputProps {
+export interface IInputProps extends IBaseProps {
     id: string
     title: string
     class?: string

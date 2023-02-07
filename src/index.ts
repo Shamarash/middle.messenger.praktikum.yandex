@@ -8,31 +8,33 @@ import {serverError} from "./pages/errors/serverError";
 
 let root: HTMLElement = document.getElementById('root')!
 
-const getRoute = (route: string, pathname: string): string => {
+const getRoute = (route: string, pathname: string): HTMLElement => {
     if (pathname !== '/') {
-        return notFound()
+        return notFound().getContent()
     }
     switch (route) {
         case 'login':
         case '/' :
-            return login()
+            return login().getContent()
         case 'chats':
-            return chats()
+            return chats().getContent()
         case 'register':
-            return register()
+            return register().getContent()
         case 'profile':
-            return profile()
+            return profile().getContent()
         case '500':
-            return serverError()
+            return serverError().getContent()
         default :
-            return notFound()
+            return notFound().getContent()
     }
 };
 
 function resolveRoute(route: string, pathname: string) {
     try {
-        root.innerHTML = getRoute(route, pathname)
+        root.textContent = ''
+        root.appendChild(getRoute(route, pathname))
     } catch (e) {
+        console.log(e)
         throw new Error(`Route ${route} not found`);
     }
 }

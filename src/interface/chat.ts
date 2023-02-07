@@ -1,11 +1,12 @@
 import {AttachmentEnum, MessageTypeEnum} from "../enum/chat";
+import {IBaseProps} from "./component";
 
 export interface IAttachment {
     type: AttachmentEnum,
     url?: string,
 }
 
-export interface IMessage {
+export interface IMessage extends IBaseProps {
     read: boolean,
     from: string,
     to: string,
@@ -15,7 +16,7 @@ export interface IMessage {
     attachments: IAttachment[]
 }
 
-export interface IChat {
+export interface IChat extends IBaseProps {
     person: {
         id: string
         name: string
@@ -34,7 +35,7 @@ export interface IChats {
     [key: string]: IChat
 }
 
-export interface IChatsProps {
+export interface IChatsProps extends IBaseProps {
     chats: IChats
     selectedChat: IChat | null
 }

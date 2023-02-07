@@ -1,10 +1,28 @@
-import Handlebars from 'handlebars';
-import link from './link.hbs';
 import {ILinkProps} from "../../interface/link";
+import {Component} from "../../component";
 
-Handlebars.registerPartial('link', link);
+class Link extends Component<ILinkProps> {
 
-export default (props: ILinkProps) => {
-    return link(props);
+    render(): Node | void {
+        return this.compile(`{{name}}`, this._props);
+    }
+
+    addEvents() {
+        super.addEvents();
+        this._element.addEventListener('click', (e) => {
+            console.log('click', e)
+        })
+    }
 }
 
+export default (props: ILinkProps) => new Link(
+    'a',
+    {
+        ...props,
+        attributes: {
+            // class: `button ${props.type}`,
+            // type: props.submit ? 'submit' : 'button',
+            // disabled: props.disabled
+        },
+    }
+)

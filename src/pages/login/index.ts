@@ -1,18 +1,29 @@
-import Handlebars from 'handlebars';
-import login from './login.hbs';
+
 import button from "../../components/button";
 import {ButtonTypeEnum} from "../../enum/button";
 import input from "../../components/input";
 import link from "../../components/link";
+import {Component} from "../../component";
+import {ILoginProps} from "../../interface/login";
 
-Handlebars.registerPartial('login', login);
-
-interface ILoginProps {
-    title: string
-    inputs: (() => HTMLElement)[]
-    submitBtn: HTMLElement
-    linkToRegister: HTMLElement
-}
+const login = `<div class="centeredFlexContent">
+    <h2>
+        {{title}}
+    </h2>
+    <form onsubmit="(function() {
+                window.location.hash = '#chats'
+                })()">
+        <div class="formInputs">
+            {{#each inputs}}
+                {{{this}}}
+            {{/each}}
+        </div>
+        <div class="formButtons">
+            {{{submitBtn}}}
+            {{{linkToRegister}}}
+        </div>
+    </form>
+</div>`
 
 const content: ILoginProps = {
     title: 'Вход',
@@ -42,6 +53,27 @@ const content: ILoginProps = {
     }),
 }
 
-export default (): string => {
-    return login(content);
+class LoginPage extends Component<ILoginProps> {
+
+    render(): Node | void {
+        return this.compile(login, this._props);
+    }
+    addEvents() {
+        super.addEvents();
+        this._element.addEventListener('click', (e) => {
+            console.log('click', e)
+        })
+    }
 }
+
+export default () => new LoginPage(
+    'div',
+    {
+        ...content,
+        attributes: {
+            class: `centeredFlex`,
+            // type: props.submit ? 'submit' : 'button',
+            // disabled: props.disabled
+        },
+    }
+)
