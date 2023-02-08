@@ -14,6 +14,8 @@ interface IMeta<T> {
     props: T
 }
 
+type IAttribute = [string, boolean | string | undefined]
+
 interface IObject {
     [key: string]: any
 }
@@ -92,8 +94,18 @@ export class Component<T extends IObject> {
     }
 
     addAttributes() {
-        const {attributes = {}} = this._props
-        Object.keys(attributes).forEach(([key, value]) => {
+        const {attributes} = this._props
+
+        Object.entries(attributes).forEach((values ) => {
+            const [key, value] = values as IAttribute
+
+            if (value === undefined || value === false) {
+                return
+            }
+            if (value === true) {
+                this._element.setAttribute(key, '')
+                return;
+            }
             this._element.setAttribute(key, value)
         })
     }
@@ -129,11 +141,18 @@ export class Component<T extends IObject> {
         const props: IObject = {}
 
         Object.keys(propsAndChildren).forEach(key => {
-            if (propsAndChildren[key] instanceof Component) {
-                children[key] = propsAndChildren[key]
-            } else {
-                props[key] = propsAndChildren[key]
+            const item = propsAndChildren[key]
+            if (item instanceof Component) {
+                children[key] = item
+                return
             }
+            if (Array.isArray(item)) {
+                children[key] = item
+                return
+            }
+
+            props[key] = item
+
         })
 
         return {children, props} as unknown as T
@@ -147,19 +166,34 @@ export class Component<T extends IObject> {
         const propsAndStubs = {...props}
 
         Object.entries(this._children).forEach(([key, child]) => {
+            if (Array.isArray(child)) {
+                propsAndStubs[key] = child.map(i => `<div data-id="${i._id}"></div>`)
+                return
+            }
             propsAndStubs[key] = `<div data-id="${child._id}"></div>`
         })
 
-        const fragment = this.createDocumentElement('template')
+        const fragment = this.createDocumentElement('template') as HTMLTemplateElement
+
         fragment.innerHTML = Handlebars.compile(template)(propsAndStubs)
 
         Object.values(this._children).forEach(child => {
-            const stub = fragment.querySelector(`[data-id="${child._id}"]`)
+            if (Array.isArray(child)) {
+                child.forEach(i => {
+                    const stub = fragment.content.querySelector(`[data-id="${i._id}"]`)
+                    if (stub) {
+                        stub.replaceWith(i.getContent())
+                    }
+                })
+                return
+            }
+            const stub = fragment.content.querySelector(`[data-id="${child._id}"]`)
             if (stub) {
                 stub.replaceWith(child.getContent())
             }
         })
-        return fragment
+
+        return fragment.content
     }
 
     _componentDidMount() {
@@ -188,7 +222,7 @@ export class Component<T extends IObject> {
     }
 
     componentDidUpdate(oldProps: T, newProps: T) {
-        console.log(oldProps, newProps)
+
         return true
     }
 

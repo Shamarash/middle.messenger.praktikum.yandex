@@ -1,6 +1,8 @@
 import {IButtonProps} from "../../interface/button";
 import {Component} from "../../component";
-
+const onButtonClick = (e: any) => {
+    console.log('Button click', e)
+}
 class Button extends Component<IButtonProps> {
 
     render(): Node | void {
@@ -8,9 +10,11 @@ class Button extends Component<IButtonProps> {
     }
     addEvents() {
         super.addEvents();
-        this._element.addEventListener('click', (e) => {
-            console.log('click', e)
-        })
+        this._element.addEventListener('click', onButtonClick)
+    }
+    removeEvents() {
+        super.removeEvents();
+        this._element.removeEventListener('click', onButtonClick)
     }
 }
 

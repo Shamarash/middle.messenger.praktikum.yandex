@@ -1,10 +1,18 @@
 import {IErrorPageProps} from "../../interface/errorPage";
 import {Component} from "../../component";
-
+const errorPage = ` <h1>{{code}}</h1>
+    <p>
+        {{#if text}}
+            {{text}}
+        {{else}}
+            Мы уже фиксим
+        {{/if}}
+    </p>
+    <a href="/#chats">Назад к чатам</a>`
 class ErrorPage extends Component<IErrorPageProps> {
 
     render(): Node | void {
-        return this.compile(`{{name}}`, this._props);
+        return this.compile(errorPage, this._props);
     }
 
     addEvents() {
@@ -20,9 +28,9 @@ export default (props: IErrorPageProps) => new ErrorPage(
     {
         ...props,
         attributes: {
-            // class: `button ${props.type}`,
-            // type: props.submit ? 'submit' : 'button',
-            // disabled: props.disabled
+            class: `centeredFlex errorPage`,
+            text: props.text,
+            code: props.code
         },
     }
 )

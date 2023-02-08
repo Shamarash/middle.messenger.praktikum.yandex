@@ -5,6 +5,24 @@ import link from "../../components/link";
 import {IRegisterProps} from "../../interface/register";
 import {Component} from "../../component";
 
+const register = `<div class="centeredFlexContent">
+        <h2>
+            {{title}}
+        </h2>
+        <form onsubmit="(function() {
+                window.location.hash = '#login'
+                })()">
+            <div class="formInputs">
+                {{#each inputs}}
+                    {{{this}}}
+                {{/each}}
+            </div>
+            <div class="formButtons">
+                {{{submitBtn}}}
+                {{{linkToLogin}}}
+            </div>
+        </form>
+    </div>`
 
 const content: IRegisterProps = {
     title: 'Регистрация',
@@ -58,21 +76,22 @@ const content: IRegisterProps = {
     }),
     linkToLogin: link({
         name: 'Уже зарегистрированы? Войти',
-        href: '#login'
+        href: '#login',
+        id: 'link-login'
     }),
 }
 
 class Register extends Component<IRegisterProps> {
 
     render(): Node | void {
-        return this.compile(`{{name}}`, this._props);
+        return this.compile(register, this._props);
     }
 
     addEvents() {
         super.addEvents();
-        this._element.addEventListener('click', (e) => {
-            console.log('click', e)
-        })
+        // this._element.addEventListener('click', (e) => {
+        //     console.log('click', e)
+        // })
     }
 }
 
@@ -81,9 +100,7 @@ export default () => new Register(
     {
         ...content,
         attributes: {
-            // class: `button ${props.type}`,
-            // type: props.submit ? 'submit' : 'button',
-            // disabled: props.disabled
+            class: `centeredFlex`,
         },
     }
 )

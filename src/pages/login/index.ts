@@ -10,9 +10,7 @@ const login = `<div class="centeredFlexContent">
     <h2>
         {{title}}
     </h2>
-    <form onsubmit="(function() {
-                window.location.hash = '#chats'
-                })()">
+    <form>
         <div class="formInputs">
             {{#each inputs}}
                 {{{this}}}
@@ -49,8 +47,14 @@ const content: ILoginProps = {
     }),
     linkToRegister: link({
         name: 'Нет аккаунта? Зарегистрироваться',
-        href: '#register'
+        href: '#register',
+        id: 'link-register'
     }),
+}
+
+const onFormSubmit = (e: SubmitEvent) => {
+    console.log('Form submit', e)
+    window.location.hash = '#chats'
 }
 
 class LoginPage extends Component<ILoginProps> {
@@ -60,9 +64,18 @@ class LoginPage extends Component<ILoginProps> {
     }
     addEvents() {
         super.addEvents();
-        this._element.addEventListener('click', (e) => {
-            console.log('click', e)
-        })
+        const form = this._element.querySelector('form')
+            if (form) {
+                console.log(form)
+                form.addEventListener('submit', onFormSubmit)
+            }
+    }
+    removeEvents() {
+        super.removeEvents();
+        const form = this._element.querySelector('form')
+        if (form) {
+            form.addEventListener('submit', onFormSubmit)
+        }
     }
 }
 
