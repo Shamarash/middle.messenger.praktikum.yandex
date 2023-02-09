@@ -16,13 +16,6 @@ class Chats extends Component<IChatsProps> {
   render (): Node | void {
     return this.compile(template, this._props)
   }
-
-  addEvents () {
-    super.addEvents()
-    this._element.addEventListener('click', (e) => {
-      console.log('click', e)
-    })
-  }
 }
 
 export default () => {

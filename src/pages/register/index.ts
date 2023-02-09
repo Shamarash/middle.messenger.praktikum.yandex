@@ -7,6 +7,7 @@ import { Component } from '../../component'
 import { InputTypeEnum } from '../../enum/input'
 import { LoginPattern, NamePattern, PasswordPattern, PhonePattern } from '../../utils/Patterns'
 import template from './template'
+import { LoginRule, NameRule, PasswordRule, PhoneRule, SecondNameRule } from '../../utils/ValidationRules'
 
 const content: IRegisterProps = {
   title: 'Регистрация',
@@ -24,6 +25,7 @@ const content: IRegisterProps = {
       placeholder: 'Логин',
       required: true,
       pattern: LoginPattern,
+      errorText: LoginRule,
       minLength: 3,
       maxLength: 20
     }),
@@ -32,13 +34,15 @@ const content: IRegisterProps = {
       title: 'Введите своё имя',
       placeholder: 'Имя',
       required: true,
-      pattern: NamePattern
+      pattern: NamePattern,
+      errorText: NameRule
     }),
     input({
       id: 'second_name',
       title: 'Введите свою фамилию',
       placeholder: 'Фамилия',
-      pattern: NamePattern
+      pattern: NamePattern,
+      errorText: SecondNameRule
     }),
     input({
       id: 'phone',
@@ -46,7 +50,8 @@ const content: IRegisterProps = {
       placeholder: 'Номер телефона',
       pattern: PhonePattern,
       minLength: 10,
-      maxLength: 15
+      maxLength: 15,
+      errorText: PhoneRule
     }),
     input({
       id: 'password',
@@ -56,7 +61,8 @@ const content: IRegisterProps = {
       type: InputTypeEnum.password,
       pattern: PasswordPattern,
       minLength: 8,
-      maxLength: 40
+      maxLength: 40,
+      errorText: PasswordRule
     }),
     input({
       id: 'password_repeat',
@@ -66,7 +72,8 @@ const content: IRegisterProps = {
       type: InputTypeEnum.password,
       pattern: PasswordPattern,
       minLength: 8,
-      maxLength: 40
+      maxLength: 40,
+      errorText: PasswordRule
     })
   ],
   submitBtn: button({
@@ -82,16 +89,28 @@ const content: IRegisterProps = {
   })
 }
 
+const onFormSubmit = (e: SubmitEvent) => {
+  e.preventDefault()
+  const formData = new FormData(e.target as HTMLFormElement)
+  console.log('Register form submit', formData)
+  window.location.hash = '#chats'
+}
+
 class Register extends Component<IRegisterProps> {
   render (): Node | void {
     return this.compile(template, this._props)
   }
 
   addEvents () {
-    super.addEvents()
-    // this._element.addEventListener('click', (e) => {
-    //     console.log('click', e)
-    // })
+    this._element.querySelectorAll('form').forEach(form => {
+      form.addEventListener('submit', onFormSubmit)
+    })
+  }
+
+  removeEvents () {
+    this._element.querySelectorAll('form').forEach(form => {
+      form.removeEventListener('submit', onFormSubmit)
+    })
   }
 }
 

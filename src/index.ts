@@ -35,7 +35,6 @@ function resolveRoute (route: string, pathname: string) {
     root.textContent = ''
     root.appendChild(getRoute(route, pathname))
   } catch (e) {
-    console.log(e)
     throw new Error(`Route ${route} not found`)
   }
 }

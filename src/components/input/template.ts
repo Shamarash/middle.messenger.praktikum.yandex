@@ -3,10 +3,6 @@ export default `<input id="{{id}}"
            placeholder=" "
            type="{{type}}"
            title="{{title}}"
-           value="{{value}}"
-        {{#if error}}
-           class="inputErrorText"
-        {{/if}}
         {{#if pattern}}
            pattern="{{pattern}}"
         {{/if}}
@@ -16,13 +12,14 @@ export default `<input id="{{id}}"
         {{#if required}}
            required
         {{/if}}
-           value=""
-           class="input {{inputClass}}"/>
+           class="input {{inputClass}} {{#if error}}
+          inputErrorText
+        {{/if}}"/>
     <label for="{{id}}">
         {{placeholder}}
     </label>
-    {{#if error}}
+    {{#if attributes.error}}
         <span class="inputError">
-            {{error}}
+            {{attributes.error}}
         </span>
     {{/if}}`

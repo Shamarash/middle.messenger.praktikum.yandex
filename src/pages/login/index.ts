@@ -7,6 +7,7 @@ import { ILoginProps } from '../../interface/login'
 import { InputTypeEnum } from '../../enum/input'
 import { LoginPattern, PasswordPattern } from '../../utils/Patterns'
 import template from './template'
+import { LoginRule, PasswordRule } from '../../utils/ValidationRules'
 
 const content: ILoginProps = {
   title: 'Вход',
@@ -18,7 +19,9 @@ const content: ILoginProps = {
       required: true,
       pattern: LoginPattern,
       minLength: 3,
-      maxLength: 20
+      maxLength: 20,
+      value: '',
+      errorText: LoginRule
     }),
     input({
       id: 'password',
@@ -28,7 +31,9 @@ const content: ILoginProps = {
       type: InputTypeEnum.password,
       pattern: PasswordPattern,
       minLength: 8,
-      maxLength: 40
+      maxLength: 40,
+      value: '',
+      errorText: PasswordRule
     })
   ],
   submitBtn: button({
@@ -44,31 +49,31 @@ const content: ILoginProps = {
   })
 }
 
-const onFormSubmit = (e: SubmitEvent) => {
-  console.log('Form submit', e)
-  window.location.hash = '#chats'
-}
-
 class LoginPage extends Component<ILoginProps> {
   render (): Node | void {
     return this.compile(template, this._props)
   }
 
-  addEvents () {
-    super.addEvents()
-    const form = this._element.querySelector('form')
-    if (form != null) {
-      console.log(form)
-      form.addEventListener('submit', onFormSubmit)
+  onFormSubmit (e: SubmitEvent) {
+    e.preventDefault()
+    const result = {
+      login: this._children.inputs[0]._props.attributes.value,
+      password: this._children.inputs[1]._props.attributes.value
     }
+    console.log('Login form submit', result)
+    window.location.hash = '#chats'
+  }
+
+  addEvents () {
+    this._element.querySelectorAll('form').forEach(form => {
+      form.addEventListener('submit', this.onFormSubmit.bind(this))
+    })
   }
 
   removeEvents () {
-    super.removeEvents()
-    const form = this._element.querySelector('form')
-    if (form != null) {
-      form.addEventListener('submit', onFormSubmit)
-    }
+    this._element.querySelectorAll('form').forEach(form => {
+      form.removeEventListener('submit', this.onFormSubmit.bind(this))
+    })
   }
 }
 
@@ -78,8 +83,6 @@ export default () => new LoginPage(
     ...content,
     attributes: {
       class: 'centeredFlex'
-      // type: props.submit ? 'submit' : 'button',
-      // disabled: props.disabled
     }
   }
 )

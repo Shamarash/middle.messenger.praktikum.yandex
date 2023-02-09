@@ -2,23 +2,9 @@ import { ILinkProps } from '../../interface/link'
 import { Component } from '../../component'
 import template from './template'
 
-const onLinkClick = (e: MouseEvent) => {
-  console.log('Link click', e)
-}
-
 class Link extends Component<ILinkProps> {
   render (): Node | void {
     return this.compile(template, this._props)
-  }
-
-  addEvents () {
-    super.addEvents()
-    this._element.addEventListener('click', onLinkClick)
-  }
-
-  removeEvents () {
-    super.removeEvents()
-    this._element.removeEventListener('click', onLinkClick)
   }
 }
 

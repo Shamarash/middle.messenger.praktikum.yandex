@@ -14,7 +14,7 @@ export default `<div class="contacts">
                         {{#if this.person.avatar}}
                             <img class="contactAvatar" alt="contact avatar" src={{this.person.avatar}}/>
                         {{else}}
-                            <div class="contactWithoutAvatar"/>
+                            <div class="contactWithoutAvatar"></div>
                         {{/if}}
 
                         <div class="contactInfo">

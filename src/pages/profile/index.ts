@@ -6,6 +6,7 @@ import { ProfileStateEnum } from '../../enum/profile'
 import { Component } from '../../component'
 import { IProfileProps } from '../../interface/profile'
 import template from './template'
+import { LoginRule, NameRule, PasswordRule, PhoneRule, SecondNameRule } from '../../utils/ValidationRules'
 
 Handlebars.registerHelper('showProfileTitle', () => {
   return window.profileState === ProfileStateEnum.normal ||
@@ -18,6 +19,7 @@ const profileInfoInputs = (isEdit: boolean) => [
     title: 'Введите свой E-mail',
     placeholder: 'Почта',
     required: true,
+    type: InputTypeEnum.email,
     disabled: !isEdit,
     value: testProfile.email
   }),
@@ -27,7 +29,8 @@ const profileInfoInputs = (isEdit: boolean) => [
     placeholder: 'Логин',
     required: true,
     disabled: !isEdit,
-    value: testProfile.login
+    value: testProfile.login,
+    errorText: LoginRule
   }),
   input({
     id: 'first_name',
@@ -35,14 +38,16 @@ const profileInfoInputs = (isEdit: boolean) => [
     placeholder: 'Имя',
     required: true,
     disabled: !isEdit,
-    value: testProfile.first_name
+    value: testProfile.first_name,
+    errorText: NameRule
   }),
   input({
     id: 'second_name',
     title: 'Введите свою фамилию',
     placeholder: 'Фамилия',
     disabled: !isEdit,
-    value: testProfile.second_name
+    value: testProfile.second_name,
+    errorText: SecondNameRule
   }),
   input({
     id: 'display_name',
@@ -56,7 +61,8 @@ const profileInfoInputs = (isEdit: boolean) => [
     title: 'Введите номер телефона',
     placeholder: 'Номер телефона',
     disabled: !isEdit,
-    value: testProfile.phone
+    value: testProfile.phone,
+    errorText: PhoneRule
   })
 ]
 
@@ -66,21 +72,24 @@ const changePasswordInputs = [
     title: 'Введите cтарый пароль',
     placeholder: 'Старый пароль',
     required: true,
-    type: InputTypeEnum.password
+    type: InputTypeEnum.password,
+    errorText: PasswordRule
   }),
   input({
     id: 'newPassword',
     title: 'Введите новый пароль',
     placeholder: 'Новый пароль',
     required: true,
-    type: InputTypeEnum.password
+    type: InputTypeEnum.password,
+    errorText: PasswordRule
   }),
   input({
     id: 'newPasswordRepeat',
     title: 'Повторите новый пароль',
     placeholder: 'Повторите новый пароль',
     required: true,
-    type: InputTypeEnum.password
+    type: InputTypeEnum.password,
+    errorText: PasswordRule
   })
 ]
 
@@ -110,13 +119,6 @@ const getCurrentContent = (state: string | null): IProfileProps => {
 class Profile extends Component<IProfileProps> {
   render (): Node | void {
     return this.compile(template, this._props)
-  }
-
-  addEvents () {
-    super.addEvents()
-    this._element.addEventListener('click', (e) => {
-      console.log('click', e)
-    })
   }
 }
 

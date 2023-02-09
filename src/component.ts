@@ -96,13 +96,23 @@ export class Component<T extends IObject> {
 
     Object.entries(attributes).forEach((values) => {
       const [key, value] = values as IAttribute
+      const input = this._element.querySelector('input')
 
-      if (value === undefined || value === false) {
+      if (input && key === 'value' && typeof value === 'string') {
+        input.value = value
         return
       }
-      if (value === true) {
-        this._element.setAttribute(key, '')
+
+      if (value === undefined) {
         return
+      }
+      if (typeof value === 'boolean') {
+        if (value) {
+          this._element.setAttribute(key, '')
+          return
+        } else {
+          return
+        }
       }
       this._element.setAttribute(key, value)
     })
@@ -134,7 +144,7 @@ export class Component<T extends IObject> {
     })
   }
 
-  getChildren (propsAndChildren: T) {
+  getChildren (propsAndChildren: IObject) {
     const children: IObject = {}
     const props: IObject = {}
 
@@ -219,13 +229,10 @@ export class Component<T extends IObject> {
   }
 
   componentDidUpdate (oldProps: T, newProps: T) {
-    console.log('componentDidUpdate')
-    console.log('oldProps', oldProps)
-    console.log('newProps', newProps)
     return true
   }
 
-  setProps (newProps: T) {
+  setProps (newProps: IObject) {
     if (!newProps) {
       return
     }
@@ -235,12 +242,12 @@ export class Component<T extends IObject> {
     const { children, props } = this.getChildren(newProps)
 
     if (Object.values(children).length > 0) {
-      Object.assign(this._children, children)
+      this._children = children
     }
     if (Object.values(props).length > 0) {
-      Object.assign(this._props, props)
+      this._props = props
     }
-
+    this._eventBus.emit(EventsEnum.FLOW_CDU, oldValue, this._props)
     if (this._setUpdate) {
       this._eventBus.emit(EventsEnum.FLOW_CDU, oldValue, this._props)
       this._setUpdate = false

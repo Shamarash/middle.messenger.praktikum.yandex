@@ -7,57 +7,32 @@ class Input extends Component<IInputProps> {
     return this.compile(template, this._props)
   }
 
-  onInputChange (e: Event) {
-    const target = e.currentTarget as HTMLInputElement
-    const error = this._props.attributes.error
-
-    if (target.validity.valid && error) {
-      const oldProps = this._props as IInputProps
-      this.setProps({
-        ...oldProps,
-        attributes: {
-          ...this._props.attributes,
-          error: undefined
-        }
-      })
-    }
-  }
-
   onBlur (e: Event) {
     const target = e.currentTarget as HTMLInputElement
+    const oldProps = this._props as IInputProps
 
-    if (!target.validity.valid) {
-      console.log(target.validationMessage)
-      const oldProps = this._props as IInputProps
-      this.setProps({
-        ...oldProps,
-        attributes: {
-          ...this._props.attributes,
-          error: target.validationMessage
-        }
-      })
-    }
+    this.setProps({
+      ...oldProps,
+      attributes: {
+        ...this._props.attributes,
+        value: target.value,
+        error: target.validity.valid
+          ? undefined
+          : (this._props.attributes.errorText || target.validationMessage)
+      }
+    })
   }
 
   addEvents () {
-
-    const el = this._element.querySelector('input') as HTMLInputElement
-    console.log(el)
-    if (el) {
-      el.addEventListener('change', this.onInputChange.bind(this))
-      el.addEventListener('blur', this.onBlur.bind(this))
-    }
-
+    this._element.querySelectorAll('input').forEach(i => {
+      i.addEventListener('blur', this.onBlur.bind(this))
+    })
   }
 
   removeEvents () {
-
-    const el = this._element.querySelector('input') as HTMLInputElement
-    console.log(el)
-    if (el) {
-      el.removeEventListener('change', this.onInputChange.bind(this))
-      el.removeEventListener('blur', this.onBlur.bind(this))
-    }
+    this._element.querySelectorAll('input').forEach(i => {
+      i.removeEventListener('blur', this.onBlur.bind(this))
+    })
   }
 }
 
@@ -75,7 +50,9 @@ export default (props: IInputProps) => new Input(
       required: props.required,
       inputClass: props.class,
       placeholder: props.placeholder,
-      pattern: props.pattern
-    },
+      pattern: props.pattern,
+      value: props.value,
+      errorText: props.errorText
+    }
   }
 )

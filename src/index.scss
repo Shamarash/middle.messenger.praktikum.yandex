@@ -33,6 +33,11 @@ $black: #000;
 body {
   overflow: scroll;
 }
+@supports (overflow: overlay) {
+  body {
+    overflow: overlay;
+  }
+}
 
 #root {
   display: flex;
@@ -43,8 +48,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 12px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -134,8 +138,7 @@ label {
   line-height: 9px;
   color: $textSecondary;
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 10px;
   transition: .5s;
 }
 

@@ -2,9 +2,7 @@ export default `<div class="centeredFlexContent">
         <h2>
             {{title}}
         </h2>
-        <form onsubmit="(function() {
-                window.location.hash = '#login'
-                })()">
+        <form>
             <div class="formInputs">
                 {{#each inputs}}
                     {{{this}}}

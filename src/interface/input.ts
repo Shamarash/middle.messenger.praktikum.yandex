@@ -7,11 +7,12 @@ export interface IInputProps extends IBaseProps {
   class?: string
   placeholder?: string
   error?: string
+  errorText?: string
   disabled?: boolean
   required?: boolean
   type?: InputTypeEnum
   value?: string
-  pattern?: RegExp
+  pattern?: string
   minLength?: number
   maxLength?: number
 
