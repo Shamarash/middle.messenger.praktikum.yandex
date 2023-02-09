@@ -1,14 +1,12 @@
-import {HttpMethodEnum} from "../enum/api";
+import { HttpMethodEnum } from '../enum/api'
 
-export interface IQueryProps {
-    [key: string]: string
-}
+export type IQueryProps = Record<string, string>
 
 export interface IQueryOptions<T = undefined> {
-    method: HttpMethodEnum,
-    data?: T
-    headers?: {[key: string] : string}
-    queryParams?: {[key: string] : string}
-    timeout?: number
-    tryCount?: number
+  method: HttpMethodEnum
+  data?: T
+  headers?: Record<string, string>
+  queryParams?: Record<string, string>
+  timeout?: number
+  tryCount?: number
 }

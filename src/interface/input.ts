@@ -1,16 +1,19 @@
-import {InputTypeEnum} from "../enum/input";
-import {IBaseProps} from "./component";
+import { InputTypeEnum } from '../enum/input'
+import { IBaseProps } from './component'
 
 export interface IInputProps extends IBaseProps {
-    id: string
-    title: string
-    class?: string
-    placeholder?: string
-    error?: string
-    disabled?: boolean
-    required?: boolean
-    type?: InputTypeEnum
-    value?: string
+  id: string
+  title: string
+  class?: string
+  placeholder?: string
+  error?: string
+  disabled?: boolean
+  required?: boolean
+  type?: InputTypeEnum
+  value?: string
+  pattern?: RegExp
+  minLength?: number
+  maxLength?: number
 
-    onChange?(value: string): void
+  onChange?: (value: string) => void
 }

@@ -1,6 +1,5 @@
-import errorPage from "../../components/errorPage";
+import errorPage from '../../components/errorPage'
 
 export const notFound = () => {
-
-    return errorPage({code: 404, text: 'Не туда попали'})
+  return errorPage({ code: 404, text: 'Не туда попали' })
 }

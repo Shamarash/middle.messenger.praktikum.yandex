@@ -1,6 +1,6 @@
-import {IBaseProps} from "./component";
+import { IBaseProps } from './component'
 
 export interface IErrorPageProps extends IBaseProps {
-    code: number
-    text?: string
+  code: number
+  text?: string
 }

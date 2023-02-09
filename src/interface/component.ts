@@ -1,8 +1,4 @@
 export interface IBaseProps {
-    attributes?: {
-        [key: string]: string | undefined | boolean | number
-    }
-    events?: {
-        [key: string]: (value: any) => any
-    }
+  attributes?: Record<string, string | undefined | boolean | number | RegExp>
+  events?: Record<string, (value: any) => any>
 }

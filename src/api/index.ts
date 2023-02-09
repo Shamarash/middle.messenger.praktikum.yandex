@@ -1,54 +1,68 @@
-import {HttpMethodEnum, IQueryOptions, IQueryProps} from "../interface/api";
+import { IQueryOptions, IQueryProps } from '../interface/api'
+import { HttpMethodEnum } from '../enum/api'
 
 const queryStringify = (data: IQueryProps): string => {
-    return Object.entries(data).map((items, index) => {
-        return `${index === 0 ? '?':''}${items[0]}=${items[1]}`
-    }).join('&')
+  return Object.entries(data).map((items, index) => {
+    return `${index === 0 ? '?' : ''}${items[0]}=${items[1]}`
+  }).join('&')
 }
 
-class HTTPTransport {
-    // T = request data, K = expected result from promise
-    public get<K ,T = undefined>(url: string, options?: IQueryOptions<T>) : Promise<K> {
-        return this._request(url, {...options, method: HttpMethodEnum.GET});
-    };
-    public post<K ,T = undefined>(url: string, options?: IQueryOptions<T>) : Promise<K> {
-        return this._request(url, {...options, method: HttpMethodEnum.POST});
-    };
-    public delete<K ,T = undefined>(url: string, options?: IQueryOptions<T>) : Promise<K> {
-        return this._request(url, {...options, method: HttpMethodEnum.DELETE});
-    };
-    public put<K ,T = undefined>(url: string, options?: IQueryOptions<T>) : Promise<K> {
-        return this._request(url, {...options, method: HttpMethodEnum.PUT});
-    };
+export class HTTPTransport {
+  // T = request data, K = expected result from promise
+  public async get<K, T = undefined>(url: string, options?: IQueryOptions<T>): Promise<K> {
+    return await this._request(url, { ...options, method: HttpMethodEnum.GET })
+  };
 
-    private _request<T, K>(url: string, {method, headers, data, timeout = 5000, tryCount, queryParams}: IQueryOptions<T>): Promise<K> {
+  public async post<K, T = undefined>(url: string, options?: IQueryOptions<T>): Promise<K> {
+    return await this._request(url, { ...options, method: HttpMethodEnum.POST })
+  };
 
-        return new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            if (headers) {
-                Object.entries(headers).forEach(entries => {
-                    xhr.setRequestHeader(entries[0], entries[1]);
-                })
-            }
-            const newUrl = queryParams ? url + queryStringify(queryParams) : url
+  public async delete<K, T = undefined>(url: string, options?: IQueryOptions<T>): Promise<K> {
+    return await this._request(url, { ...options, method: HttpMethodEnum.DELETE })
+  };
 
-            xhr.open(method, newUrl);
+  public async put<K, T = undefined>(url: string, options?: IQueryOptions<T>): Promise<K> {
+    return await this._request(url, { ...options, method: HttpMethodEnum.PUT })
+  };
 
-            xhr.onload = (result) => {
-                resolve(JSON.parse(xhr.responseText) as K);
-            };
+  private async _request<T, K>(url: string, {
+    method,
+    headers,
+    data,
+    timeout = 5000,
+    queryParams
+  }: IQueryOptions<T>): Promise<K> {
+    return await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+      if (headers != null) {
+        Object.entries(headers).forEach(entries => {
+          xhr.setRequestHeader(entries[0], entries[1])
+        })
+      }
+      const newUrl = (queryParams != null) ? url + queryStringify(queryParams) : url
 
-            xhr.onabort = reject;
-            xhr.onerror = reject;
-            xhr.ontimeout = reject;
+      xhr.open(method, newUrl)
 
+      xhr.onload = (result) => {
+        resolve(JSON.parse(xhr.responseText) as K)
+      }
 
-            if (data) {
-                xhr.send(JSON.stringify(data));
-            } else {
-                xhr.send();
-            }
-            setTimeout(reject, timeout)
-        });
-    };
+      xhr.onabort = reject
+      xhr.onerror = reject
+      xhr.ontimeout = reject
+
+      if (data) {
+        xhr.send(JSON.stringify(data))
+      } else {
+        xhr.send()
+      }
+      setTimeout(reject, timeout)
+    })
+  };
 }
+
+const request = new HTTPTransport()
+
+request.get('https://practicum.yandex.ru').then(res => res).catch(err => {
+  console.log(err)
+})

@@ -679,6 +679,7 @@ button {
   border-radius: 50%;
   overflow: hidden;
   position: relative;
+
   img {
     width: 130px;
     height: 130px;
@@ -686,17 +687,20 @@ button {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
   }
+
   .emptyAvatar {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
   }
+
   input {
     visibility: hidden;
   }
+
   label {
     position: absolute;
     top: 50% !important;
@@ -705,7 +709,7 @@ button {
     justify-content: center;
     padding: 0 30px;
     left: 50%;
-    transform: translate(-50%,-50%) !important;
+    transform: translate(-50%, -50%) !important;
     cursor: pointer;
     border-radius: 50%;
     width: 130px;
@@ -719,6 +723,7 @@ button {
     background: $black;
     opacity: 0;
     transition: opacity .4s linear;
+
     &:hover {
       opacity: .5;
     }
