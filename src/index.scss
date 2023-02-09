@@ -33,6 +33,8 @@ $black: #000;
 body {
   overflow: scroll;
 }
+
+// необходимо для того чтобы скроллбар в webkit не занимал место, а был поверх контента
 @supports (overflow: overlay) {
   body {
     overflow: overlay;
