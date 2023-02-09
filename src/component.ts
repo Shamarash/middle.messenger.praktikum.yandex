@@ -229,6 +229,7 @@ export class Component<T extends IObject> {
   }
 
   componentDidUpdate (oldProps: T, newProps: T) {
+    console.log('CDU', oldProps, newProps)
     return true
   }
 
