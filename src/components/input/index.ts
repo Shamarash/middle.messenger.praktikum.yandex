@@ -28,8 +28,6 @@ export default (props: IInputProps) => new Input(
     },
     events: {
       input: function (e: Event) {
-
-        console.log('input')
         const target = e.currentTarget as HTMLInputElement
         const oldProps = this._props as unknown as IInputProps
 

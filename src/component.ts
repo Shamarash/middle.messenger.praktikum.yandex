@@ -80,42 +80,44 @@ export class Component<T extends IObject> {
   addEvents () {
     const { events = {}, attributes = {} } = this._props
     Object.keys(events).forEach(eventName => {
-      if (eventName === 'input' && attributes.class === 'inputContainer') {
+      const func = events[eventName].bind(this)
+      if (eventName === 'input' && attributes.class.includes('inputContainer')) {
         const input = this._element.querySelector('input')
         if (input) {
-          input.addEventListener('blur', events[eventName].bind(this))
+          input.addEventListener('blur', func)
         }
         return
       }
-      if (eventName === 'submit' && attributes.class === 'formContainer') {
+      if (eventName === 'submit' && attributes.class.includes('formContainer')) {
         const form = this._element.querySelector('form')
         if (form) {
-          form.addEventListener('submit', events[eventName].bind(this))
+          form.addEventListener('submit', func)
         }
         return
       }
-      this._element.addEventListener(eventName, events[eventName].bind(this))
+      this._element.addEventListener(eventName, func)
     })
   }
 
   removeEvents () {
     const { events = {}, attributes = {} } = this._props
     Object.keys(events).forEach(eventName => {
-      if (eventName === 'input' && attributes.class === 'inputContainer') {
+      const func = events[eventName].bind(this)
+      if (eventName === 'input' && attributes.class.includes('inputContainer')) {
         const input = this._element.querySelector('input')
         if (input) {
-          input.removeEventListener('blur', events[eventName].bind(this))
+          input.removeEventListener('blur', func)
         }
         return
       }
-      if (eventName === 'submit' && attributes.class === 'formContainer') {
+      if (eventName === 'submit' && attributes.class.includes('formContainer')) {
         const form = this._element.querySelector('form')
         if (form) {
-          form.removeEventListener('submit', events[eventName].bind(this))
+          form.removeEventListener('submit', func)
         }
         return
       }
-      this._element.removeEventListener(eventName, events[eventName])
+      this._element.removeEventListener(eventName, func)
     })
   }
 

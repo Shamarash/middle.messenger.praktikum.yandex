@@ -140,7 +140,14 @@ export default () => {
       ...getCurrentContent(state),
       profile: testProfile,
       attributes: {
-        class: 'centeredFlex'
+        class: 'centeredFlex formContainer'
+      },
+      events: {
+        submit: function (e: SubmitEvent) {
+          e.preventDefault()
+          const formData = new FormData(e.target as HTMLFormElement)
+          console.log('Profile form submit', formData)
+        }
       }
     }
   )

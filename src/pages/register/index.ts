@@ -100,7 +100,7 @@ export default () => new Register(
   {
     ...content,
     attributes: {
-      class: 'centeredFlex'
+      class: 'centeredFlex formContainer'
     },
     events: {
       submit: function (e: SubmitEvent) {

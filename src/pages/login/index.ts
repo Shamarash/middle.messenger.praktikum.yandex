@@ -60,7 +60,7 @@ export default () => new LoginPage(
   {
     ...content,
     attributes: {
-      class: 'centeredFlex'
+      class: 'centeredFlex formContainer'
     },
     events: {
       submit: function (e: SubmitEvent) {
