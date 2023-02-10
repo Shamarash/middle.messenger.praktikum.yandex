@@ -89,28 +89,9 @@ const content: IRegisterProps = {
   })
 }
 
-const onFormSubmit = (e: SubmitEvent) => {
-  e.preventDefault()
-  const formData = new FormData(e.target as HTMLFormElement)
-  console.log('Register form submit', formData)
-  window.location.hash = '#chats'
-}
-
 class Register extends Component<IRegisterProps> {
   render (): Node | void {
     return this.compile(template, this._props)
-  }
-
-  addEvents () {
-    this._element.querySelectorAll('form').forEach(form => {
-      form.addEventListener('submit', onFormSubmit)
-    })
-  }
-
-  removeEvents () {
-    this._element.querySelectorAll('form').forEach(form => {
-      form.removeEventListener('submit', onFormSubmit)
-    })
   }
 }
 
@@ -120,6 +101,14 @@ export default () => new Register(
     ...content,
     attributes: {
       class: 'centeredFlex'
+    },
+    events: {
+      submit: function (e: SubmitEvent) {
+        e.preventDefault()
+        const formData = new FormData(e.target as HTMLFormElement)
+        console.log('Register form submit', formData)
+        window.location.hash = '#chats'
+      }
     }
   }
 )

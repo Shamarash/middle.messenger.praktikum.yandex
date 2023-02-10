@@ -53,28 +53,6 @@ class LoginPage extends Component<ILoginProps> {
   render (): Node | void {
     return this.compile(template, this._props)
   }
-
-  onFormSubmit (e: SubmitEvent) {
-    e.preventDefault()
-    const result = {
-      login: this._children.inputs[0]._props.attributes.value,
-      password: this._children.inputs[1]._props.attributes.value
-    }
-    console.log('Login form submit', result)
-    window.location.hash = '#chats'
-  }
-
-  addEvents () {
-    this._element.querySelectorAll('form').forEach(form => {
-      form.addEventListener('submit', this.onFormSubmit.bind(this))
-    })
-  }
-
-  removeEvents () {
-    this._element.querySelectorAll('form').forEach(form => {
-      form.removeEventListener('submit', this.onFormSubmit.bind(this))
-    })
-  }
 }
 
 export default () => new LoginPage(
@@ -83,6 +61,18 @@ export default () => new LoginPage(
     ...content,
     attributes: {
       class: 'centeredFlex'
+    },
+    events: {
+      submit: function (e: SubmitEvent) {
+        const children = this._children as unknown as ILoginProps
+        e.preventDefault()
+        const result = {
+          login: children.inputs[0]._props.attributes.value,
+          password: children.inputs[1]._props.attributes.value
+        }
+        console.log('Login form submit', result)
+        window.location.hash = '#chats'
+      }
     }
   }
 )

@@ -16,6 +16,11 @@ export default (props: ILinkProps) => new Link(
       class: `button ${props.disabled ? 'disabled' : ''}`,
       href: props.href,
       id: props.id
+    },
+    events: {
+      click: function (e: MouseEvent) {
+        console.log('Link clicked', e)
+      }
     }
   }
 )

@@ -78,15 +78,43 @@ export class Component<T extends IObject> {
   }
 
   addEvents () {
-    const { events = {} } = this._props
+    const { events = {}, attributes = {} } = this._props
     Object.keys(events).forEach(eventName => {
-      this._element.addEventListener(eventName, events[eventName])
+      if (eventName === 'input' && attributes.class === 'inputContainer') {
+        const input = this._element.querySelector('input')
+        if (input) {
+          input.addEventListener('blur', events[eventName].bind(this))
+        }
+        return
+      }
+      if (eventName === 'submit' && attributes.class === 'formContainer') {
+        const form = this._element.querySelector('form')
+        if (form) {
+          form.addEventListener('submit', events[eventName].bind(this))
+        }
+        return
+      }
+      this._element.addEventListener(eventName, events[eventName].bind(this))
     })
   }
 
   removeEvents () {
-    const { events = {} } = this._props
+    const { events = {}, attributes = {} } = this._props
     Object.keys(events).forEach(eventName => {
+      if (eventName === 'input' && attributes.class === 'inputContainer') {
+        const input = this._element.querySelector('input')
+        if (input) {
+          input.removeEventListener('blur', events[eventName].bind(this))
+        }
+        return
+      }
+      if (eventName === 'submit' && attributes.class === 'formContainer') {
+        const form = this._element.querySelector('form')
+        if (form) {
+          form.removeEventListener('submit', events[eventName].bind(this))
+        }
+        return
+      }
       this._element.removeEventListener(eventName, events[eventName])
     })
   }
