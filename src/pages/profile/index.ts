@@ -3,7 +3,7 @@ import input from '../../components/input'
 import { InputTypeEnum } from '../../enum/input'
 import { testProfile } from '../../testData/profile'
 import { ProfileStateEnum } from '../../enum/profile'
-import { Component } from '../../component'
+import { Component, IObject } from '../../component'
 import { IProfileProps } from '../../interface/profile'
 import template from './template'
 import { LoginRule, NameRule, PasswordRule, PhoneRule, SecondNameRule } from '../../utils/ValidationRules'
@@ -146,7 +146,11 @@ export default () => {
         submit: function (e: SubmitEvent) {
           e.preventDefault()
           const formData = new FormData(e.target as HTMLFormElement)
-          console.log('Profile form submit', formData)
+          const result: IObject = {}
+          formData.forEach((value, key) => {
+            result[key] = value
+          })
+          console.log('Profile form submit', result)
         }
       }
     }

@@ -16,16 +16,16 @@ interface IMeta<T> {
 
 type IAttribute = [string, boolean | string | undefined]
 
-type IObject = Record<string, any>
+export type IObject = Record<string, any>
 
 export class Component<T extends IObject> {
-  _element: HTMLElement = document.createElement('div')
-  _meta: IMeta<T>
-  _props: IObject
-  _eventBus: EventBus
-  _children: IObject
-  _setUpdate = false
-  _id: string
+  private _element: HTMLElement = document.createElement('div')
+  readonly _meta: IMeta<T>
+  protected _props: IObject
+  readonly _eventBus: EventBus
+  private _children: IObject
+  private _setUpdate = false
+  readonly _id: string
 
   constructor (tagName = 'div', propsAndChilds: T) {
     const { children, props } = this.getChildren(propsAndChilds)

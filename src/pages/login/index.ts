@@ -2,7 +2,7 @@ import button from '../../components/button'
 import { ButtonTypeEnum } from '../../enum/button'
 import input from '../../components/input'
 import link from '../../components/link'
-import { Component } from '../../component'
+import { Component, IObject } from '../../component'
 import { ILoginProps } from '../../interface/login'
 import { InputTypeEnum } from '../../enum/input'
 import { LoginPattern, PasswordPattern } from '../../utils/Patterns'
@@ -64,12 +64,12 @@ export default () => new LoginPage(
     },
     events: {
       submit: function (e: SubmitEvent) {
-        const children = this._children as unknown as ILoginProps
         e.preventDefault()
-        const result = {
-          login: children.inputs[0]._props.attributes.value,
-          password: children.inputs[1]._props.attributes.value
-        }
+        const formData = new FormData(e.target as HTMLFormElement)
+        const result: IObject = {}
+        formData.forEach((value, key) => {
+          result[key] = value
+        })
         console.log('Login form submit', result)
         window.location.hash = '#chats'
       }

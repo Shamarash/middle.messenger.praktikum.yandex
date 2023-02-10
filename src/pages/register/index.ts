@@ -3,7 +3,7 @@ import { ButtonTypeEnum } from '../../enum/button'
 import input from '../../components/input'
 import link from '../../components/link'
 import { IRegisterProps } from '../../interface/register'
-import { Component } from '../../component'
+import { Component, IObject } from '../../component'
 import { InputTypeEnum } from '../../enum/input'
 import { LoginPattern, NamePattern, PasswordPattern, PhonePattern } from '../../utils/Patterns'
 import template from './template'
@@ -106,7 +106,11 @@ export default () => new Register(
       submit: function (e: SubmitEvent) {
         e.preventDefault()
         const formData = new FormData(e.target as HTMLFormElement)
-        console.log('Register form submit', formData)
+        const result: IObject = {}
+        formData.forEach((value, key) => {
+          result[key] = value
+        })
+        console.log('Register form submit', result)
         window.location.hash = '#chats'
       }
     }
