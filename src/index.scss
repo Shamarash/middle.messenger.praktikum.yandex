@@ -656,8 +656,7 @@ button {
 
     input:focus ~ label, input:not(:placeholder-shown) ~ label, {
       font-size: 13px;
-      top: 50%;
-      transform: translateY(-50%);
+      top: 10px;
     }
   }
 }

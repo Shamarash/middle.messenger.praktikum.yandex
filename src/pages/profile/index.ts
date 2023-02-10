@@ -7,6 +7,7 @@ import { Component } from '../../component'
 import { IProfileProps } from '../../interface/profile'
 import template from './template'
 import { LoginRule, NameRule, PasswordRule, PhoneRule, SecondNameRule } from '../../utils/ValidationRules'
+import { LoginPattern, NamePattern, PasswordPattern, PhonePattern } from '../../utils/Patterns'
 
 Handlebars.registerHelper('showProfileTitle', () => {
   return window.profileState === ProfileStateEnum.normal ||
@@ -30,7 +31,8 @@ const profileInfoInputs = (isEdit: boolean) => [
     required: true,
     disabled: !isEdit,
     value: testProfile.login,
-    errorText: LoginRule
+    errorText: LoginRule,
+    pattern: LoginPattern
   }),
   input({
     id: 'first_name',
@@ -39,7 +41,8 @@ const profileInfoInputs = (isEdit: boolean) => [
     required: true,
     disabled: !isEdit,
     value: testProfile.first_name,
-    errorText: NameRule
+    errorText: NameRule,
+    pattern: NamePattern
   }),
   input({
     id: 'second_name',
@@ -47,7 +50,8 @@ const profileInfoInputs = (isEdit: boolean) => [
     placeholder: 'Фамилия',
     disabled: !isEdit,
     value: testProfile.second_name,
-    errorText: SecondNameRule
+    errorText: SecondNameRule,
+    pattern: NamePattern
   }),
   input({
     id: 'display_name',
@@ -62,7 +66,8 @@ const profileInfoInputs = (isEdit: boolean) => [
     placeholder: 'Номер телефона',
     disabled: !isEdit,
     value: testProfile.phone,
-    errorText: PhoneRule
+    errorText: PhoneRule,
+    pattern: PhonePattern
   })
 ]
 
@@ -73,7 +78,8 @@ const changePasswordInputs = [
     placeholder: 'Старый пароль',
     required: true,
     type: InputTypeEnum.password,
-    errorText: PasswordRule
+    errorText: PasswordRule,
+    pattern: PasswordPattern
   }),
   input({
     id: 'newPassword',
@@ -81,7 +87,8 @@ const changePasswordInputs = [
     placeholder: 'Новый пароль',
     required: true,
     type: InputTypeEnum.password,
-    errorText: PasswordRule
+    errorText: PasswordRule,
+    pattern: PasswordPattern
   }),
   input({
     id: 'newPasswordRepeat',
@@ -89,7 +96,8 @@ const changePasswordInputs = [
     placeholder: 'Повторите новый пароль',
     required: true,
     type: InputTypeEnum.password,
-    errorText: PasswordRule
+    errorText: PasswordRule,
+    pattern: PasswordPattern
   })
 ]
 
@@ -107,7 +115,8 @@ const getCurrentContent = (state: string | null): IProfileProps => {
         inputs: changePasswordInputs
       }
     }
-    case ProfileStateEnum.normal : default : {
+    case ProfileStateEnum.normal :
+    default : {
       return {
         isEdit: false,
         inputs: profileInfoInputs(false)
