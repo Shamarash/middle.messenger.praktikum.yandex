@@ -1,9 +1,7 @@
 {
-  "extends": "stylelint-config-standard",
+  "extends": "stylelint-config-standard-scss",
   "rules": {
-    "color-hex-case": "lower"
-  },
-  "ignoreFiles": [
-    "dist/*"
-  ]
+    "selector-class-pattern": "^[a-z][a-zA-Z0-9]+$",
+    "scss/dollar-variable-pattern": "^[a-z][a-zA-Z0-9]+$"
+  }
 }

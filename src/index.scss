@@ -1,41 +1,44 @@
 @font-face {
-  font-family: 'Inter';
+  font-family: Inter;
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("./fonts/Inter/Inter-Regular.woff2?v=3.15") format("woff2"),
-  url("./fonts/Inter/Inter-Regular.woff?v=3.15") format("woff");
+  src:
+    url("./fonts/Inter/Inter-Regular.woff2?v=3.15") format("woff2"),
+    url("./fonts/Inter/Inter-Regular.woff?v=3.15") format("woff");
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: Inter;
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("./fonts/Inter/Inter-Medium.woff2?v=3.15") format("woff2"),
-  url("./fonts/Inter/Inter-Medium.woff?v=3.15") format("woff");
+  src:
+    url("./fonts/Inter/Inter-Medium.woff2?v=3.15") format("woff2"),
+    url("./fonts/Inter/Inter-Medium.woff?v=3.15") format("woff");
 }
 
-$textPrimary: #1E1E1E;
-$backgroundPrimary: #FFF;
-$backgroundSecondary: #FBFBFB;
-$backgroundTertiary: rgba(0, 0, 0, .1);
-$boxShadow: rgba(0, 0, 0, .2);
-$blueIndicator: #3369F3;
+$textPrimary: #1e1e1e;
+$backgroundPrimary: #fff;
+$backgroundSecondary: #fbfbfb;
+$backgroundTertiary: rgb(0 0 0 / 10%);
+$boxShadow: rgb(0 0 0 / 20%);
+$blueIndicator: #3369f3;
 $textSecondary: #999;
-$errorPrimary: #FF2F2F;
-$errorSecondary: #FF0000;
-$selectedItem: #E4EDFD;
-$avatarBackground: #EFEFEF;
-$separator: #EAEAEA;
-$messageBackground: #F8F8F8;
-$messageTime: rgba(82, 82, 82, 0.5);
-$scrollbar: rgba(51, 51, 51, 0.4);
+$errorPrimary: #ff2f2f;
+$errorSecondary: #f00;
+$selectedItem: #e4edfd;
+$avatarBackground: #efefef;
+$separator: #eaeaea;
+$messageBackground: #f8f8f8;
+$messageTime: rgb(82 82 82 / 50%);
+$scrollbar: rgb(51 51 51 / 40%);
 $black: #000;
+
 * {
   box-sizing: border-box;
   color: $textPrimary;
-  font-family: 'Inter', serif;
+  font-family: Inter, serif;
   font-style: normal;
   padding: 0;
   margin: 0;
@@ -89,7 +92,7 @@ input {
   width: 100%;
 
   ::placeholder {
-    font-family: 'Inter', serif;
+    font-family: Inter, serif;
     font-style: normal;
     color: $textSecondary;
     font-weight: 500;
@@ -106,7 +109,6 @@ input {
   display: flex;
   position: relative;
   flex-direction: column;
-
 }
 
 .inputErrorText {
@@ -122,20 +124,96 @@ input {
   color: $errorPrimary;
 }
 
-input:focus ~ label, input:not(:placeholder-shown) ~ label, {
-  transform: translateY(0px);
+label {
+  font-weight: 500;
+  font-size: 9px;
+  line-height: 9px;
+  color: $textSecondary;
+  position: absolute;
+  top: 10px;
+  transition: 0.5s;
+}
+
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label, {
+  transform: translateY(0);
   top: -5px;
   font-size: 9px;
 }
 
-/* Заголовки 404, 500 и тд*/
+.emptyAvatar {
+  display: flex;
+  width: 130px;
+  height: 130px;
+  background: $avatarBackground center no-repeat url("./icons/EmptyAvatar.svg");
+}
+
+.profileAvatarContainer {
+  display: flex;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+
+  img {
+    width: 130px;
+    height: 130px;
+    object-fit: scale-down;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .emptyAvatar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  input {
+    visibility: hidden;
+  }
+
+  label {  /* stylelint-disable-line no-descending-specificity */
+    position: absolute;
+    top: 50% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 30px;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px !important;
+    line-height: 14px;
+    text-align: center;
+    color: $backgroundPrimary;
+    background: $black;
+    opacity: 0;
+    transition: opacity 0.4s linear;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+/* Заголовки 404, 500 и тд */
 h1 {
   font-weight: 500;
   font-size: 40px;
   line-height: 40px;
 }
 
-/* Вход, регистрация, мы уже фиксим и тд*/
+/* Вход, регистрация, мы уже фиксим и тд */
 h2 {
   font-weight: 500;
   font-size: 20px;
@@ -148,18 +226,6 @@ h3 {
   font-size: 16px;
   line-height: 16px;
 }
-
-
-label {
-  font-weight: 500;
-  font-size: 9px;
-  line-height: 9px;
-  color: $textSecondary;
-  position: absolute;
-  top: 10px;
-  transition: .5s;
-}
-
 
 a {
   font-weight: 500;
@@ -177,17 +243,25 @@ a {
   }
 }
 
-a, button {
+button {
+  border-radius: 8px;
+  padding: 12px 0;
+  min-width: 20px;
+  background: $blueIndicator;
+  color: white;
+}
+
+a,
+button {
   cursor: pointer;
 
   &:hover {
-    opacity: .9;
+    opacity: 0.9;
   }
 
   &:active {
-    opacity: .7;
+    opacity: 0.7;
   }
-
 }
 
 .centeredFlex {
@@ -198,7 +272,6 @@ a, button {
   justify-content: center;
   flex-direction: column;
 }
-
 
 .centeredFlexContent {
   align-items: center;
@@ -241,21 +314,13 @@ a, button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 60px;
 
   button {
     width: 100%;
     max-width: 280px;
   }
 }
-
-button {
-  border-radius: 8px;
-  padding: 12px 0;
-  min-width: 20px;
-  background: $blueIndicator;
-  color: white;
-}
-
 
 .chat {
   width: 100%;
@@ -271,7 +336,7 @@ button {
   display: flex;
   align-self: flex-end;
   cursor: pointer;
-  background: center right no-repeat url('./icons/ArrowRight.svg');
+  background: center right no-repeat url("./icons/ArrowRight.svg");
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
@@ -281,6 +346,63 @@ button {
 
 .selectedChat {
   background: $selectedItem;
+}
+
+.messageTime {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 9px;
+  line-height: 9px;
+  display: flex;
+  position: absolute;
+  right: 11px;
+  bottom: 9px;
+  color: $textSecondary;
+}
+
+.message {
+  display: flex;
+  padding: 11px 40px 20px 11px;
+  position: relative;
+  border-radius: 0 12px 12px;
+  background: $messageBackground;
+  align-self: flex-start;
+  width: fit-content;
+  max-width: 300px;
+
+  p {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    color: $textPrimary;
+  }
+
+  .messageTime {
+    color: $textSecondary;
+  }
+}
+
+.errorPage {
+  p {
+    margin-top: 20px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 20px;
+    text-align: center;
+    color: $textPrimary;
+  }
+
+  a {
+    margin-top: 70px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 11px;
+    text-align: center;
+    color: $blueIndicator;
+  }
 }
 
 .contacts {
@@ -380,7 +502,6 @@ button {
         color: $backgroundPrimary;
       }
     }
-
   }
 
   .searchContainer {
@@ -393,10 +514,9 @@ button {
 
   input {
     border: none;
-    background: $backgroundTertiary url('./icons/Search.svg') no-repeat left 5px center;
+    background: $backgroundTertiary url("./icons/Search.svg") no-repeat left 5px center;
     border-radius: 8px;
     padding: 8px 10px 9px 30px;
-
   }
 
   ul {
@@ -414,23 +534,21 @@ button {
     border-bottom: 1px solid $boxShadow;
 
     &:hover {
-      opacity: .9;
+      opacity: 0.9;
     }
 
     &:active {
-      opacity: .7;
+      opacity: 0.7;
     }
   }
 }
 
 .messages {
-
   flex-grow: 1;
   height: 100vh;
   display: flex;
   padding: 0 20px;
   flex-direction: column;
-
 
   .messagesHeader {
     min-height: 54px;
@@ -446,7 +564,6 @@ button {
     display: flex;
     align-items: center;
     gap: 10px;
-
   }
 
   .messagesHeaderAvatar {
@@ -479,7 +596,7 @@ button {
   .messagesHeaderDots {
     height: 20px;
     width: 20px;
-    background: url('./icons/Dots.svg') no-repeat center;
+    background: url("./icons/Dots.svg") no-repeat center;
   }
 
   .messageInputContainer {
@@ -494,7 +611,7 @@ button {
   .messageAttachment {
     height: 32px;
     width: 32px;
-    background: url('./icons/Attachment.svg') no-repeat center;
+    background: url("./icons/Attachment.svg") no-repeat center;
   }
 
   .messageInput {
@@ -514,8 +631,7 @@ button {
   .sendMessage {
     height: 28px;
     width: 28px;
-    background: url('./icons/SendMessage.svg') no-repeat center;
-
+    background: url("./icons/SendMessage.svg") no-repeat center;
   }
 
   .messagesList {
@@ -525,62 +641,33 @@ button {
   }
 
   ul {
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
     gap: 20px;
-
   }
-}
-
-.message {
-  display: flex;
-  padding: 11px 40px 20px 11px;
-  position: relative;
-  border-radius: 0 12px 12px 12px;
-  background: $messageBackground;
-  align-self: flex-start;
-  width: fit-content;
-  max-width: 300px;
-
-  p {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 15px;
-    color: $textPrimary;
-  }
-
-  .messageTime {
-    color: $textSecondary;
-  }
-}
-
-.messageTime {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 9px;
-  line-height: 9px;
-  display: flex;
-  position: absolute;
-  right: 11px;
-  bottom: 9px;
-  color: $textSecondary;
 }
 
 .messageMine {
   align-self: flex-end;
   background: $selectedItem;
-  border-radius: 12px 12px 0 12px;
+  border-radius: 12px 12px 0;
 
   .messageTime {
     color: $blueIndicator;
   }
-
 }
 
+.readIcon {
+  display: flex;
+  position: absolute;
+  bottom: 10px;
+  right: 40px;
+  background: center no-repeat url("./icons/MessageRead.svg");
+  width: 11px;
+  height: 5px;
+}
 
 .messageImage {
   border: 1px solid $separator;
@@ -589,7 +676,6 @@ button {
   padding: 0;
   max-width: 350px;
   max-height: 300px;
-
   overflow: hidden;
 
   .readIcon {
@@ -609,15 +695,17 @@ button {
   }
 }
 
+.profileInputActive {
+  input {
+    border-bottom: 1px solid $blueIndicator;
+  }
+}
 
-.readIcon {
-  display: flex;
-  position: absolute;
-  bottom: 10px;
-  right: 40px;
-  background: center no-repeat url('./icons/MessageRead.svg');
-  width: 11px;
-  height: 5px;
+.profileInputDisabled {
+  input {
+    border-bottom: 1px solid $separator;
+    color: $textSecondary;
+  }
 }
 
 .profileContent {
@@ -637,7 +725,7 @@ button {
     flex-direction: column;
     width: 100%;
 
-    label {
+    label { /* stylelint-disable-line no-descending-specificity */
       font-style: normal;
       font-weight: 500;
       font-size: 13px;
@@ -654,112 +742,23 @@ button {
       text-align: right;
     }
 
-    input:focus ~ label, input:not(:placeholder-shown) ~ label, {
+    input:focus ~ label,
+    input:not(:placeholder-shown) ~ label, {
       font-size: 13px;
       top: 10px;
     }
   }
 }
 
-.profileInputActive {
-  input {
-    border-bottom: 1px solid $blueIndicator;
-  }
-}
-
-.profileInputDisabled {
-  input {
-    border-bottom: 1px solid $separator;
-    color: $textSecondary;
-  }
-}
-
 .goBackLink {
   display: flex;
-  background: $backgroundSecondary center no-repeat url('./icons/GoBackCircle.svg');
+  background: $backgroundSecondary center no-repeat url("./icons/GoBackCircle.svg");
   width: 64px;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   cursor: pointer;
-}
-
-.emptyAvatar {
-  display: flex;
-  width: 130px;
-  height: 130px;
-  background: $avatarBackground center no-repeat url('./icons/EmptyAvatar.svg');
-}
-
-.profileAvatarContainer {
-  display: flex;
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  overflow: hidden;
-  position: relative;
-
-  img {
-    width: 130px;
-    height: 130px;
-    object-fit: scale-down;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .emptyAvatar {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  input {
-    visibility: hidden;
-  }
-
-  label {
-    position: absolute;
-    top: 50% !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 30px;
-    left: 50%;
-    transform: translate(-50%, -50%) !important;
-    cursor: pointer;
-    border-radius: 50%;
-    width: 130px;
-    height: 130px;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 13px !important;
-    line-height: 14px;
-    text-align: center;
-    color: $backgroundPrimary;
-    background: $black;
-    opacity: 0;
-    transition: opacity .4s linear;
-
-    &:hover {
-      opacity: .5;
-    }
-  }
-
-}
-
-.formButtons {
-  margin-top: 60px;
-  display: flex;
-  flex-direction: column;
-}
-
-.formInputs {
-  display: flex;
-  flex-direction: column;
 }
 
 .secondaryButton {
@@ -795,26 +794,4 @@ button {
   font-size: 13px;
   line-height: 13px;
   margin-top: 10px;
-}
-
-.errorPage {
-  p {
-    margin-top: 20px;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 20px;
-    text-align: center;
-    color: $textPrimary;
-  }
-
-  a {
-    margin-top: 70px;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 11px;
-    line-height: 11px;
-    text-align: center;
-    color: $blueIndicator;
-  }
 }
