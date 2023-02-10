@@ -23,7 +23,10 @@ export default `{{#if isEdit}}
                 {{profile.display_name}}
             </h3>
         {{/if}}
-        <form>
+        <form onsubmit="(function() {
+                    window.profileState = 'normal'
+            window.dispatchEvent(new CustomEvent('profileStateChange'))
+                        })()">
             <div class="formInputs">
                 {{#each inputs}}
                     {{{this}}}
@@ -31,22 +34,19 @@ export default `{{#if isEdit}}
             </div>
             <div class="formButtons">
                 {{#if isEdit}}
-                    <button onclick="(function() {
-                    window.profileState = 'normal'
-            window.dispatchEvent(new CustomEvent('profileStateChange'))
-                        })()">
+                    <button type="submit">
                         Сохранить
                     </button>
                 {{else}}
                     <div class="formButtonsLeft">
-                        <button class="secondaryButton" onclick="(function() {
+                        <button class="secondaryButton" type="button" onclick="(function() {
                     window.profileState = 'changeInfo'
             window.dispatchEvent(new CustomEvent('profileStateChange'))
                         })()">
                             Изменить данные
                         </button>
                         <span class="divider"></span>
-                        <button class="secondaryButton" onclick="(function() {
+                        <button class="secondaryButton" type="button" onclick="(function() {
                      window.profileState = 'changePassword'
             window.dispatchEvent(new CustomEvent('profileStateChange'))
                         })()">
