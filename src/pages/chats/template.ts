@@ -58,22 +58,22 @@ export default `<div class="contacts">
             </div>
             <div class="messagesList">
                 <ul>
-                    {{#each selectedChat.messages}}
-                        <li class="message
-                    {{#if (isMineMessage this.to)}}messageMine{{/if}}
-                            {{#if this.attachments}} messageImage{{/if}}">
-                            {{#if this.text}}
-                                <p>{{this.text}}</p>
-                            {{else}}
-                                {{#each this.attachments}}
-                                    <img alt="message attachment" src="{{this.url}}"/>
-                                {{/each}}
-                            {{/if}}
-                            {{#if this.read}}
-                                <div class="readIcon"></div>{{/if}}
-                            <div class="messageTime">{{this.dateTime}}</div>
-                        </li>
-                    {{/each}}
+                    // {{#each selectedChat.messages}}
+                    //     <li class="message
+                    // {{#if (isMineMessage this.to)}}messageMine{{/if}}
+                    //         {{#if this.attachments}} messageImage{{/if}}">
+                    //         {{#if this.text}}
+                    //             <p>{{this.text}}</p>
+                    //         {{else}}
+                    //             {{#each this.attachments}}
+                    //                 <img alt="message attachment" src="{{this.url}}"/>
+                    //             {{/each}}
+                    //         {{/if}}
+                    //         {{#if this.read}}
+                    //             <div class="readIcon"></div>{{/if}}
+                    //         <div class="messageTime">{{this.dateTime}}</div>
+                    //     </li>
+                    // {{/each}}
                 </ul>
             </div>
             <form class="messageInputContainer">

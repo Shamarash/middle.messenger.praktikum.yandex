@@ -284,4 +284,12 @@ export class Component<T extends IObject> {
       this._setUpdate = false
     }
   }
+
+  show () {
+    this.getContent().style.display = 'block'
+  }
+
+  hide () {
+    this.getContent().style.display = 'none'
+  }
 }

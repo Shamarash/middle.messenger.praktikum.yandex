@@ -15,6 +15,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/consistent-type-imports': 'off',
     '@typescript-eslint/no-invalid-void-type': 'off',
-    '@typescript-eslint/strict-boolean-expressions': 'off'
+    '@typescript-eslint/strict-boolean-expressions': 'off',
+    '@typescript-eslint/comma-dangle': 'off' // висячая запятая в конце списка помогает мержить без конфликтов
   }
 }

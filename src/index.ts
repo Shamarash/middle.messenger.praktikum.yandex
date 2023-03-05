@@ -1,8 +1,8 @@
 import './index.scss'
-import login from './pages/login'
-import chats from './pages/chats'
-import register from './pages/register'
-import profile from './pages/profile'
+import login from './pages/login/login'
+import chats from './pages/chats/chats'
+import register from './pages/register/register'
+import profile from './pages/profile/profile'
 import { notFound } from './pages/errors/notFound'
 import { serverError } from './pages/errors/serverError'
 

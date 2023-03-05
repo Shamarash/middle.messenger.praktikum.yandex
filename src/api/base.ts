@@ -7,7 +7,7 @@ const queryStringify = (data: IQueryProps): string => {
   }).join('&')
 }
 
-export class HTTPTransport {
+export class HttpRequest {
   // T = request data, K = expected result from promise
   public async get<K, T = undefined>(url: string, options?: IQueryOptions<T>): Promise<K> {
     return await this._request(url, { ...options, method: HttpMethodEnum.GET })
@@ -61,8 +61,8 @@ export class HTTPTransport {
   };
 }
 
-const request = new HTTPTransport()
+const request = new HttpRequest()
 
-request.get('https://practicum.yandex.ru').then(res => res).catch(err => {
-  console.log(err)
-})
+export default request
+
+export const baseUrl = 'https://ya-praktikum.tech/api/v2'
