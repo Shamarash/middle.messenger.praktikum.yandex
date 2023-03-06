@@ -1,7 +1,6 @@
-import Handlebars from 'handlebars'
 import input from '../../components/input'
 import { InputTypeEnum } from '../../enum/input'
-import { testProfile } from '../../testData/profile'
+
 import { ProfileStateEnum } from '../../enum/profile'
 import { Component, IObject } from '../../component'
 import { IProfileProps } from '../../interface/profile'
@@ -9,10 +8,10 @@ import template from './template'
 import { LoginRule, NameRule, PasswordRule, PhoneRule, SecondNameRule } from '../../utils/ValidationRules'
 import { LoginPattern, NamePattern, PasswordPattern, PhonePattern } from '../../utils/Patterns'
 
-Handlebars.registerHelper('showProfileTitle', () => {
-  return window.profileState === ProfileStateEnum.normal ||
-        window.profileState === undefined
-})
+// Handlebars.registerHelper('showProfileTitle', () => {
+//   return window.profileState === ProfileStateEnum.normal ||
+//         window.profileState === undefined
+// })
 
 const profileInfoInputs = (isEdit: boolean) => [
   input({
@@ -22,7 +21,7 @@ const profileInfoInputs = (isEdit: boolean) => [
     required: true,
     type: InputTypeEnum.email,
     disabled: !isEdit,
-    value: testProfile.email
+    value: '',
   }),
   input({
     id: 'login',
@@ -30,7 +29,7 @@ const profileInfoInputs = (isEdit: boolean) => [
     placeholder: 'Логин',
     required: true,
     disabled: !isEdit,
-    value: testProfile.login,
+    value: '',
     errorText: LoginRule,
     pattern: LoginPattern
   }),
@@ -40,7 +39,7 @@ const profileInfoInputs = (isEdit: boolean) => [
     placeholder: 'Имя',
     required: true,
     disabled: !isEdit,
-    value: testProfile.first_name,
+    value: '',
     errorText: NameRule,
     pattern: NamePattern
   }),
@@ -49,7 +48,7 @@ const profileInfoInputs = (isEdit: boolean) => [
     title: 'Введите свою фамилию',
     placeholder: 'Фамилия',
     disabled: !isEdit,
-    value: testProfile.second_name,
+    value: '',
     errorText: SecondNameRule,
     pattern: NamePattern
   }),
@@ -58,14 +57,14 @@ const profileInfoInputs = (isEdit: boolean) => [
     title: 'Введите имя для чата',
     placeholder: 'Имя в чате',
     disabled: !isEdit,
-    value: testProfile.display_name
+    value: '',
   }),
   input({
     id: 'phone',
     title: 'Введите номер телефона',
     placeholder: 'Номер телефона',
     disabled: !isEdit,
-    value: testProfile.phone,
+    value: '',
     errorText: PhoneRule,
     pattern: PhonePattern
   })
@@ -132,13 +131,11 @@ class Profile extends Component<IProfileProps> {
 }
 
 export default () => {
-  const state: string | null = window.profileState
-
   return new Profile(
     'div',
     {
-      ...getCurrentContent(state),
-      profile: testProfile,
+      ...getCurrentContent(''),
+      // profile: testProfile,
       attributes: {
         class: 'centeredFlex formContainer'
       },

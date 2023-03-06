@@ -1,13 +1,12 @@
 import { Connect } from '../../store'
-import Chats from './chats'
+import Profile from './profile'
 import { IStore } from '../../interface/store'
 
 export default Connect(
-  Chats,
+  Profile,
   (state: IStore) => {
     return {
-      chats: state.chats,
-      selectedChat: state.currentChat
+      user: state.user,
     }
   }
 )

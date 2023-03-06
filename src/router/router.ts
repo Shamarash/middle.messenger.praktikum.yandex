@@ -1,5 +1,4 @@
 import Route from './route'
-import { Component } from '../component'
 
 export default class Router {
   static _instance: any
@@ -20,7 +19,7 @@ export default class Router {
     Router._instance = this
   }
 
-  use (path: string, component: Component<any>, tag = 'div', props = {}) {
+  use (path: string, component: any, tag = 'div', props = {}) {
     this.routes.push(new Route(path, component, tag, { ...props, rootQuery: this.rootQuery }))
     return this
   }
