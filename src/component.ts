@@ -84,6 +84,13 @@ export class Component<T extends IObject> {
       if (eventName === 'input' && attributes.class.includes('inputContainer')) {
         const input = this._element.querySelector('input')
         if (input) {
+          input.addEventListener('input', func)
+        }
+        return
+      }
+      if (eventName === 'blur' && attributes.class.includes('inputContainer')) {
+        const input = this._element.querySelector('input')
+        if (input) {
           input.addEventListener('blur', func)
         }
         return
@@ -123,7 +130,7 @@ export class Component<T extends IObject> {
 
   addAttributes () {
     const { attributes } = this._props
-
+    if (!attributes) { return }
     Object.entries(attributes).forEach((values) => {
       const [key, value] = values as IAttribute
       const input = this._element.querySelector('input')
@@ -133,7 +140,7 @@ export class Component<T extends IObject> {
         return
       }
 
-      if (value === undefined) {
+      if (value === undefined || value === null) {
         return
       }
       if (typeof value === 'boolean') {
@@ -236,7 +243,9 @@ export class Component<T extends IObject> {
   _componentDidMount () {
     this.componentDidMount()
     Object.values(this._children).forEach((child) => {
-      child.dispatchComponentDidMount()
+      if (child instanceof Component) {
+        child.dispatchComponentDidMount()
+      }
     })
   }
 
@@ -286,7 +295,7 @@ export class Component<T extends IObject> {
   }
 
   show () {
-    this.getContent().style.display = 'block'
+    this.getContent().style.display = 'flex'
   }
 
   hide () {

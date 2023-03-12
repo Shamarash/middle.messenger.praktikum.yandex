@@ -45,7 +45,14 @@ export default class Router {
   _onRoute (path: string) {
     const route = this.getRoute(path)
 
-    if (!route) { return }
+    if (!route) {
+      const notFound = this.getRoute('/404')
+      if (notFound) {
+        this.currentRoute = notFound
+        notFound.render()
+      }
+      return
+    }
 
     if (this.currentRoute && this.currentRoute !== route) { this.currentRoute.leave() }
 

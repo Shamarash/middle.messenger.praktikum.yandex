@@ -60,7 +60,7 @@ body {
   }
 }
 
-#root {
+.App {
   display: flex;
   flex-direction: column;
   width: 100vw;
@@ -413,6 +413,7 @@ button {
   flex-direction: column;
   border-right: 1px solid $boxShadow;
   background: $backgroundSecondary;
+  position: relative;
 
   .contactsList {
     height: 100%;
@@ -510,6 +511,7 @@ button {
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid $boxShadow;
+
   }
 
   input {
@@ -794,4 +796,12 @@ button {
   font-size: 13px;
   line-height: 13px;
   margin-top: 10px;
+  cursor: pointer;
+}
+
+.searchContacts {
+  position: absolute;
+  cursor: pointer;
+  top: 10px;
+
 }

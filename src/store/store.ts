@@ -1,13 +1,15 @@
 import { EventBus } from '../eventBus'
 import { IStore } from '../interface/store'
+import { ProfileModeEnum } from '../enum/profile'
 
 const InitialState: IStore = {
   chats: [],
-  user: null,
+  user: {},
   currentChat: null,
-  chatFiles: {},
-  chatUsers: {},
-  searchUsers: {},
+  chatFiles: [],
+  chatUsers: [],
+  searchUsers: [],
+  profileMode: ProfileModeEnum.normal,
 }
 
 export default class Store extends EventBus {

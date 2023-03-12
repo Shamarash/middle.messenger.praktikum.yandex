@@ -3,11 +3,13 @@ import { ButtonTypeEnum } from '../../enum/button'
 import input from '../../components/input'
 import link from '../../components/link'
 import { IRegisterProps } from '../../interface/register'
-import { Component, IObject } from '../../component'
+import { Component } from '../../component'
 import { InputTypeEnum } from '../../enum/input'
 import { LoginPattern, NamePattern, PasswordPattern, PhonePattern } from '../../utils/Patterns'
 import template from './template'
 import { LoginRule, NameRule, PasswordRule, PhoneRule, SecondNameRule } from '../../utils/ValidationRules'
+import { ISignUpProps } from '../../interface/api/auth'
+import { SignIn } from '../../store/actions'
 
 const content: IRegisterProps = {
   title: 'Регистрация',
@@ -84,7 +86,8 @@ const content: IRegisterProps = {
   }),
   linkToLogin: link({
     name: 'Уже зарегистрированы? Войти',
-    href: '#login',
+    href: '/login',
+    className: 'button',
     id: 'link-login'
   })
 }
@@ -95,7 +98,7 @@ class Register extends Component<IRegisterProps> {
   }
 }
 
-export default () => new Register(
+export const register = () => new Register(
   'div',
   {
     ...content,
@@ -106,12 +109,20 @@ export default () => new Register(
       submit: function (e: SubmitEvent) {
         e.preventDefault()
         const formData = new FormData(e.target as HTMLFormElement)
-        const result: IObject = {}
+        let result: ISignUpProps = {
+          first_name: '',
+          second_name: '',
+          login: '',
+          email: '',
+          password: '',
+          phone: '',
+        }
         formData.forEach((value, key) => {
-          result[key] = value
+          if (typeof value === 'string' && Object.keys(result).includes(key)) {
+            result = { ...result, [key]: value }
+          }
         })
-        console.log('Register form submit', result)
-        window.location.hash = '#chats'
+        SignIn(result)
       }
     }
   }

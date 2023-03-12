@@ -13,7 +13,7 @@ export interface IProfile {
 }
 
 export interface IProfileProps extends IBaseProps {
-  isEdit: boolean
-  inputs: Array<Component<IInputProps>>
+  isEdit?: boolean
+  inputs?: Array<Component<IInputProps>>
   profile?: IProfile
 }

@@ -9,9 +9,6 @@ export interface ISignUpProps {
 export interface ISignUpResponse {
   id: string
 }
-export interface IAuthReject {
-  reason: string
-}
 
 export interface ISignInProps {
   login: string

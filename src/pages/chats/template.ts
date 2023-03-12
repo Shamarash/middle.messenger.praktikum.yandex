@@ -1,9 +1,6 @@
 export default `<div class="contacts">
-        <a href="#profile" class="linkToProfile">Профиль</a>
-        <div class="searchContainer">
-            <input id="search" placeholder="Поиск"/>
-            <label for="search"/>
-        </div>
+        {{{profileLink}}}
+            {{{contactsSearch}}}
         <div class="contactsList">
             <ul>
                 {{#each chats}}
@@ -41,6 +38,29 @@ export default `<div class="contacts">
                 {{/each}}
             </ul>
         </div>
+            {{#if searchUsers}}
+            <div class="searchContacts">
+            <ul>
+             {{#each searchUsers}}
+             <li>
+                            
+                            {{#if this.avatar}}
+                            <img class="contactAvatar" alt="contact avatar" src="{{this.avatar}}"/>
+                        {{else}}
+                            <div class="contactWithoutAvatar"></div>
+                        {{/if}}
+
+                        <div class="contactInfo">
+                            <h4>{{this.login}}</h4>
+                            <p>{{this.first_name}} {{this.second_name}}</p>
+                        </div>
+</li>
+             {{else}}
+                    <li class="empty">Никого не нашли</li>
+             {{/each}}
+             </ul>
+             </div>
+            {{/if}}
     </div>
     <div class="messages">
         {{#if selectedChat}}

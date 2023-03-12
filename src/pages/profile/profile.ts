@@ -1,132 +1,26 @@
-import input from '../../components/input'
-import { InputTypeEnum } from '../../enum/input'
-
-import { ProfileStateEnum } from '../../enum/profile'
-import { Component, IObject } from '../../component'
+import { Component } from '../../component'
 import { IProfileProps } from '../../interface/profile'
 import template from './template'
-import { LoginRule, NameRule, PasswordRule, PhoneRule, SecondNameRule } from '../../utils/ValidationRules'
-import { LoginPattern, NamePattern, PasswordPattern, PhonePattern } from '../../utils/Patterns'
+import { ChangeAvatar, ChangeProfile, ChangeProfileState, GetMe, LogOut } from '../../store/actions'
+import * as handlebars from 'handlebars'
+import { ProfileModeEnum } from '../../enum/profile'
+import store from '../../store'
+import { router } from '../../router'
+import { IProfileChangeProps } from '../../interface/api/profile'
+import link from '../../components/link'
 
-// Handlebars.registerHelper('showProfileTitle', () => {
-//   return window.profileState === ProfileStateEnum.normal ||
-//         window.profileState === undefined
-// })
-
-const profileInfoInputs = (isEdit: boolean) => [
-  input({
-    id: 'email',
-    title: 'Введите свой E-mail',
-    placeholder: 'Почта',
-    required: true,
-    type: InputTypeEnum.email,
-    disabled: !isEdit,
-    value: '',
-  }),
-  input({
-    id: 'login',
-    title: 'Введите свой логин',
-    placeholder: 'Логин',
-    required: true,
-    disabled: !isEdit,
-    value: '',
-    errorText: LoginRule,
-    pattern: LoginPattern
-  }),
-  input({
-    id: 'first_name',
-    title: 'Введите своё имя',
-    placeholder: 'Имя',
-    required: true,
-    disabled: !isEdit,
-    value: '',
-    errorText: NameRule,
-    pattern: NamePattern
-  }),
-  input({
-    id: 'second_name',
-    title: 'Введите свою фамилию',
-    placeholder: 'Фамилия',
-    disabled: !isEdit,
-    value: '',
-    errorText: SecondNameRule,
-    pattern: NamePattern
-  }),
-  input({
-    id: 'display_name',
-    title: 'Введите имя для чата',
-    placeholder: 'Имя в чате',
-    disabled: !isEdit,
-    value: '',
-  }),
-  input({
-    id: 'phone',
-    title: 'Введите номер телефона',
-    placeholder: 'Номер телефона',
-    disabled: !isEdit,
-    value: '',
-    errorText: PhoneRule,
-    pattern: PhonePattern
-  })
-]
-
-const changePasswordInputs = [
-  input({
-    id: 'oldPassword',
-    title: 'Введите cтарый пароль',
-    placeholder: 'Старый пароль',
-    required: true,
-    type: InputTypeEnum.password,
-    errorText: PasswordRule,
-    pattern: PasswordPattern
-  }),
-  input({
-    id: 'newPassword',
-    title: 'Введите новый пароль',
-    placeholder: 'Новый пароль',
-    required: true,
-    type: InputTypeEnum.password,
-    errorText: PasswordRule,
-    pattern: PasswordPattern
-  }),
-  input({
-    id: 'newPasswordRepeat',
-    title: 'Повторите новый пароль',
-    placeholder: 'Повторите новый пароль',
-    required: true,
-    type: InputTypeEnum.password,
-    errorText: PasswordRule,
-    pattern: PasswordPattern
-  })
-]
-
-const getCurrentContent = (state: string | null): IProfileProps => {
-  switch (state) {
-    case ProfileStateEnum.changeInfo : {
-      return {
-        isEdit: true,
-        inputs: profileInfoInputs(true)
-      }
-    }
-    case ProfileStateEnum.changePassword : {
-      return {
-        isEdit: true,
-        inputs: changePasswordInputs
-      }
-    }
-    case ProfileStateEnum.normal :
-    default : {
-      return {
-        isEdit: false,
-        inputs: profileInfoInputs(false)
-      }
-    }
-  }
-}
+handlebars.registerHelper('log', function (something) {
+  console.log(something)
+})
 
 class Profile extends Component<IProfileProps> {
   render (): Node | void {
     return this.compile(template, this._props)
+  }
+
+  componentDidMount () {
+    super.componentDidMount()
+    GetMe()
   }
 }
 
@@ -134,20 +28,58 @@ export default () => {
   return new Profile(
     'div',
     {
-      ...getCurrentContent(''),
-      // profile: testProfile,
       attributes: {
         class: 'centeredFlex formContainer'
       },
       events: {
-        submit: function (e: SubmitEvent) {
-          e.preventDefault()
-          const formData = new FormData(e.target as HTMLFormElement)
-          const result: IObject = {}
-          formData.forEach((value, key) => {
-            result[key] = value
-          })
-          console.log('Profile form submit', result)
+        click: function (e: MouseEvent) {
+          console.log(e)
+          const el = e.target as HTMLDivElement
+          if (el?.classList.contains('profileSubmitButton')) {
+            e.preventDefault()
+            const form = el.closest('form') as HTMLFormElement
+            if (form) {
+              const formData = new FormData(form)
+              let result: IProfileChangeProps = {
+                email: '',
+                login: '',
+                first_name: '',
+                second_name: '',
+                display_name: '',
+                phone: '',
+              }
+              formData.forEach((value, key) => {
+                if (typeof value === 'string' && Object.keys(result).includes(key)) {
+                  result = { ...result, [key]: value }
+                }
+              })
+              ChangeProfile(result)
+
+              const avatarForm = el.closest('.profileContent')?.querySelector('.profileAvatarForm') as HTMLFormElement
+              if (avatarForm) {
+                const avatarFormData = new FormData(avatarForm)
+                ChangeAvatar(avatarFormData)
+              }
+              console.log('Profile form submit', result)
+            }
+
+            return
+          }
+          if (el?.classList.contains('changeProfile')) {
+            ChangeProfileState(ProfileModeEnum.changeInfo)
+            return
+          }
+          if (el?.classList.contains('cancelEdit')) {
+            ChangeProfileState(ProfileModeEnum.normal)
+            return
+          }
+          if (el?.classList.contains('changePassword')) {
+            ChangeProfileState(ProfileModeEnum.changePassword)
+            return
+          }
+          if (el?.classList.contains('exitLink')) {
+            LogOut()
+          }
         }
       }
     }

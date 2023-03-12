@@ -1,19 +1,27 @@
 import request, { baseUrl } from './base'
-import { IProfileChangeProps } from '../interface/api/profile'
+import { IChangePasswordProps, IProfileChangeProps } from '../interface/api/profile'
 
 class UserAPI {
   async getProfile () {
-    return await request.get(baseUrl + '/user/profile').then(res => res)
+    return await request.get(baseUrl + '/auth/user')
   }
 
-  async changeProfile (profile: IProfileChangeProps) {
-    return await request.put(baseUrl + '/user/profile', { data: IProfileChangeProps }).then(res => res)
+  async changeProfile (data: IProfileChangeProps) {
+    return await request.put(baseUrl + '/user/profile', { data })
+  }
+
+  async changeAvatar (data: FormData) {
+    return await request.put(baseUrl + '/user/profile/avatar', { data })
+  }
+
+  async changePassword (data: IChangePasswordProps) {
+    return await request.put(baseUrl + '/user/password', { data })
+  }
+
+  async userSearch (data: string) {
+    return await request.post(baseUrl + '/user/search', { data: { login: data } })
   }
 }
-
-// request.get('https://practicum.yandex.ru').then(res => res).catch(err => {
-//     console.log(err)
-// })
 
 const userApi = new UserAPI()
 export default userApi

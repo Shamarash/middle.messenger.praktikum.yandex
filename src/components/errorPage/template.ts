@@ -6,4 +6,4 @@ export default `<h1>{{code}}</h1>
             Мы уже фиксим
         {{/if}}
     </p>
-    <a href="/#chats">Назад к чатам</a>`
+    {{{goBackLink}}}`

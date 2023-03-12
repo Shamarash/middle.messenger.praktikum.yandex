@@ -2,12 +2,14 @@ import button from '../../components/button'
 import { ButtonTypeEnum } from '../../enum/button'
 import input from '../../components/input'
 import link from '../../components/link'
-import { Component, IObject } from '../../component'
+import { Component } from '../../component'
 import { ILoginProps } from '../../interface/login'
 import { InputTypeEnum } from '../../enum/input'
 import { LoginPattern, PasswordPattern } from '../../utils/Patterns'
 import template from './template'
 import { LoginRule, PasswordRule } from '../../utils/ValidationRules'
+import { ISignInProps } from '../../interface/api/auth'
+import { GetMe, LogIn } from '../../store/actions'
 
 const content: ILoginProps = {
   title: 'Вход',
@@ -44,7 +46,8 @@ const content: ILoginProps = {
   }),
   linkToRegister: link({
     name: 'Нет аккаунта? Зарегистрироваться',
-    href: '#register',
+    href: '/register',
+    className: 'button',
     id: 'link-register'
   })
 }
@@ -53,9 +56,15 @@ class LoginPage extends Component<ILoginProps> {
   render (): Node | void {
     return this.compile(template, this._props)
   }
+
+  componentDidMount () {
+    super.componentDidMount()
+
+    GetMe()
+  }
 }
 
-export default () => new LoginPage(
+export const login = () => new LoginPage(
   'div',
   {
     ...content,
@@ -66,12 +75,22 @@ export default () => new LoginPage(
       submit: function (e: SubmitEvent) {
         e.preventDefault()
         const formData = new FormData(e.target as HTMLFormElement)
-        const result: IObject = {}
+        let result: ISignInProps = {
+          login: '',
+          password: '',
+        }
         formData.forEach((value, key) => {
-          result[key] = value
+          if (typeof value === 'string') {
+            if (key === 'login') {
+              result = { ...result, login: value }
+              return
+            }
+            if (key === 'password') {
+              result = { ...result, password: value }
+            }
+          }
         })
-        console.log('Login form submit', result)
-        window.location.hash = '#chats'
+        LogIn(result)
       }
     }
   }

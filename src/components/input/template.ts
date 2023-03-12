@@ -1,8 +1,9 @@
 export default `<input id="{{id}}"
            name="{{id}}"
-           placeholder=" "
+           placeholder="{{#if noPlaceholder}}{{placeholder}}{{else}}{{/if}}"
            type="{{type}}"
            title="{{title}}"
+           autocomplete="new-password"
         {{#if pattern}}
            pattern="{{pattern}}"
         {{/if}}
@@ -16,7 +17,10 @@ export default `<input id="{{id}}"
           inputErrorText
         {{/if}}"/>
     <label for="{{id}}">
-        {{placeholder}}
+    {{#if noPlaceholder}}
+    {{else}}
+                   {{placeholder}}
+        {{/if}}
     </label>
     {{#if attributes.error}}
         <span class="inputError">

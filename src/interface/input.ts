@@ -5,6 +5,7 @@ export interface IInputProps extends IBaseProps {
   id: string
   title: string
   class?: string
+  containerClass?: string
   placeholder?: string
   error?: string
   errorText?: string
@@ -15,6 +16,7 @@ export interface IInputProps extends IBaseProps {
   pattern?: string
   minLength?: number
   maxLength?: number
+  noPlaceholder?: boolean
+  events?: Record<string, (e: any) => void>
 
-  onChange?: (value: string) => void
 }

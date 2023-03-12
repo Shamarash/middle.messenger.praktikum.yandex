@@ -1,6 +1,7 @@
 import { ILinkProps } from '../../interface/link'
 import { Component } from '../../component'
 import template from './template'
+import { router } from '../../router'
 
 class Link extends Component<ILinkProps> {
   render (): Node | void {
@@ -13,13 +14,16 @@ export default (props: ILinkProps) => new Link(
   {
     ...props,
     attributes: {
-      class: `button ${props.disabled ? 'disabled' : ''}`,
+      class: `${props.disabled ? 'disabled' : ''} ${props.className ?? ''}`,
       href: props.href,
       id: props.id
     },
     events: {
       click: function (e: MouseEvent) {
-        console.log('Link clicked', e)
+        e.preventDefault()
+        if (props.href) {
+          router.go(props.href)
+        }
       }
     }
   }
