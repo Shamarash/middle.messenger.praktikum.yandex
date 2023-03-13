@@ -3,6 +3,7 @@ import { Component } from '../../component'
 import template from './template'
 
 class Input extends Component<IInputProps> {
+
   render (): Node | void {
     return this.compile(template, this._props)
   }
@@ -29,28 +30,22 @@ export default (props: IInputProps) => new Input(
       input: {
         input: function (e: Event) {
           const target = e.target as HTMLInputElement
-          const oldProps = this._props as unknown as IInputProps
-
+          console.log(this)
           this.setProps({
-            ...oldProps,
             attributes: {
-              ...oldProps.attributes,
               value: target.value,
             }
           })
         },
         blur: function (e: Event) {
           const target = e.target as HTMLInputElement
-          const oldProps = this._props as unknown as IInputProps
           this.setProps({
-            ...oldProps,
             attributes: {
               showError: true,
               value: target.value,
               error: target.validity.valid
                 ? undefined
                 : (props.errorText ?? target.validationMessage)
-
             }
           })
         },

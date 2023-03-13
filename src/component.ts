@@ -25,7 +25,6 @@ export class Component<T extends IObject> {
   protected _props: IObject
   readonly _eventBus: EventBus
   private _children: IObject
-  private _setUpdate = false
   readonly _id: string
 
   constructor (tagName = 'div', propsAndChilds: T) {
@@ -81,7 +80,8 @@ export class Component<T extends IObject> {
   addEvents () {
     const { events = {}, eventsWithSelector } = this._props
     Object.keys(events).forEach(eventName => {
-      this._element.addEventListener(eventName, events[eventName])
+      const func = events[eventName].bind(this)
+      this._element.addEventListener(eventName, func)
     })
 
     if (eventsWithSelector) {
@@ -89,7 +89,8 @@ export class Component<T extends IObject> {
         const el = this._element.querySelector(selector)
         if (el) {
           Object.keys(eventsWithSelector[selector]).forEach(eventName => {
-            el.addEventListener(eventName, eventsWithSelector[selector][eventName])
+            const func = eventsWithSelector[selector][eventName].bind(this)
+            el.addEventListener(eventName, func)
           })
         }
       })
@@ -99,7 +100,8 @@ export class Component<T extends IObject> {
   removeEvents () {
     const { events = {}, eventsWithSelector } = this._props
     Object.keys(events).forEach(eventName => {
-      this._element.removeEventListener(eventName, events[eventName])
+      const func = events[eventName].bind(this)
+      this._element.removeEventListener(eventName, func)
     })
 
     if (eventsWithSelector) {
@@ -107,7 +109,8 @@ export class Component<T extends IObject> {
         const el = this._element.querySelector(selector)
         if (el) {
           Object.keys(eventsWithSelector[selector]).forEach(eventName => {
-            el.removeEventListener(eventName, eventsWithSelector[selector][eventName])
+            const func = eventsWithSelector[selector][eventName].bind(this)
+            el.removeEventListener(eventName, func)
           })
         }
       })
@@ -146,8 +149,7 @@ export class Component<T extends IObject> {
   }
 
   makePropsProxy (props: T) {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const component = this
+
     return new Proxy(props, {
 
       get (target, prop: string) {
@@ -158,7 +160,6 @@ export class Component<T extends IObject> {
         let targetProp = target[prop]
         if (targetProp && targetProp !== value) {
           targetProp = value
-          component._setUpdate = true
         }
 
         return true
@@ -267,9 +268,6 @@ export class Component<T extends IObject> {
       return
     }
 
-    this._setUpdate = false
-    const oldValue = { ...this._props }
-
     const { children, props } = this.getChildren(newProps)
 
     if (Object.values(children).length > 0) {
@@ -278,11 +276,9 @@ export class Component<T extends IObject> {
     if (Object.values(props).length > 0) {
       this._props = props
     }
-    this._eventBus.emit(EventsEnum.FLOW_CDU, oldValue, this._props)
-    if (this._setUpdate) {
-      this._eventBus.emit(EventsEnum.FLOW_CDU, oldValue, this._props)
-      this._setUpdate = false
-    }
+    if (Object.values(children).length) { Object.assign(this._children, children) }
+
+    if (Object.values(props).length) { Object.assign(this._props, props) }
   }
 
   show () {
