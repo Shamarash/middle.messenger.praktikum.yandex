@@ -92,38 +92,35 @@ const content: IRegisterProps = {
   })
 }
 
-class Register extends Component<IRegisterProps> {
+export default class Register extends Component<IRegisterProps> {
   render (): Node | void {
     return this.compile(template, this._props)
   }
 }
 
-export const register = () => new Register(
-  'div',
-  {
-    ...content,
-    attributes: {
-      class: 'centeredFlex formContainer'
-    },
-    events: {
-      submit: function (e: SubmitEvent) {
-        e.preventDefault()
-        const formData = new FormData(e.target as HTMLFormElement)
-        let result: ISignUpProps = {
-          first_name: '',
-          second_name: '',
-          login: '',
-          email: '',
-          password: '',
-          phone: '',
-        }
-        formData.forEach((value, key) => {
-          if (typeof value === 'string' && Object.keys(result).includes(key)) {
-            result = { ...result, [key]: value }
-          }
-        })
-        SignIn(result)
+export const registerProps: IRegisterProps = {
+  ...content,
+  attributes: {
+    class: 'centeredFlex formContainer'
+  },
+  events: {
+    submit: function (e: SubmitEvent) {
+      e.preventDefault()
+      const formData = new FormData(e.target as HTMLFormElement)
+      let result: ISignUpProps = {
+        first_name: '',
+        second_name: '',
+        login: '',
+        email: '',
+        password: '',
+        phone: '',
       }
+      formData.forEach((value, key) => {
+        if (typeof value === 'string' && Object.keys(result).includes(key)) {
+          result = { ...result, [key]: value }
+        }
+      })
+      SignIn(result)
     }
   }
-)
+}

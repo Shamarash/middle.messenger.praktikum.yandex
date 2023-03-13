@@ -19,6 +19,7 @@ const content: ILoginProps = {
       title: 'Введите свой логин',
       placeholder: 'Логин',
       required: true,
+      showError: false,
       pattern: LoginPattern,
       minLength: 3,
       maxLength: 20,
@@ -30,6 +31,7 @@ const content: ILoginProps = {
       title: 'Введите свой пароль',
       placeholder: 'Пароль',
       required: true,
+      showError: false,
       type: InputTypeEnum.password,
       pattern: PasswordPattern,
       minLength: 8,
@@ -52,26 +54,28 @@ const content: ILoginProps = {
   })
 }
 
-class LoginPage extends Component<ILoginProps> {
+export default class LoginPage extends Component<ILoginProps> {
   render (): Node | void {
     return this.compile(template, this._props)
   }
 
   componentDidMount () {
-    super.componentDidMount()
-
     GetMe()
+  }
+
+  componentDidUpdate (oldProps: ILoginProps, newProps: ILoginProps): boolean {
+    console.log(oldProps, newProps)
+    return true
   }
 }
 
-export const login = () => new LoginPage(
-  'div',
-  {
-    ...content,
-    attributes: {
-      class: 'centeredFlex formContainer'
-    },
-    events: {
+export const loginProps: ILoginProps = {
+  ...content,
+  attributes: {
+    class: 'centeredFlex formContainer'
+  },
+  eventsWithSelector: {
+    form: {
       submit: function (e: SubmitEvent) {
         e.preventDefault()
         const formData = new FormData(e.target as HTMLFormElement)
@@ -93,5 +97,8 @@ export const login = () => new LoginPage(
         LogIn(result)
       }
     }
+  },
+  events: {
+
   }
-)
+}

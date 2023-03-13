@@ -9,7 +9,9 @@ export default class Router {
   currentRoute: Route | null = null
 
   constructor (rootQuery: string) {
-    if (Router._instance) { return Router._instance }
+    if (Router._instance) {
+      return Router._instance
+    }
 
     this.routes = []
     this.history = window.history
@@ -25,7 +27,9 @@ export default class Router {
   }
 
   start () {
-    window.onpopstate = () => { this._onRoute(window.location.pathname) }
+    window.onpopstate = () => {
+      this._onRoute(window.location.pathname)
+    }
     this._onRoute(window.location.pathname)
   }
 
@@ -45,6 +49,11 @@ export default class Router {
   _onRoute (path: string) {
     const route = this.getRoute(path)
 
+    if (path === '/') {
+      this.go('/chats')
+      return
+    }
+
     if (!route) {
       const notFound = this.getRoute('/404')
       if (notFound) {
@@ -54,7 +63,9 @@ export default class Router {
       return
     }
 
-    if (this.currentRoute && this.currentRoute !== route) { this.currentRoute.leave() }
+    if (this.currentRoute && this.currentRoute !== route) {
+      this.currentRoute.leave()
+    }
 
     this.currentRoute = route
 

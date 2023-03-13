@@ -39,8 +39,8 @@ export default `<div class="contacts">
             </ul>
         </div>
             {{#if searchUsers}}
-            <div class="searchContacts">
-            <ul>
+          
+            <ul  class="searchContacts">
              {{#each searchUsers}}
              <li>
                             
@@ -59,7 +59,7 @@ export default `<div class="contacts">
                     <li class="empty">Никого не нашли</li>
              {{/each}}
              </ul>
-             </div>
+      
             {{/if}}
     </div>
     <div class="messages">

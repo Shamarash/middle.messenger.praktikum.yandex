@@ -17,6 +17,6 @@ export interface IInputProps extends IBaseProps {
   minLength?: number
   maxLength?: number
   noPlaceholder?: boolean
+  showError?: boolean
   events?: Record<string, (e: any) => void>
-
 }

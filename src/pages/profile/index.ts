@@ -1,5 +1,4 @@
 import { Connect } from '../../store'
-import Profile from './profile'
 import { IStore } from '../../interface/store'
 import input from '../../components/input'
 import { InputTypeEnum } from '../../enum/input'
@@ -9,6 +8,75 @@ import { IProfile, IProfileProps } from '../../interface/profile'
 import { ProfileModeEnum } from '../../enum/profile'
 import { baseUrl } from '../../api/base'
 import link from '../../components/link'
+import { Component } from '../../component'
+import template from './template'
+import { ChangeAvatar, ChangeProfile, ChangeProfileState, GetMe, LogOut } from '../../store/actions'
+import { IProfileChangeProps } from '../../interface/api/profile'
+
+class Profile extends Component<IProfileProps> {
+  render (): Node | void {
+    return this.compile(template, this._props)
+  }
+
+  componentDidMount () {
+    GetMe()
+  }
+}
+
+export const profileProps: IProfileProps = {
+  attributes: {
+    class: 'centeredFlex formContainer'
+  },
+  events: {
+    click: function (e: MouseEvent) {
+      const el = e.target as HTMLDivElement
+      if (el?.classList.contains('profileSubmitButton')) {
+        e.preventDefault()
+        const form = el.closest('form') as HTMLFormElement
+        if (form) {
+          const formData = new FormData(form)
+          let result: IProfileChangeProps = {
+            email: '',
+            login: '',
+            first_name: '',
+            second_name: '',
+            display_name: '',
+            phone: '',
+          }
+          formData.forEach((value, key) => {
+            if (typeof value === 'string' && Object.keys(result).includes(key)) {
+              result = { ...result, [key]: value }
+            }
+          })
+          ChangeProfile(result)
+          const avatarForm = el.closest('.profileContent')?.querySelector('.profileAvatarForm') as HTMLFormElement
+          const hasAvatar = avatarForm.querySelector('input') as HTMLInputElement
+          if (avatarForm && (hasAvatar?.files?.length || 0) > 0) {
+            const avatarFormData = new FormData(avatarForm)
+            ChangeAvatar(avatarFormData)
+          }
+        }
+
+        return
+      }
+      if (el?.classList.contains('changeProfile')) {
+        ChangeProfileState(ProfileModeEnum.changeInfo)
+        return
+      }
+      if (el?.classList.contains('cancelEdit')) {
+        ChangeProfileState(ProfileModeEnum.normal)
+        return
+      }
+      if (el?.classList.contains('changePassword')) {
+        ChangeProfileState(ProfileModeEnum.changePassword)
+        return
+      }
+      if (el?.classList.contains('exitLink')) {
+        LogOut()
+      }
+    }
+  }
+}
 
 const profileInfoInputs = (isEdit: boolean, profile: IProfile) => [
   input({
@@ -125,6 +193,7 @@ export default Connect(
   Profile,
   (state: IStore) => {
     return {
+      ...profileProps,
       ...getCurrentContent(state.profileMode, state.user as IProfile),
       profile: state.user,
       isEdit: state.profileMode !== ProfileModeEnum.normal,

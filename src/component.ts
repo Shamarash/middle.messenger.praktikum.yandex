@@ -1,6 +1,7 @@
 import { EventBus } from './eventBus'
 import { v4 as uuidv4 } from 'uuid'
 import Handlebars from 'handlebars'
+import { EventsWithSelector } from './interface/component'
 
 enum EventsEnum {
   INIT = 'init',
@@ -66,7 +67,7 @@ export class Component<T extends IObject> {
     this.removeEvents()
     this._element.innerHTML = ''
 
-    if (block != null) {
+    if (block instanceof Node) {
       this._element.appendChild(block)
     }
 
@@ -78,59 +79,44 @@ export class Component<T extends IObject> {
   }
 
   addEvents () {
-    const { events = {}, attributes = {} } = this._props
+    const { events = {}, eventsWithSelector } = this._props
     Object.keys(events).forEach(eventName => {
-      const func = events[eventName].bind(this)
-      if (eventName === 'input' && attributes.class.includes('inputContainer')) {
-        const input = this._element.querySelector('input')
-        if (input) {
-          input.addEventListener('input', func)
-        }
-        return
-      }
-      if (eventName === 'blur' && attributes.class.includes('inputContainer')) {
-        const input = this._element.querySelector('input')
-        if (input) {
-          input.addEventListener('blur', func)
-        }
-        return
-      }
-      if (eventName === 'submit' && attributes.class.includes('formContainer')) {
-        const form = this._element.querySelector('form')
-        if (form) {
-          form.addEventListener('submit', func)
-        }
-        return
-      }
-      this._element.addEventListener(eventName, func)
+      this._element.addEventListener(eventName, events[eventName])
     })
+
+    if (eventsWithSelector) {
+      Object.keys(eventsWithSelector as EventsWithSelector).forEach(selector => {
+        const el = this._element.querySelector(selector)
+        if (el) {
+          Object.keys(eventsWithSelector[selector]).forEach(eventName => {
+            el.addEventListener(eventName, eventsWithSelector[selector][eventName])
+          })
+        }
+      })
+    }
   }
 
   removeEvents () {
-    const { events = {}, attributes = {} } = this._props
+    const { events = {}, eventsWithSelector } = this._props
     Object.keys(events).forEach(eventName => {
-      const func = events[eventName].bind(this)
-      if (eventName === 'input' && attributes.class.includes('inputContainer')) {
-        const input = this._element.querySelector('input')
-        if (input) {
-          input.removeEventListener('blur', func)
-        }
-        return
-      }
-      if (eventName === 'submit' && attributes.class.includes('formContainer')) {
-        const form = this._element.querySelector('form')
-        if (form) {
-          form.removeEventListener('submit', func)
-        }
-        return
-      }
-      this._element.removeEventListener(eventName, func)
+      this._element.removeEventListener(eventName, events[eventName])
     })
+
+    if (eventsWithSelector) {
+      Object.keys(eventsWithSelector as EventsWithSelector).forEach(selector => {
+        const el = this._element.querySelector(selector)
+        if (el) {
+          Object.keys(eventsWithSelector[selector]).forEach(eventName => {
+            el.removeEventListener(eventName, eventsWithSelector[selector][eventName])
+          })
+        }
+      })
+    }
   }
 
   addAttributes () {
     const { attributes } = this._props
-    if (!attributes) { return }
+
     Object.entries(attributes).forEach((values) => {
       const [key, value] = values as IAttribute
       const input = this._element.querySelector('input')
@@ -140,7 +126,7 @@ export class Component<T extends IObject> {
         return
       }
 
-      if (value === undefined || value === null) {
+      if (value === undefined) {
         return
       }
       if (typeof value === 'boolean') {
@@ -191,7 +177,7 @@ export class Component<T extends IObject> {
         children[key] = item
         return
       }
-      if (Array.isArray(item)) {
+      if (Array.isArray(item) && item.every(i => i instanceof Component)) {
         children[key] = item
         return
       }
@@ -243,9 +229,13 @@ export class Component<T extends IObject> {
   _componentDidMount () {
     this.componentDidMount()
     Object.values(this._children).forEach((child) => {
-      if (child instanceof Component) {
-        child.dispatchComponentDidMount()
+      if (child.constructor === Array) {
+        child.forEach(i => {
+          i.dispatchComponentDidMount()
+        })
+        return
       }
+      child.dispatchComponentDidMount()
     })
   }
 
@@ -279,6 +269,7 @@ export class Component<T extends IObject> {
 
     this._setUpdate = false
     const oldValue = { ...this._props }
+
     const { children, props } = this.getChildren(newProps)
 
     if (Object.values(children).length > 0) {

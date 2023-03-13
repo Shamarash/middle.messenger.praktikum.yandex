@@ -415,19 +415,19 @@ button {
   background: $backgroundSecondary;
   position: relative;
 
+  .contactAvatar {
+    height: 47px;
+    width: 47px;
+    display: flex;
+    border-radius: 50%;
+    overflow: hidden;
+    object-fit: cover;
+    background-color: $avatarBackground;
+  }
+
   .contactsList {
     height: 100%;
     overflow: scroll;
-
-    .contactAvatar {
-      height: 47px;
-      width: 47px;
-      display: flex;
-      border-radius: 50%;
-      overflow: hidden;
-      object-fit: cover;
-      background-color: $avatarBackground;
-    }
 
     .contactWithoutAvatar {
       height: 47px;
@@ -802,6 +802,11 @@ button {
 .searchContacts {
   position: absolute;
   cursor: pointer;
-  top: 10px;
+  top: 96px;
+  width: 309px;
+  height: 88vh;
+  max-height: 88vh;
+  overflow: overlay;
+  background: $backgroundSecondary;
 
 }

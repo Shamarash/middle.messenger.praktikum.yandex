@@ -105,3 +105,7 @@ export const SearchUsers = (data: string) => {
 export const ChangeProfileState = (data: ProfileModeEnum) => {
   store.set('profileMode', data)
 }
+
+export const ClearUsersSearch = () => {
+  store.set('searchUsers', [])
+}
