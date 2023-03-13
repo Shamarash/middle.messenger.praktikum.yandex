@@ -58,6 +58,7 @@ export const ChangeProfile = (data: IProfileChangeProps) => {
       throw new Error('Change profile error')
     }
     store.set('user', data)
+    store.set('profileMode', ProfileModeEnum.normal)
   }).catch(error => {
     console.log(error)
   })

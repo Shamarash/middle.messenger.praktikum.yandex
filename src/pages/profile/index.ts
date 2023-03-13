@@ -27,10 +27,11 @@ export const profileProps: IProfileProps = {
   attributes: {
     class: 'centeredFlex formContainer'
   },
-  events: {
-    click: function (e: MouseEvent) {
-      const el = e.target as HTMLDivElement
-      if (el?.classList.contains('profileSubmitButton')) {
+  eventsWithSelector: {
+    '.profileSubmitButton': {
+      click: function (e: MouseEvent) {
+        const el = e.target as HTMLDivElement
+
         e.preventDefault()
         const form = el.closest('form') as HTMLFormElement
         if (form) {
@@ -51,27 +52,30 @@ export const profileProps: IProfileProps = {
           ChangeProfile(result)
           const avatarForm = el.closest('.profileContent')?.querySelector('.profileAvatarForm') as HTMLFormElement
           const hasAvatar = avatarForm.querySelector('input') as HTMLInputElement
-          if (avatarForm && (hasAvatar?.files?.length || 0) > 0) {
+          if (avatarForm && (hasAvatar?.files?.length ?? 0) > 0) {
             const avatarFormData = new FormData(avatarForm)
             ChangeAvatar(avatarFormData)
           }
         }
-
-        return
       }
-      if (el?.classList.contains('changeProfile')) {
-        ChangeProfileState(ProfileModeEnum.changeInfo)
-        return
-      }
-      if (el?.classList.contains('cancelEdit')) {
-        ChangeProfileState(ProfileModeEnum.normal)
-        return
-      }
-      if (el?.classList.contains('changePassword')) {
+    },
+    '.changePassword': {
+      click: function () {
         ChangeProfileState(ProfileModeEnum.changePassword)
-        return
       }
-      if (el?.classList.contains('exitLink')) {
+    },
+    '.changeProfile': {
+      click: function () {
+        ChangeProfileState(ProfileModeEnum.changeInfo)
+      }
+    },
+    '.cancelEdit': {
+      click: function () {
+        ChangeProfileState(ProfileModeEnum.normal)
+      }
+    },
+    '.exitLink': {
+      click: function () {
         LogOut()
       }
     }
@@ -193,7 +197,6 @@ export default Connect(
   Profile,
   (state: IStore) => {
     return {
-      ...profileProps,
       ...getCurrentContent(state.profileMode, state.user as IProfile),
       profile: state.user,
       isEdit: state.profileMode !== ProfileModeEnum.normal,
