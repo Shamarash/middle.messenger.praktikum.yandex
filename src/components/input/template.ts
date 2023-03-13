@@ -1,29 +1,12 @@
-export default `<input id="{{id}}"
-           name="{{id}}"
-           placeholder="{{#if noPlaceholder}}{{placeholder}}{{else}}{{/if}}"
-           type="{{type}}"
-           title="{{title}}"
-           autocomplete="new-password"
-        {{#if pattern}}
-           pattern="{{pattern}}"
-        {{/if}}
-        {{#if disabled}}
-           disabled
-        {{/if}}
-        {{#if required}}
-           required
-        {{/if}}
-           class="input {{inputClass}} {{#if error}}
-          inputErrorText
-        {{/if}}"/>
-    <label for="{{id}}">
-    {{#if noPlaceholder}}
-    {{else}}
-                   {{placeholder}}
-        {{/if}}
+export default `<input
+           name="{{attributesWithSelector.input.id}}"
+           placeholder=""
+           autocomplete="new-password"/>
+    <label for="{{attributesWithSelector.input.id}}">
+                   {{placeholderLabel}}
     </label>
-    {{#if attributes.error}}
+    {{#if error}}
         <span class="inputError">
-            {{attributes.error}}
+            {{error}}
         </span>
     {{/if}}`

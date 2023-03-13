@@ -15,80 +15,112 @@ const content: IRegisterProps = {
   title: 'Регистрация',
   inputs: [
     input({
-      id: 'email',
-      title: 'Введите свой E-mail',
-      placeholder: 'Почта',
-      required: true,
-      type: InputTypeEnum.email
+      attributesWithSelector: {
+        input: {
+          id: 'email',
+          title: 'Введите свой E-mail',
+          required: true,
+          type: InputTypeEnum.email
+        }
+      },
+      placeholderLabel: 'Почта',
     }),
     input({
-      id: 'login',
-      title: 'Введите свой логин',
-      placeholder: 'Логин',
-      required: true,
-      pattern: LoginPattern,
+      attributesWithSelector: {
+        input: {
+          id: 'login',
+          title: 'Введите свой логин',
+          required: true,
+          pattern: LoginPattern,
+        }
+      },
+      placeholderLabel: 'Логин',
       errorText: LoginRule,
       minLength: 3,
       maxLength: 20
     }),
     input({
-      id: 'first_name',
-      title: 'Введите своё имя',
-      placeholder: 'Имя',
-      required: true,
-      pattern: NamePattern,
+      attributesWithSelector: {
+        input: {
+          id: 'first_name',
+          title: 'Введите своё имя',
+          required: true,
+          pattern: NamePattern,
+        }
+      },
+      placeholderLabel: 'Имя',
       errorText: NameRule
     }),
     input({
-      id: 'second_name',
-      title: 'Введите свою фамилию',
-      placeholder: 'Фамилия',
-      pattern: NamePattern,
+      attributesWithSelector: {
+        input: {
+          id: 'second_name',
+          title: 'Введите свою фамилию',
+          pattern: NamePattern,
+        }
+      },
+      placeholderLabel: 'Фамилия',
       errorText: SecondNameRule
     }),
     input({
-      id: 'phone',
-      title: 'Введите номер телефона',
-      placeholder: 'Номер телефона',
-      pattern: PhonePattern,
+      attributesWithSelector: {
+        input: {
+          id: 'phone',
+          title: 'Введите номер телефона',
+          pattern: PhonePattern,
+        }
+      },
+      placeholderLabel: 'Номер телефона',
       minLength: 10,
       maxLength: 15,
       errorText: PhoneRule
     }),
     input({
-      id: 'password',
-      title: 'Введите пароль',
-      placeholder: 'Пароль',
-      required: true,
-      type: InputTypeEnum.password,
-      pattern: PasswordPattern,
+      attributesWithSelector: {
+        input: {
+          id: 'password',
+          title: 'Введите пароль',
+          required: true,
+          type: InputTypeEnum.password,
+          pattern: PasswordPattern,
+        }
+      },
+      placeholderLabel: 'Пароль',
       minLength: 8,
       maxLength: 40,
       errorText: PasswordRule
     }),
     input({
-      id: 'password_repeat',
-      title: 'Повторите пароль',
-      placeholder: 'Пароль (ещё раз)',
-      required: true,
-      type: InputTypeEnum.password,
-      pattern: PasswordPattern,
+      attributesWithSelector: {
+        input: {
+          id: 'password_repeat',
+          title: 'Повторите пароль',
+          required: true,
+          type: InputTypeEnum.password,
+          pattern: PasswordPattern,
+        }
+      },
+      placeholderLabel: 'Пароль (ещё раз)',
       minLength: 8,
       maxLength: 40,
       errorText: PasswordRule
     })
   ],
   submitBtn: button({
+    attributes: {
+      type: ButtonTypeEnum.primary,
+      disabled: false,
+    },
     name: 'Зарегистрироваться',
-    type: ButtonTypeEnum.primary,
-    disabled: false,
     submit: true
   }),
   linkToLogin: link({
+    attributes: {
+      href: '/login',
+      id: 'link-login'
+    },
     name: 'Уже зарегистрированы? Войти',
-    href: '/login',
     className: 'button',
-    id: 'link-login'
   })
 }
 

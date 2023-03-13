@@ -84,88 +84,124 @@ export const profileProps: IProfileProps = {
 
 const profileInfoInputs = (isEdit: boolean, profile: IProfile) => [
   input({
-    id: 'email',
-    title: 'Введите свой E-mail',
-    placeholder: 'Почта',
-    required: true,
-    type: InputTypeEnum.email,
-    disabled: !isEdit,
-    value: profile.email,
+    attributesWithSelector: {
+      input: {
+        id: 'email',
+        title: 'Введите свой E-mail',
+        required: true,
+        type: InputTypeEnum.email,
+        disabled: !isEdit,
+        value: profile.email,
+      }
+    },
+    placeholderLabel: 'Почта',
   }),
   input({
-    id: 'login',
-    title: 'Введите свой логин',
-    placeholder: 'Логин',
-    required: true,
-    disabled: !isEdit,
-    value: profile.login,
+    attributesWithSelector: {
+      input: {
+        id: 'login',
+        title: 'Введите свой логин',
+        required: true,
+        disabled: !isEdit,
+        value: profile.login,
+        pattern: LoginPattern
+      }
+    },
+    placeholderLabel: 'Логин',
     errorText: LoginRule,
-    pattern: LoginPattern
   }),
   input({
-    id: 'first_name',
-    title: 'Введите своё имя',
-    placeholder: 'Имя',
-    required: true,
-    disabled: !isEdit,
-    value: profile.first_name,
+    attributesWithSelector: {
+      input: {
+        id: 'first_name',
+        title: 'Введите своё имя',
+        required: true,
+        disabled: !isEdit,
+        value: profile.first_name,
+        pattern: NamePattern
+      }
+    },
+    placeholderLabel: 'Имя',
     errorText: NameRule,
-    pattern: NamePattern
   }),
   input({
-    id: 'second_name',
-    title: 'Введите свою фамилию',
-    placeholder: 'Фамилия',
-    disabled: !isEdit,
-    value: profile.second_name,
+    attributesWithSelector: {
+      input: {
+        id: 'second_name',
+        title: 'Введите свою фамилию',
+        disabled: !isEdit,
+        value: profile.second_name,
+        pattern: NamePattern
+      }
+    },
+    placeholderLabel: 'Фамилия',
     errorText: SecondNameRule,
-    pattern: NamePattern
   }),
   input({
-    id: 'display_name',
-    title: 'Введите имя для чата',
-    placeholder: 'Имя в чате',
-    disabled: !isEdit,
-    value: profile.display_name || '',
+    attributesWithSelector: {
+      input: {
+        id: 'display_name',
+        title: 'Введите имя для чата',
+        disabled: !isEdit,
+        value: profile.display_name || '',
+      }
+    },
+    placeholderLabel: 'Имя в чате',
   }),
   input({
-    id: 'phone',
-    title: 'Введите номер телефона',
-    placeholder: 'Номер телефона',
-    disabled: !isEdit,
-    value: profile.phone,
-    errorText: PhoneRule,
-    pattern: PhonePattern
+    attributesWithSelector: {
+      input: {
+        id: 'phone',
+        title: 'Введите номер телефона',
+        disabled: !isEdit,
+        value: profile.phone,
+        errorText: PhoneRule,
+        pattern: PhonePattern
+      }
+    },
+    placeholderLabel: 'Номер телефона',
   })
 ]
 
 const changePasswordInputs = [
   input({
-    id: 'oldPassword',
-    title: 'Введите cтарый пароль',
-    placeholder: 'Старый пароль',
-    required: true,
-    type: InputTypeEnum.password,
+    attributesWithSelector: {
+      input: {
+        id: 'oldPassword',
+        title: 'Введите cтарый пароль',
+        required: true,
+        type: InputTypeEnum.password,
+        pattern: PasswordPattern
+      }
+    },
+    placeholderLabel: 'Старый пароль',
     errorText: PasswordRule,
-    pattern: PasswordPattern
   }),
   input({
-    id: 'newPassword',
-    title: 'Введите новый пароль',
-    placeholder: 'Новый пароль',
-    required: true,
-    type: InputTypeEnum.password,
+    attributesWithSelector: {
+      input: {
+        id: 'newPassword',
+        title: 'Введите новый пароль',
+        required: true,
+        type: InputTypeEnum.password,
+        pattern: PasswordPattern
+      }
+    },
+    placeholderLabel: 'Новый пароль',
     errorText: PasswordRule,
-    pattern: PasswordPattern
   }),
   input({
-    id: 'newPasswordRepeat',
-    title: 'Повторите новый пароль',
-    placeholder: 'Повторите новый пароль',
-    required: true,
-    type: InputTypeEnum.password,
+    attributesWithSelector: {
+      input: {
+        id: 'newPasswordRepeat',
+        title: 'Повторите новый пароль',
+        required: true,
+        type: InputTypeEnum.password,
+        pattern: PasswordPattern
+      }
+    },
     errorText: PasswordRule,
-    pattern: PasswordPattern
+    placeholderLabel: 'Повторите новый пароль',
   })
 ]
 

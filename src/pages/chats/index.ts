@@ -40,15 +40,21 @@ export const chatsProps: IChatsProps = {
     className: 'linkToProfile'
   }),
   contactsSearch: input({
-    id: 'search',
-    title: 'Поиск среди всех пользователей',
-    placeholder: 'Поиск',
-    type: InputTypeEnum.text,
-    containerClass: 'searchContainer',
-    pattern: LoginPattern,
+    attributes: {
+      class: 'searchContainer',
+    },
+    attributesWithSelector: {
+      input: {
+        id: 'search',
+        title: 'Поиск среди всех пользователей',
+        placeholder: 'Поиск',
+        type: InputTypeEnum.text,
+
+        pattern: LoginPattern,
+      }
+    },
     minLength: 0,
     maxLength: 10,
-    noPlaceholder: true,
   }),
 }
 

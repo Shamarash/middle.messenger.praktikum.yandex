@@ -13,9 +13,9 @@ export default (props: IButtonProps) => new Button(
   {
     ...props,
     attributes: {
-      class: `button ${props.type}`,
+      class: `button ${props.attributes.type}`,
       type: props.submit ? 'submit' : 'button',
-      disabled: props.disabled
+      disabled: props.attributes.disabled
     },
     events: {
       click: function (e: MouseEvent) {

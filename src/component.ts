@@ -1,7 +1,7 @@
 import { EventBus } from './eventBus'
 import { v4 as uuidv4 } from 'uuid'
 import Handlebars from 'handlebars'
-import { EventsWithSelector } from './interface/component'
+import { Attribute, EventsWithSelector } from './interface/component'
 
 enum EventsEnum {
   INIT = 'init',
@@ -81,8 +81,8 @@ export class Component<T extends IObject> {
   addEvents () {
     const { events = {}, eventsWithSelector } = this._props
     Object.keys(events).forEach(eventName => {
-      events[eventName] = events[eventName].bind(this)
-      this._element.addEventListener(eventName, events[eventName])
+      const func = events[eventName].bind(this)
+      this._element.addEventListener(eventName, func)
     })
 
     if (eventsWithSelector) {
@@ -90,8 +90,8 @@ export class Component<T extends IObject> {
         const el = this._element.querySelector(selector)
         if (el) {
           Object.keys(eventsWithSelector[selector]).forEach(eventName => {
-            eventsWithSelector[selector][eventName] = eventsWithSelector[selector][eventName].bind(this)
-            el.addEventListener(eventName, eventsWithSelector[selector][eventName])
+            const func = eventsWithSelector[selector][eventName].bind(this)
+            el.addEventListener(eventName, func)
           })
         }
       })
@@ -101,8 +101,8 @@ export class Component<T extends IObject> {
   removeEvents () {
     const { events = {}, eventsWithSelector } = this._props
     Object.keys(events).forEach(eventName => {
-      events[eventName] = events[eventName].bind(this)
-      this._element.removeEventListener(eventName, events[eventName])
+      const func = events[eventName].bind(this)
+      this._element.removeEventListener(eventName, func)
     })
 
     if (eventsWithSelector) {
@@ -110,8 +110,8 @@ export class Component<T extends IObject> {
         const el = this._element.querySelector(selector)
         if (el) {
           Object.keys(eventsWithSelector[selector]).forEach(eventName => {
-            eventsWithSelector[selector][eventName] = eventsWithSelector[selector][eventName].bind(this)
-            el.removeEventListener(eventName, eventsWithSelector[selector][eventName])
+            const func = eventsWithSelector[selector][eventName].bind(this)
+            el.removeEventListener(eventName, func)
           })
         }
       })
@@ -119,18 +119,12 @@ export class Component<T extends IObject> {
   }
 
   addAttributes () {
-    const { attributes } = this._props
+    const { attributes = {}, attributesWithSelector = {} } = this._props
 
     Object.entries(attributes).forEach((values) => {
       const [key, value] = values as IAttribute
-      const input = this._element.querySelector('input')
 
-      if (input && key === 'value' && typeof value === 'string') {
-        input.value = value
-        return
-      }
-
-      if (value === undefined) {
+      if (value === undefined || value === null) {
         return
       }
       if (typeof value === 'boolean') {
@@ -141,7 +135,29 @@ export class Component<T extends IObject> {
           return
         }
       }
+
       this._element.setAttribute(key, value)
+    })
+
+    Object.entries(attributesWithSelector).forEach((values) => {
+      const [selector, attribute] = values as [string, Attribute]
+
+      Object.entries(attribute).forEach((values) => {
+        const [key, value] = values as IAttribute
+        const el = this._element.querySelector(selector)
+        if (value === undefined || value === null || !el) {
+          return
+        }
+        if (typeof value === 'boolean') {
+          if (value) {
+            el.setAttribute(key, '')
+            return
+          } else {
+            return
+          }
+        }
+        el.setAttribute(key, value)
+      })
     })
   }
 

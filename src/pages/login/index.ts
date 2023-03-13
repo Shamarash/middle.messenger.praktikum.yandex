@@ -12,45 +12,56 @@ import { ISignInProps } from '../../interface/api/auth'
 import { GetMe, LogIn } from '../../store/actions'
 
 const content: ILoginProps = {
+  attributes: {},
   title: 'Вход',
   inputs: [
     input({
-      id: 'login',
-      title: 'Введите свой логин',
-      placeholder: 'Логин',
-      required: true,
+      attributesWithSelector: {
+        input: {
+          id: 'login',
+          title: 'Введите свой логин',
+          required: true,
+          pattern: LoginPattern,
+        }
+      },
+      placeholderLabel: 'Логин',
       showError: false,
-      pattern: LoginPattern,
       minLength: 3,
       maxLength: 20,
-      value: '',
       errorText: LoginRule
     }),
     input({
-      id: 'password',
-      title: 'Введите свой пароль',
-      placeholder: 'Пароль',
-      required: true,
+      attributesWithSelector: {
+        input: {
+          id: 'password',
+          title: 'Введите свой пароль',
+          required: true,
+          type: InputTypeEnum.password,
+          pattern: PasswordPattern,
+        }
+      },
+      placeholderLabel: 'Пароль',
       showError: false,
-      type: InputTypeEnum.password,
-      pattern: PasswordPattern,
       minLength: 8,
       maxLength: 40,
-      value: '',
       errorText: PasswordRule
     })
   ],
   submitBtn: button({
+    attributes: {
+      type: ButtonTypeEnum.primary,
+      disabled: false,
+    },
     name: 'Войти',
-    type: ButtonTypeEnum.primary,
-    disabled: false,
     submit: true
   }),
   linkToRegister: link({
+    attributes: {
+      href: '/register',
+      id: 'link-register'
+    },
     name: 'Нет аккаунта? Зарегистрироваться',
-    href: '/register',
     className: 'button',
-    id: 'link-register'
   })
 }
 
@@ -63,10 +74,6 @@ export default class LoginPage extends Component<ILoginProps> {
     GetMe()
   }
 
-  componentDidUpdate (oldProps: ILoginProps, newProps: ILoginProps): boolean {
-    console.log(oldProps, newProps)
-    return true
-  }
 }
 
 export const loginProps: ILoginProps = {

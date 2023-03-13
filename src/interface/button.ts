@@ -1,10 +1,11 @@
-import { ButtonTypeEnum } from '../enum/button'
 import { IBaseProps } from './component'
 
 export interface IButtonProps extends IBaseProps {
+  attributes: {
+    disabled?: boolean
+    type: string
+    class?: string
+  }
   name: string
-  disabled?: boolean
   submit?: boolean
-  type: ButtonTypeEnum
-
 }
