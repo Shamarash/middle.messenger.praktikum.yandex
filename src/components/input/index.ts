@@ -18,7 +18,7 @@ export default (props: IInputProps) => new Input(
     ...props,
     attributes: {
       ...props.attributes,
-      class: 'inputContainer',
+      class: 'inputContainer ' + (props.attributes?.class?.toString() ?? ''),
     },
     eventsWithSelector: {
       input: {
@@ -38,9 +38,9 @@ export default (props: IInputProps) => new Input(
                 error: target.validity.valid
                   ? undefined
                   : (oldProps?.attributes?.errorText ?? target.validationMessage),
-                class: 'input ' +
-                    (props.attributesWithSelector?.input?.class?.toString() ?? '') +
-                    ((!target.validity.valid && props.showError) ? 'inputErrorText' : ''),
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                class: `input ${props.attributesWithSelector?.input?.class?.toString() ?? ''}
+                    ${(!target.validity.valid && !!props.showError) ? 'inputErrorText' : ''}`,
               }
             }
           })
@@ -61,9 +61,9 @@ export default (props: IInputProps) => new Input(
             attributesWithSelector: {
               input: {
                 ...oldProps.attributesWithSelector?.input,
-                class: 'input ' +
-                    (props.attributesWithSelector?.input?.class?.toString() ?? '') +
-                    (!target.validity.valid ? 'inputErrorText' : ''),
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                class: `input ${props.attributesWithSelector?.input?.class?.toString() ?? ''}
+                    ${(!target.validity.valid && !!props.showError) ? 'inputErrorText' : ''}`,
                 value: target.value,
 
               }

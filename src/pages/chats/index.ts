@@ -27,6 +27,10 @@ class Chats extends Component<IChatsProps> {
 
 function handleInput (e: Event) {
   const target = e.target as HTMLInputElement
+  // if (target.value.length <= 3) {
+  //   ClearUsersSearch()
+  //   return
+  // }
   SearchUsers(target.value)
 }
 
@@ -49,9 +53,8 @@ export const chatsProps: IChatsProps = {
         title: 'Поиск среди всех пользователей',
         placeholder: 'Поиск',
         type: InputTypeEnum.text,
-
         pattern: LoginPattern,
-      }
+      },
     },
     minLength: 0,
     maxLength: 10,
