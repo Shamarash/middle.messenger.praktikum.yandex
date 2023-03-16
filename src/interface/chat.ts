@@ -10,36 +10,56 @@ export interface IAttachment {
   url?: string
 }
 
-export interface IMessage extends IBaseProps {
-  read: boolean
-  from: string
-  to: string
-  type: MessageTypeEnum
-  text: string | null
-  dateTime: string
-  attachments: IAttachment[]
+export enum MessageTypeEnum {
+  message = 'message',
+  file = 'file',
+  sticker = 'sticker',
 }
 
-export interface IChat extends IBaseProps {
-  person: {
-    id: string
-    name: string
-    avatar: string | null
-    lastMessage: {
-      fromMe: boolean
-      text: string
-      dateTime: string
-    } | null
-    unreadCounter: number | null
+export interface IMessage {
+  id: string
+  time: string
+  user_id: string
+  content: string
+  type: MessageTypeEnum
+}
+
+export interface IFileOrSticker extends IMessage {
+  file: {
+    id: number
+    user_id: number
+    path: string
+    filename: string
+    content_type: string
+    content_size: string
+    upload_date: string
   }
-  messages: IMessage[]
+}
+
+export interface IChat {
+  id: number
+  title: string
+  avatar: string | null
+  unread_count: number
+  last_message: {
+    user: {
+      first_name: string
+      second_name: string
+      avatar: string | null
+      email: string
+      login: string
+      phone: string
+    }
+    time: string
+    content: string
+  } | null
 }
 
 export type IChats = Record<string, IChat>
 
 export interface IChatsProps extends IBaseProps {
   chats?: IChats
-  selectedChat?: IChat | null
+  selectedChatId?: number | null
   profileLink: Component<ILinkProps>
   contactsSearch: Component<IInputProps>
   searchUsers?: IUserInfo[]
