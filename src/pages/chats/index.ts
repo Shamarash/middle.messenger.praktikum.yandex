@@ -27,10 +27,10 @@ class Chats extends Component<IChatsProps> {
 
 function handleInput (e: Event) {
   const target = e.target as HTMLInputElement
-  // if (target.value.length <= 3) {
-  //   ClearUsersSearch()
-  //   return
-  // }
+  if (target.value.length <= 3) {
+    ClearUsersSearch()
+    return
+  }
   SearchUsers(target.value)
 }
 

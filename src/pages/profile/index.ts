@@ -23,65 +23,6 @@ class Profile extends Component<IProfileProps> {
   }
 }
 
-export const profileProps: IProfileProps = {
-  attributes: {
-    class: 'centeredFlex formContainer'
-  },
-  eventsWithSelector: {
-    '.profileSubmitButton': {
-      click: function (e: MouseEvent) {
-        const el = e.target as HTMLDivElement
-
-        e.preventDefault()
-        const form = el.closest('form') as HTMLFormElement
-        if (form) {
-          const formData = new FormData(form)
-          let result: IProfileChangeProps = {
-            email: '',
-            login: '',
-            first_name: '',
-            second_name: '',
-            display_name: '',
-            phone: '',
-          }
-          formData.forEach((value, key) => {
-            if (typeof value === 'string' && Object.keys(result).includes(key)) {
-              result = { ...result, [key]: value }
-            }
-          })
-          ChangeProfile(result)
-          const avatarForm = el.closest('.profileContent')?.querySelector('.profileAvatarForm') as HTMLFormElement
-          const hasAvatar = avatarForm.querySelector('input') as HTMLInputElement
-          if (avatarForm && (hasAvatar?.files?.length ?? 0) > 0) {
-            const avatarFormData = new FormData(avatarForm)
-            ChangeAvatar(avatarFormData)
-          }
-        }
-      }
-    },
-    '.changePassword': {
-      click: function () {
-        ChangeProfileState(ProfileModeEnum.changePassword)
-      }
-    },
-    '.changeProfile': {
-      click: function () {
-        ChangeProfileState(ProfileModeEnum.changeInfo)
-      }
-    },
-    '.cancelEdit': {
-      click: function () {
-        ChangeProfileState(ProfileModeEnum.normal)
-      }
-    },
-    '.exitLink': {
-      click: function () {
-        LogOut()
-      }
-    }
-  }
-}
-
 const profileInfoInputs = (isEdit: boolean, profile: IProfile) => [
   input({
     attributesWithSelector: {
@@ -95,6 +36,7 @@ const profileInfoInputs = (isEdit: boolean, profile: IProfile) => [
       }
     },
     placeholderLabel: 'Почта',
+
   }),
   input({
     attributesWithSelector: {
@@ -232,8 +174,66 @@ const getCurrentContent = (state: string | null, profile: IProfile): IProfilePro
 export default Connect(
   Profile,
   (state: IStore) => {
+    console.log(getCurrentContent(state.profileMode, state.user as IProfile))
     return {
       ...getCurrentContent(state.profileMode, state.user as IProfile),
+      attributes: {
+        class: 'centeredFlex formContainer'
+      },
+      eventsWithSelector: {
+        '.profileSubmitButton': {
+          click: function (e: MouseEvent) {
+            const el = e.target as HTMLDivElement
+
+            e.preventDefault()
+            const form = el.closest('form') as HTMLFormElement
+            if (form) {
+              const formData = new FormData(form)
+              let result: IProfileChangeProps = {
+                email: '',
+                login: '',
+                first_name: '',
+                second_name: '',
+                display_name: '',
+                phone: '',
+              }
+              formData.forEach((value, key) => {
+                if (typeof value === 'string' && Object.keys(result).includes(key)) {
+                  result = { ...result, [key]: value }
+                }
+              })
+              ChangeProfile(result)
+              const avatarForm = el.closest('.profileContent')?.querySelector('.profileAvatarForm') as HTMLFormElement
+              const hasAvatar = avatarForm.querySelector('input') as HTMLInputElement
+              if (avatarForm && (hasAvatar?.files?.length ?? 0) > 0) {
+                const avatarFormData = new FormData(avatarForm)
+                ChangeAvatar(avatarFormData)
+              }
+            }
+          }
+        },
+        '.changePassword': {
+          click: function () {
+            ChangeProfileState(ProfileModeEnum.changePassword)
+          }
+        },
+        '.changeProfile': {
+          click: function () {
+            ChangeProfileState(ProfileModeEnum.changeInfo)
+          }
+        },
+        '.cancelEdit': {
+          click: function () {
+            console.log('asd')
+            ChangeProfileState(ProfileModeEnum.normal)
+          }
+        },
+        '.exitLink': {
+          click: function () {
+            LogOut()
+          }
+        }
+      },
       profile: state.user,
       isEdit: state.profileMode !== ProfileModeEnum.normal,
       chatsLink: link({
