@@ -22,9 +22,9 @@ export type IObject = Record<string, any>
 export class Component<T extends IObject> {
   private _element: HTMLElement = document.createElement('div')
   readonly _meta: IMeta<T>
-  protected _props: IObject
+  _props: IObject
   readonly _eventBus: EventBus
-  private _children: IObject
+  _children: IObject
   private _setUpdate = false
   readonly _id: string
 
@@ -132,6 +132,7 @@ export class Component<T extends IObject> {
           this._element.setAttribute(key, '')
           return
         } else {
+          this._element.removeAttribute(key)
           return
         }
       }
@@ -278,7 +279,7 @@ export class Component<T extends IObject> {
   }
 
   componentDidUpdate (oldProps: T, newProps: T) {
-    console.log('CDU', oldProps, newProps)
+    console.log('CDU', this._props.class, oldProps, newProps)
     return true
   }
 

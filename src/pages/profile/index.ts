@@ -8,10 +8,11 @@ import { IProfile, IProfileProps } from '../../interface/profile'
 import { ProfileModeEnum } from '../../enum/profile'
 import { baseUrl } from '../../api/base'
 import link from '../../components/link'
-import { Component } from '../../component'
+import { Component, IObject } from '../../component'
 import template from './template'
 import { ChangeAvatar, ChangeProfile, ChangeProfileState, GetMe, LogOut } from '../../store/actions'
 import { IProfileChangeProps } from '../../interface/api/profile'
+import { IInputProps } from '../../interface/input'
 
 class Profile extends Component<IProfileProps> {
   render (): Node | void {
@@ -171,20 +172,40 @@ const getCurrentContent = (state: string | null, profile: IProfile): IProfilePro
   }
 }
 
+function validatePasswordChange (this: { blur: () => void }) {
+  const profile = this as unknown as Profile
+  const inputs = profile._children.inputs
+  const oldPassword = inputs[0]._props.attributesWithSelector.input.value
+  const password = inputs[1]._props.attributesWithSelector.input.value
+  const passwordRepeat = inputs[2]._props.attributesWithSelector.input.value
+  const disabled = (!oldPassword || !password || password !== passwordRepeat)
+  profile.setProps({
+    ...profile._props,
+    attributesWithSelector: {
+      '.profileSubmitButton': {
+        disabled
+      }
+    },
+  })
+}
+
 export default Connect(
   Profile,
   (state: IStore) => {
-    console.log(getCurrentContent(state.profileMode, state.user as IProfile))
     return {
       ...getCurrentContent(state.profileMode, state.user as IProfile),
       attributes: {
         class: 'centeredFlex formContainer'
       },
+      attributesWithSelector: {
+        '.profileSubmitButton': {
+          disabled: true
+        }
+      },
       eventsWithSelector: {
         '.profileSubmitButton': {
           click: function (e: MouseEvent) {
             const el = e.target as HTMLDivElement
-
             e.preventDefault()
             const form = el.closest('form') as HTMLFormElement
             if (form) {
@@ -224,7 +245,6 @@ export default Connect(
         },
         '.cancelEdit': {
           click: function () {
-            console.log('asd')
             ChangeProfileState(ProfileModeEnum.normal)
           }
         },
@@ -232,7 +252,13 @@ export default Connect(
           click: function () {
             LogOut()
           }
-        }
+        },
+        '.profileForm': {
+          change: function (e) {
+            console.log('this', this)
+            console.log('e', e)
+          },
+        },
       },
       profile: state.user,
       isEdit: state.profileMode !== ProfileModeEnum.normal,

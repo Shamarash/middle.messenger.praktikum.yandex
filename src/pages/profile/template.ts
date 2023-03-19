@@ -22,7 +22,7 @@ export default `{{#if isEdit}}
                 {{profile.display_name}}
             </h3>
         {{/if}}
-        <form>
+        <form class="profileForm">
             <div class="formInputs">
                 {{#each inputs}}
                     {{{this}}}

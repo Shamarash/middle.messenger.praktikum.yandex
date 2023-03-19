@@ -34,7 +34,6 @@ export default (props: IInputProps) => new Input(
             attributesWithSelector: {
               input: {
                 ...oldProps.attributesWithSelector?.input,
-                value: target.value,
                 error: target.validity.valid
                   ? undefined
                   : (oldProps?.attributes?.errorText ?? target.validationMessage),
