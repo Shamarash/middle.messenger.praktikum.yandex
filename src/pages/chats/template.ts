@@ -1,16 +1,16 @@
 export default `<div class="contacts">
         {{{profileLink}}}
             {{{contactsSearch}}}
-            {{#if searchUsers}}
+            {{#if searchNotEmpty}}
           
             <ul  class="searchContacts">
              {{#each searchUsers}}
-             <li>
+             <li id="{{this.id}}">
                             
                             {{#if this.avatar}}
                             <img class="contactAvatar" alt="contact avatar" src="{{this.avatar}}"/>
                         {{else}}
-                            <div class="contactWithoutAvatar"></div>
+                            <div class="headerWithoutAvatar"></div>
                         {{/if}}
 
                         <div class="contactInfo">
@@ -33,7 +33,7 @@ export default `<div class="contacts">
                         <img class="messagesHeaderAvatar" alt="selected chat person avatar"
                              src={{selectedChat.person.avatar}}/>
                     {{else}}
-                        <div class="messagesHeaderWithoutAvatar"></div>
+                        <div class="headerWithoutAvatar"></div>
                     {{/if}}
                     <h3 class="messagesHeaderTitle">{{selectedChat.person.name}}</h3>
                 </div>

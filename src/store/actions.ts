@@ -7,6 +7,7 @@ import { ISignInProps, ISignUpProps, IUserInfo } from '../interface/api/auth'
 import { ProfileModeEnum } from '../enum/profile'
 import { IProfileChangeProps } from '../interface/api/profile'
 import { baseUrl } from '../api/base'
+import chatApi from "../api/chats";
 
 const store = new Store()
 
@@ -97,7 +98,20 @@ export const SearchUsers = (data: string) => {
       throw new Error('Change profile error')
     }
     const users = res.data as IUserInfo[]
-    store.set('searchUsers', users.map(i => ({ ...i, avatar: baseUrl + '/resources' + i.avatar })))
+    store.set('searchUsers', users.map(i => ({ ...i, avatar: i.avatar ? baseUrl + '/resources' + i.avatar : null})))
+  }).catch(error => {
+    console.log(error)
+  })
+}
+
+export const CreateChat = (data: string) => {
+  chatApi.createChat({title: data}).then(res => {
+    console.log(res)
+    if (res.code !== 200) {
+      throw new Error('create chat error')
+    }
+    const users = res.data as IUserInfo[]
+    store.set('searchUsers', users.map(i => ({ ...i, avatar: i.avatar ? baseUrl + '/resources' + i.avatar : null})))
   }).catch(error => {
     console.log(error)
   })

@@ -1,6 +1,7 @@
 import { Component } from '../../component'
 import template from './template'
 import { IContactsListProps } from '../../interface/contactsList'
+import {log} from "handlebars";
 
 class ContactsList extends Component<IContactsListProps> {
   render (): Node | void {

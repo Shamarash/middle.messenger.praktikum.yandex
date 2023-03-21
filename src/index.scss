@@ -423,6 +423,8 @@ button:disabled {
   .contactAvatar {
     height: 47px;
     width: 47px;
+    min-height: 47px;
+    min-width: 47px;
     display: flex;
     border-radius: 50%;
     overflow: hidden;
@@ -550,6 +552,17 @@ button:disabled {
   }
 }
 
+.headerWithoutAvatar {
+  height: 47px;
+  width: 47px;
+  min-height: 47px;
+  min-width: 47px;
+  display: flex;
+  border-radius: 50%;
+  overflow: hidden;
+  background: $avatarBackground;
+}
+
 .messages {
   flex-grow: 1;
   height: 100vh;
@@ -581,15 +594,6 @@ button:disabled {
     display: flex;
     object-fit: cover;
     background-color: $avatarBackground;
-  }
-
-  .messagesHeaderWithoutAvatar {
-    height: 34px;
-    width: 34px;
-    display: flex;
-    border-radius: 50%;
-    overflow: hidden;
-    background: $avatarBackground;
   }
 
   .messagesHeaderTitle {
@@ -813,5 +817,10 @@ button:disabled {
   max-height: 88vh;
   overflow: overlay;
   background: $backgroundSecondary;
+
+  .contactInfo {
+    width: 100%;
+    margin-left: 10px;
+  }
 
 }

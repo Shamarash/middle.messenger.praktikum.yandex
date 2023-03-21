@@ -14,10 +14,6 @@ class Chats extends Component<IChatsProps> {
   render (): Node | void {
     return this.compile(template, this._props)
   }
-  //
-  // componentDidUpdate (oldProps: IChatsProps, newProps: IChatsProps): boolean {
-  //   return oldProps.searchUsers !== newProps.searchUsers
-  // }
 
   componentDidMount () {
     ClearUsersSearch()
@@ -64,16 +60,27 @@ export const chatsProps: IChatsProps = {
 export default Connect(
   Chats,
   (state: IStore) => {
+
     return {
       ...chatsProps,
       chats: state.chats,
       selectedChat: state.currentChat,
       searchUsers: state.searchUsers,
+      searchNotEmpty: state.searchUsers.length > 0,
       eventsWithSelector:
           {
             '#search': {
               // @ts-expect-error мы знаем что туда передается
               input: debounce(handleInput, 500)
+            },
+            '.searchContacts': {
+              click: function (e: MouseEvent) {
+                const name = (e.target as HTMLDivElement).closest('li')?.querySelector('h4')?.textContent
+                if (name) {
+
+                }
+                console.log((e.target as HTMLDivElement).closest('li'))
+              }
             }
           }
     }
