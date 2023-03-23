@@ -8,7 +8,7 @@ import input from '../../components/input'
 import { InputTypeEnum } from '../../enum/input'
 import { LoginPattern } from '../../utils/Patterns'
 import { debounce } from '../../utils/debounce'
-import {ClearUsersSearch, GetMe, SearchUsers} from '../../store/actions'
+import {ClearUsersSearch, CreateChat, GetMe, SearchUsers} from '../../store/actions'
 
 class Chats extends Component<IChatsProps> {
   render (): Node | void {
@@ -76,7 +76,12 @@ export default Connect(
             '.searchContacts': {
               click: function (e: MouseEvent) {
                 const name = (e.target as HTMLDivElement).closest('li')?.querySelector('h4')?.textContent
-                if (name) {
+                const id = (e.target as HTMLDivElement).closest('li')?.getAttribute('id')
+                if (name && id) {
+                  CreateChat({
+                    name,
+                    id,
+                  })
 
                 }
                 console.log((e.target as HTMLDivElement).closest('li'))

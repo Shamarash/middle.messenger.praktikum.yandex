@@ -104,13 +104,27 @@ export const SearchUsers = (data: string) => {
   })
 }
 
-export const CreateChat = (data: string) => {
-  chatApi.createChat({title: data}).then(res => {
+export const CreateChat = (data: {chatTitle: string, userId: number}) => {
+  chatApi.createChat({title: data.name}).then(res => {
     console.log(res)
     if (res.code !== 200) {
       throw new Error('create chat error')
     }
-    const users = res.data as IUserInfo[]
+    const id = res.data as number
+
+    chatApi.addUserToChat({
+      users: [data.userId],
+      chatId: id
+    }).then(res => {
+      console.log(res)
+      if (res.code !== 200) {
+        throw new Error('create chat error')
+      }
+      const id = res.data as number
+    }).catch(error => {
+      console.log(error)
+    })
+
     store.set('searchUsers', users.map(i => ({ ...i, avatar: i.avatar ? baseUrl + '/resources' + i.avatar : null})))
   }).catch(error => {
     console.log(error)

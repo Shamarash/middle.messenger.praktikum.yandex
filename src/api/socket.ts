@@ -1,54 +1,114 @@
-interface ISocketProps {
-  userId: string
-  chatId: string
-  token: string
-}
-interface ISocketMessage {
-  userId: string
-  chatId: string
-  token: string
-}
-interface ISocketErrorEvent extends Event {
-  message: string
-}
+import {EventBus} from "../eventBus";
+import {SocketEvents} from "../enum/websocket";
 
-export class Socket {
-  private readonly socket: WebSocket
-  constructor ({ userId, chatId, token }: ISocketProps) {
-    this.socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${token}`)
-    this.socket.addEventListener('open', () => {
-      console.log('Соединение установлено')
-    })
-    this.socket.addEventListener('close', event => {
-      if (event.wasClean) {
-        console.log('Соединение закрыто чисто')
-      } else {
-        console.log('Обрыв соединения')
+export class Socket extends EventBus {
+
+   socket: WebSocket | null = null;
+
+  constructor(url: string) {
+    super();
+    this.connect();
+  }
+
+   connect() {
+    this.socket = new WebSocket(this.wsURL);
+
+    this.registerEvents();
+
+    this.registerWSEvents(this.connection);
+  }
+
+   registerEvents() {
+    this.on(SocketEvents, () => this.loadChat());
+
+    this.on(SocketEvents.ERROR, (e) => {
+      console.log('socket error', e);
+    });
+  }
+
+   registerWSEvents(socket: WebSocket) {
+    socket.onopen = () => {
+      this.emit(WebsocketService.EVENTS.CONNECTED);
+    };
+
+    socket.onmessage = (message: MessageEvent) => {
+      const data = JSON.parse(message.data);
+
+      if (data.type && data.type === 'pong') {
+        return;
       }
 
-      console.log(`Код: ${event.code} | Причина: ${event.reason}`)
-    })
+      this.emit(WebsocketService.EVENTS.GET_MESSAGE, data);
+    };
 
-    this.socket.addEventListener('message', event => {
-      console.log('Получены данные', event.data)
-    })
+    socket.onclose = () => {
+      this.emit(WebsocketService.EVENTS.CLOSE);
+    };
 
-    this.socket.addEventListener('error', event => {
-      console.log('Ошибка', (event as ISocketErrorEvent).message)
-    })
+    socket.onerror = (event) => {
+      this.emit(WebsocketService.EVENTS.ERROR, event);
+    };
   }
 
-  sendMessage (value: string) {
-    this.socket.send(JSON.stringify({
-      content: value,
-      type: 'message',
-    }))
+   close(code?: number, reason?: string) {
+    if (!this.connection) {
+      throw new Error('сокет не подключен');
+    }
+    this.connection.close(code, reason);
   }
 
-  getOldMessages (lastMessageId: string) {
-    this.socket.send(JSON.stringify({
-      content: lastMessageId, // Число, которое показывает с какого сообщения нужно отдать ещё 20
-      type: 'get old',
-    }))
+   async loadChat() {
+    await this.ping();
+    this.getOldMessages();
+  }
+
+   async ping() {
+    let pingInterval: any = setInterval(() => {
+      if (!this.connection) {
+        throw new Error('WS соединение не установлено');
+      }
+      this.connection.send(
+          JSON.stringify({
+            type: 'ping',
+          }),
+      );
+    }, 10000);
+
+    this.on(WebsocketService.EVENTS.CLOSE, () => {
+      clearInterval(pingInterval);
+      pingInterval = undefined;
+    });
+  }
+
+  public async getOldMessages(from = 0) {
+    if (!this.connection) {
+      throw new Error('WS соединение не установлено');
+    }
+    await this.connection.send(
+        JSON.stringify({
+          content: from,
+          type: 'get old',
+        }),
+    );
+  }
+
+  public sendMessage(text: string) {
+    if (!this.connection) {
+      throw new Error('WS соединение не установлено');
+    }
+
+    this.connection.send(
+        JSON.stringify({
+          content: text,
+          type: 'message',
+        }),
+    );
+  }
+
+  public getSocket():WebsocketService {
+    if (!this.connection || this.connection.readyState === this.connection.CLOSED) {
+      this.connectWS();
+    }
+    return this;
   }
 }
