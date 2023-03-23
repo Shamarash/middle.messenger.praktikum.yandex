@@ -1,6 +1,7 @@
 import { IChat, IChatFile } from './api/chats'
 import { IUserInfo } from './api/auth'
 import { ProfileModeEnum } from '../enum/profile'
+import { Message } from '../controllers/MessageController'
 
 export interface IStore {
   chats: IChat[]
@@ -8,6 +9,7 @@ export interface IStore {
   chatUsers: IUserInfo[]
   searchUsers: IUserInfo[]
   user: IUserInfo | Record<string, unknown>
-  currentChat: IChat | null
+  selectedChat: IChat | null
   profileMode: ProfileModeEnum
+  messages: Record<number, Message[]>
 }

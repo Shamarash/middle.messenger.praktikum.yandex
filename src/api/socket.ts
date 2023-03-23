@@ -1,114 +1,78 @@
-import {EventBus} from "../eventBus";
-import {SocketEvents} from "../enum/websocket";
+import { EventBus } from '../eventBus'
 
-export class Socket extends EventBus {
+export enum WSTransportEvents {
+  Connected = 'connected',
+  Error = 'error',
+  Message = 'message',
+  Close = 'close',
+}
 
-   socket: WebSocket | null = null;
+export default class WSTransport extends EventBus {
+  private socket: WebSocket | null = null
+  private pingInterval: number = 0
 
-  constructor(url: string) {
-    super();
-    this.connect();
+  constructor (private readonly url: string) {
+    super()
   }
 
-   connect() {
-    this.socket = new WebSocket(this.wsURL);
+  public send (data: unknown) {
+    if (!this.socket) {
+      throw new Error('Socket is not connected')
+    }
 
-    this.registerEvents();
-
-    this.registerWSEvents(this.connection);
+    this.socket.send(JSON.stringify(data))
   }
 
-   registerEvents() {
-    this.on(SocketEvents, () => this.loadChat());
+  public async connect (): Promise<void> {
+    this.socket = new WebSocket(this.url)
 
-    this.on(SocketEvents.ERROR, (e) => {
-      console.log('socket error', e);
-    });
+    this.subscribe(this.socket)
+
+    this.setupPing()
+
+    await new Promise<void>((resolve) => {
+      this.on(WSTransportEvents.Connected, () => {
+        resolve()
+      })
+    })
   }
 
-   registerWSEvents(socket: WebSocket) {
-    socket.onopen = () => {
-      this.emit(WebsocketService.EVENTS.CONNECTED);
-    };
+  public close () {
+    this.socket?.close()
+  }
 
-    socket.onmessage = (message: MessageEvent) => {
-      const data = JSON.parse(message.data);
+  private setupPing () {
+    this.pingInterval = setInterval(() => {
+      this.send({ type: 'ping' })
+    }, 5000)
+
+    this.on(WSTransportEvents.Close, () => {
+      clearInterval(this.pingInterval)
+
+      this.pingInterval = 0
+    })
+  }
+
+  private subscribe (socket: WebSocket) {
+    socket.addEventListener('open', () => {
+      this.emit(WSTransportEvents.Connected)
+    })
+    socket.addEventListener('close', () => {
+      this.emit(WSTransportEvents.Close)
+    })
+
+    socket.addEventListener('error', (e) => {
+      this.emit(WSTransportEvents.Error, e)
+    })
+
+    socket.addEventListener('message', (message) => {
+      const data = JSON.parse(message.data)
 
       if (data.type && data.type === 'pong') {
-        return;
+        return
       }
 
-      this.emit(WebsocketService.EVENTS.GET_MESSAGE, data);
-    };
-
-    socket.onclose = () => {
-      this.emit(WebsocketService.EVENTS.CLOSE);
-    };
-
-    socket.onerror = (event) => {
-      this.emit(WebsocketService.EVENTS.ERROR, event);
-    };
-  }
-
-   close(code?: number, reason?: string) {
-    if (!this.connection) {
-      throw new Error('сокет не подключен');
-    }
-    this.connection.close(code, reason);
-  }
-
-   async loadChat() {
-    await this.ping();
-    this.getOldMessages();
-  }
-
-   async ping() {
-    let pingInterval: any = setInterval(() => {
-      if (!this.connection) {
-        throw new Error('WS соединение не установлено');
-      }
-      this.connection.send(
-          JSON.stringify({
-            type: 'ping',
-          }),
-      );
-    }, 10000);
-
-    this.on(WebsocketService.EVENTS.CLOSE, () => {
-      clearInterval(pingInterval);
-      pingInterval = undefined;
-    });
-  }
-
-  public async getOldMessages(from = 0) {
-    if (!this.connection) {
-      throw new Error('WS соединение не установлено');
-    }
-    await this.connection.send(
-        JSON.stringify({
-          content: from,
-          type: 'get old',
-        }),
-    );
-  }
-
-  public sendMessage(text: string) {
-    if (!this.connection) {
-      throw new Error('WS соединение не установлено');
-    }
-
-    this.connection.send(
-        JSON.stringify({
-          content: text,
-          type: 'message',
-        }),
-    );
-  }
-
-  public getSocket():WebsocketService {
-    if (!this.connection || this.connection.readyState === this.connection.CLOSED) {
-      this.connectWS();
-    }
-    return this;
+      this.emit(WSTransportEvents.Message, data)
+    })
   }
 }

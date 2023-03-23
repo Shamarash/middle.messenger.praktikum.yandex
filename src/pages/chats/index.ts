@@ -8,7 +8,8 @@ import input from '../../components/input'
 import { InputTypeEnum } from '../../enum/input'
 import { LoginPattern } from '../../utils/Patterns'
 import { debounce } from '../../utils/debounce'
-import {ClearUsersSearch, CreateChat, GetMe, SearchUsers} from '../../store/actions'
+import { ClearUsersSearch, CreateChat, GetMe, SearchUsers } from '../../store/actions'
+import ChatsController from "../../controllers/ChatsController";
 
 class Chats extends Component<IChatsProps> {
   render (): Node | void {
@@ -60,7 +61,6 @@ export const chatsProps: IChatsProps = {
 export default Connect(
   Chats,
   (state: IStore) => {
-
     return {
       ...chatsProps,
       chats: state.chats,
@@ -82,9 +82,14 @@ export default Connect(
                     name,
                     id,
                   })
-
                 }
                 console.log((e.target as HTMLDivElement).closest('li'))
+              }
+            },
+            '': {
+              click: function (e: MouseEvent) {
+                const id = (e.target as HTMLDivElement).closest('li')?.getAttribute('id')
+                if (id) { ChatsController.selectChat(id) }
               }
             }
           }

@@ -2,7 +2,7 @@ import request, { baseUrl } from './base'
 import { IAddUserToChat, IChatCreateProps, IChatDeleteProps, IGetChatsProps } from '../interface/api/chats'
 
 class ChatAPI {
-  async getChats (data: IGetChatsProps) {
+  async getChats (data?: IGetChatsProps) {
     return await request.get(baseUrl + '/chats', { data })
   }
 
@@ -12,6 +12,10 @@ class ChatAPI {
 
   async deleteChat (data: IChatDeleteProps) {
     return await request.post(baseUrl + '/chats', { data })
+  }
+
+  async getToken (id: number) {
+    return await request.post<{ token: string }>(baseUrl + `/chats/token/${id}`)
   }
 
   async addUserToChat (data: IAddUserToChat) {

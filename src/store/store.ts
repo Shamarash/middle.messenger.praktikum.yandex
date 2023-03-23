@@ -5,11 +5,12 @@ import { ProfileModeEnum } from '../enum/profile'
 const InitialState: IStore = {
   chats: [],
   user: {},
-  currentChat: null,
+  selectedChat: null,
   chatFiles: [],
   chatUsers: [],
   searchUsers: [],
   profileMode: ProfileModeEnum.normal,
+  messages: {}
 }
 
 export default class Store extends EventBus {

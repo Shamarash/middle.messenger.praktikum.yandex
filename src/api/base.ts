@@ -20,25 +20,26 @@ export class HttpRequest {
   // T = request data, K = expected result from promise
   public async get<K, T = undefined>(url: string, options?: IQueryOptions<T>): Promise<{ data?: K, code: number }> {
     return await this._request(url,
-        {
-          ...options,
-          method: HttpMethodEnum.GET,
-          headers: {} })
+      {
+        ...options,
+        method: HttpMethodEnum.GET,
+        headers: {}
+      })
   };
 
   public async post<K, T = undefined>(url: string, options?: IQueryOptions<T>): Promise<{ data?: K, code: number }> {
     return await this._request(url,
-        { ...options, method: HttpMethodEnum.POST })
+      { ...options, method: HttpMethodEnum.POST })
   };
 
   public async delete<K, T = undefined>(url: string, options?: IQueryOptions<T>): Promise<{ data?: K, code: number }> {
     return await this._request(url,
-        { ...options, method: HttpMethodEnum.DELETE })
+      { ...options, method: HttpMethodEnum.DELETE })
   };
 
   public async put<K, T = undefined>(url: string, options?: IQueryOptions<T>): Promise<{ data?: K, code: number }> {
     return await this._request(url,
-        { ...options, method: HttpMethodEnum.PUT })
+      { ...options, method: HttpMethodEnum.PUT })
   };
 
   private async _request<T, K>(url: string, {
@@ -68,7 +69,7 @@ export class HttpRequest {
         }
         resolve({ code: xhr.status })
       }
-      xhr.withCredentials = true;
+      xhr.withCredentials = true
       xhr.onabort = reject
       xhr.onerror = reject
       xhr.ontimeout = reject
