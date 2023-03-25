@@ -74,12 +74,12 @@ class MessagesController {
       messagesToAdd.push(messages)
     }
 
-    const allMessages = store.getState().messages || {}
-    const currentMessages = store.getState().messages[id] || []
+    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
+    const currentMessages = (store.getState().messages || {})[id] || []
 
     messagesToAdd = [...currentMessages, ...messagesToAdd]
 
-    store.set('messages', { ...allMessages, [id]: messagesToAdd })
+    store.set('messages', { ...store.getState().messages, [id]: messagesToAdd })
   }
 
   private onClose (id: number) {

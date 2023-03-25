@@ -1,29 +1,7 @@
 export default `<div class="contacts">
         {{{profileLink}}}
             {{{contactsSearch}}}
-            {{#if searchNotEmpty}}
-          
-            <ul  class="searchContacts">
-             {{#each searchUsers}}
-             <li id="{{this.id}}">
-                            
-                            {{#if this.avatar}}
-                            <img class="contactAvatar" alt="contact avatar" src="{{this.avatar}}"/>
-                        {{else}}
-                            <div class="headerWithoutAvatar"></div>
-                        {{/if}}
-
-                        <div class="contactInfo">
-                            <h4>{{this.login}}</h4>
-                            <p>{{this.first_name}} {{this.second_name}}</p>
-                        </div>
-</li>
-             {{else}}
-                    <li class="empty">Никого не нашли</li>
-             {{/each}}
-             </ul>
-      
-            {{/if}}
+            {{{contacts}}}
     </div>
     <div class="messages">
         {{#if selectedChat}}
@@ -41,27 +19,27 @@ export default `<div class="contacts">
             </div>
             <div class="messagesList">
                 <ul>
-                    // {{#each selectedChat.messages}}
-                    //     <li class="message
-                    // {{#if (isMineMessage this.to)}}messageMine{{/if}}
-                    //         {{#if this.attachments}} messageImage{{/if}}">
-                    //         {{#if this.text}}
-                    //             <p>{{this.text}}</p>
-                    //         {{else}}
-                    //             {{#each this.attachments}}
-                    //                 <img alt="message attachment" src="{{this.url}}"/>
-                    //             {{/each}}
-                    //         {{/if}}
-                    //         {{#if this.read}}
-                    //             <div class="readIcon"></div>{{/if}}
-                    //         <div class="messageTime">{{this.dateTime}}</div>
-                    //     </li>
-                    // {{/each}}
+                    {{#each messages}}
+                        <li class="message
+                    {{#if (isMineMessage this.to)}}messageMine{{/if}}
+                            {{#if this.attachments}} messageImage{{/if}}">
+                            {{#if this.text}}
+                                <p>{{this.text}}</p>
+                            {{else}}
+                                {{#each this.attachments}}
+                                    <img alt="message attachment" src="{{this.url}}"/>
+                                {{/each}}
+                            {{/if}}
+                            {{#if this.read}}
+                                <div class="readIcon"></div>{{/if}}
+                            <div class="messageTime">{{this.dateTime}}</div>
+                        </li>
+                    {{/each}}
                 </ul>
             </div>
-            <form class="messageInputContainer">
+            <form id="messageSendForm" class="messageInputContainer">
                 <button class="messageAttachment"></button>
-                <input placeholder="Сообщение" name="message" class="messageInput" required></input>
+                <input placeholder="Сообщение" name="message"  class="messageInput" required></input>
                 <button type="submit" class="sendMessage"></button>
             </form>
         {{else}}

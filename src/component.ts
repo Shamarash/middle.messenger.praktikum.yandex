@@ -79,43 +79,38 @@ export class Component<T extends IObject> {
   }
 
   addEvents () {
-    const { events = {}, eventsWithSelector } = this._props
+    const { events = {}, eventsWithSelector = {} } = this._props
     Object.keys(events).forEach(eventName => {
       const func = events[eventName].bind(this)
       this._element.addEventListener(eventName, func)
     })
 
-    if (eventsWithSelector) {
-      Object.keys(eventsWithSelector as EventsWithSelector).forEach(selector => {
-        const el = this._element.querySelector(selector)
-        if (el) {
-          Object.keys(eventsWithSelector[selector]).forEach(eventName => {
-            const func = eventsWithSelector[selector][eventName].bind(this)
-            el.addEventListener(eventName, func)
-          })
-        }
-      })
-    }
+    Object.keys(eventsWithSelector as EventsWithSelector).forEach(selector => {
+      const el = this._element.querySelector(selector)
+      if (el) {
+        Object.keys(eventsWithSelector[selector]).forEach(eventName => {
+          const func = eventsWithSelector[selector][eventName].bind(this)
+          el.addEventListener(eventName, func)
+        })
+      }
+    })
   }
 
   removeEvents () {
-    const { events = {}, eventsWithSelector } = this._props
+    const { events = {}, eventsWithSelector = {} } = this._props
     Object.keys(events).forEach(eventName => {
       const func = events[eventName].bind(this)
       this._element.removeEventListener(eventName, func)
     })
-
-    if (eventsWithSelector) {
-      Object.keys(eventsWithSelector as EventsWithSelector).forEach(selector => {
-        const el = this._element.querySelector(selector)
-        if (el) {
-          Object.keys(eventsWithSelector[selector]).forEach(eventName => {
-            const func = eventsWithSelector[selector][eventName].bind(this)
-            el.removeEventListener(eventName, func)
-          })
-        }
-      })
-    }
+    Object.keys(eventsWithSelector as EventsWithSelector).forEach(selector => {
+      const el = this._element.querySelector(selector)
+      if (el) {
+        Object.keys(eventsWithSelector[selector]).forEach(eventName => {
+          const func = eventsWithSelector[selector][eventName].bind(this)
+          el.removeEventListener(eventName, func)
+        })
+      }
+    })
   }
 
   addAttributes () {
@@ -278,8 +273,8 @@ export class Component<T extends IObject> {
     }
   }
 
+  // @ts-expect-error
   componentDidUpdate (oldProps: T, newProps: T) {
-    console.log('CDU', this._props.class, oldProps, newProps)
     return true
   }
 

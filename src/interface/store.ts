@@ -8,6 +8,7 @@ export interface IStore {
   chatFiles: IChatFile[]
   chatUsers: IUserInfo[]
   searchUsers: IUserInfo[]
+  searchValue: string
   user: IUserInfo | Record<string, unknown>
   selectedChat: IChat | null
   profileMode: ProfileModeEnum

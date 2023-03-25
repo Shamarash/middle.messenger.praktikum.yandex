@@ -12,7 +12,7 @@ class Input extends Component<IInputProps> {
   }
 }
 
-export default (props: IInputProps) => new Input(
+export default (props: IInputProps, onChange?: (value: string) => void) => new Input(
   'div',
   {
     ...props,
@@ -25,6 +25,12 @@ export default (props: IInputProps) => new Input(
         input: function (e: Event) {
           const target = e.target as HTMLInputElement
           const oldProps = this._props as unknown as IInputProps
+          // @ts-expect-error
+          const input = this._element.querySelector('input') as HTMLInputElement
+          if (input) {
+            input.setAttribute('value', target.value)
+            onChange && onChange(target.value)
+          }
           this.setProps({
             ...oldProps,
             attributes: {

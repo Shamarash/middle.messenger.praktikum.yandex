@@ -16,6 +16,7 @@ module.exports = {
     '@typescript-eslint/consistent-type-imports': 'off',
     '@typescript-eslint/no-invalid-void-type': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
-    '@typescript-eslint/comma-dangle': 'off' // висячая запятая в конце списка помогает мержить без конфликтов
+    '@typescript-eslint/comma-dangle': 'off', // висячая запятая в конце списка помогает мержить без конфликтов
+    '@typescript-eslint/ban-ts-comment': 'off'
   }
 }

@@ -1,15 +1,14 @@
 import { IChatsProps } from '../../interface/chat'
 import { Component } from '../../component'
 import template from './template'
-import { Connect } from '../../store'
+import store, { Connect } from '../../store'
 import { IStore } from '../../interface/store'
 import link from '../../components/link'
-import input from '../../components/input'
-import { InputTypeEnum } from '../../enum/input'
-import { LoginPattern } from '../../utils/Patterns'
-import { debounce } from '../../utils/debounce'
-import { ClearUsersSearch, CreateChat, GetMe, SearchUsers } from '../../store/actions'
-import ChatsController from "../../controllers/ChatsController";
+import { GetMe } from '../../store/actions'
+import Contacts from '../../components/contactList'
+import ContactsSearch from '../../components/contactsSearch'
+import ChatsController from '../../controllers/ChatsController'
+import MessageController from '../../controllers/MessageController'
 
 class Chats extends Component<IChatsProps> {
   render (): Node | void {
@@ -17,45 +16,26 @@ class Chats extends Component<IChatsProps> {
   }
 
   componentDidMount () {
-    ClearUsersSearch()
     GetMe()
   }
-}
 
-function handleInput (e: Event) {
-  const target = e.target as HTMLInputElement
-  if (target.value.length <= 3) {
-    ClearUsersSearch()
-    return
+  componentDidUpdate (oldProps: IChatsProps, newProps: IChatsProps): boolean {
+    return oldProps.selectedChat !== newProps.selectedChat
   }
-  SearchUsers(target.value)
 }
 
 export const chatsProps: IChatsProps = {
   attributes: {
     class: 'chat'
   },
+  contactsSearch: ContactsSearch,
+  contacts: Contacts,
   profileLink: link({
     name: 'Профиль',
     href: '/profile',
     className: 'linkToProfile'
   }),
-  contactsSearch: input({
-    attributes: {
-      class: 'searchContainer',
-    },
-    attributesWithSelector: {
-      input: {
-        id: 'search',
-        title: 'Поиск среди всех пользователей',
-        placeholder: 'Поиск',
-        type: InputTypeEnum.text,
-        pattern: LoginPattern,
-      },
-    },
-    minLength: 0,
-    maxLength: 10,
-  }),
+
 }
 
 export default Connect(
@@ -63,36 +43,24 @@ export default Connect(
   (state: IStore) => {
     return {
       ...chatsProps,
-      chats: state.chats,
-      selectedChat: state.currentChat,
-      searchUsers: state.searchUsers,
-      searchNotEmpty: state.searchUsers.length > 0,
-      eventsWithSelector:
-          {
-            '#search': {
-              // @ts-expect-error мы знаем что туда передается
-              input: debounce(handleInput, 500)
-            },
-            '.searchContacts': {
-              click: function (e: MouseEvent) {
-                const name = (e.target as HTMLDivElement).closest('li')?.querySelector('h4')?.textContent
-                const id = (e.target as HTMLDivElement).closest('li')?.getAttribute('id')
-                if (name && id) {
-                  CreateChat({
-                    name,
-                    id,
-                  })
-                }
-                console.log((e.target as HTMLDivElement).closest('li'))
-              }
-            },
-            '': {
-              click: function (e: MouseEvent) {
-                const id = (e.target as HTMLDivElement).closest('li')?.getAttribute('id')
-                if (id) { ChatsController.selectChat(id) }
-              }
+      selectedChat: state.selectedChat,
+      messages: state.messages[state.selectedChat?.id ?? 0],
+      eventsWithSelector: {
+        '#messageSendForm': {
+          submit: function (e: SubmitEvent) {
+            e.preventDefault()
+            const form = e.target as HTMLFormElement
+            if (form && state.selectedChat) {
+              const formData = new FormData(form)
+              MessageController.sendMessage(
+                state.selectedChat.id,
+                (formData.get('message') as string) || 'test message'
+              )
             }
           }
+
+        }
+      }
     }
   }
 )

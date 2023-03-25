@@ -8,11 +8,10 @@ import { IProfile, IProfileProps } from '../../interface/profile'
 import { ProfileModeEnum } from '../../enum/profile'
 import { baseUrl } from '../../api/base'
 import link from '../../components/link'
-import { Component, IObject } from '../../component'
+import { Component } from '../../component'
 import template from './template'
-import { ChangeAvatar, ChangeProfile, ChangeProfileState, GetMe, LogOut } from '../../store/actions'
-import { IProfileChangeProps } from '../../interface/api/profile'
-import { IInputProps } from '../../interface/input'
+import {ChangeAvatar, ChangePassword, ChangeProfile, ChangeProfileState, GetMe, LogOut} from '../../store/actions'
+import {IChangePasswordProps, IProfileChangeProps} from '../../interface/api/profile'
 
 class Profile extends Component<IProfileProps> {
   render (): Node | void {
@@ -172,23 +171,6 @@ const getCurrentContent = (state: string | null, profile: IProfile): IProfilePro
   }
 }
 
-function validatePasswordChange (this: { blur: () => void }) {
-  const profile = this as unknown as Profile
-  const inputs = profile._children.inputs
-  const oldPassword = inputs[0]._props.attributesWithSelector.input.value
-  const password = inputs[1]._props.attributesWithSelector.input.value
-  const passwordRepeat = inputs[2]._props.attributesWithSelector.input.value
-  const disabled = (!oldPassword || !password || password !== passwordRepeat)
-  profile.setProps({
-    ...profile._props,
-    attributesWithSelector: {
-      '.profileSubmitButton': {
-        disabled
-      }
-    },
-  })
-}
-
 export default Connect(
   Profile,
   (state: IStore) => {
@@ -196,11 +178,6 @@ export default Connect(
       ...getCurrentContent(state.profileMode, state.user as IProfile),
       attributes: {
         class: 'centeredFlex formContainer'
-      },
-      attributesWithSelector: {
-        '.profileSubmitButton': {
-          disabled: true
-        }
       },
       eventsWithSelector: {
         '.profileSubmitButton': {
@@ -210,25 +187,43 @@ export default Connect(
             const form = el.closest('form') as HTMLFormElement
             if (form) {
               const formData = new FormData(form)
-              let result: IProfileChangeProps = {
-                email: '',
-                login: '',
-                first_name: '',
-                second_name: '',
-                display_name: '',
-                phone: '',
-              }
-              formData.forEach((value, key) => {
-                if (typeof value === 'string' && Object.keys(result).includes(key)) {
-                  result = { ...result, [key]: value }
+
+              switch (state.profileMode) {
+                case ProfileModeEnum.changeInfo: {
+                  let result: IProfileChangeProps = {
+                    email: '',
+                    login: '',
+                    first_name: '',
+                    second_name: '',
+                    display_name: '',
+                    phone: '',
+                  }
+                  formData.forEach((value, key) => {
+                    if (typeof value === 'string' && Object.keys(result).includes(key)) {
+                      result = { ...result, [key]: value }
+                    }
+                  })
+                  ChangeProfile(result)
+                  const avatarForm = el.closest('.profileContent')?.querySelector('.profileAvatarForm') as HTMLFormElement
+                  const hasAvatar = avatarForm.querySelector('input') as HTMLInputElement
+                  if (avatarForm && (hasAvatar?.files?.length ?? 0) > 0) {
+                    const avatarFormData = new FormData(avatarForm)
+                    ChangeAvatar(avatarFormData)
+                  }
+                  return
                 }
-              })
-              ChangeProfile(result)
-              const avatarForm = el.closest('.profileContent')?.querySelector('.profileAvatarForm') as HTMLFormElement
-              const hasAvatar = avatarForm.querySelector('input') as HTMLInputElement
-              if (avatarForm && (hasAvatar?.files?.length ?? 0) > 0) {
-                const avatarFormData = new FormData(avatarForm)
-                ChangeAvatar(avatarFormData)
+                case ProfileModeEnum.changePassword: {
+                  let result: IChangePasswordProps = {
+                    newPassword: '',
+                    oldPassword: '',
+                  }
+                  formData.forEach((value, key) => {
+                    if (typeof value === 'string' && Object.keys(result).includes(key)) {
+                      result = { ...result, [key]: value }
+                    }
+                  })
+                  ChangePassword(result)
+                }
               }
             }
           }
@@ -254,7 +249,7 @@ export default Connect(
           }
         },
         '.profileForm': {
-          change: function (e) {
+          change: function (e: Event) {
             console.log('this', this)
             console.log('e', e)
           },

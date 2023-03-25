@@ -10,7 +10,8 @@ const InitialState: IStore = {
   chatUsers: [],
   searchUsers: [],
   profileMode: ProfileModeEnum.normal,
-  messages: {}
+  messages: {},
+  searchValue: ''
 }
 
 export default class Store extends EventBus {

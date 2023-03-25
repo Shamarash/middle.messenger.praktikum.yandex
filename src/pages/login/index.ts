@@ -71,7 +71,6 @@ export default class LoginPage extends Component<ILoginProps> {
   componentDidMount () {
     GetMe()
   }
-
 }
 
 export const loginProps: ILoginProps = {

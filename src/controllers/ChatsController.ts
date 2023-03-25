@@ -1,4 +1,3 @@
-
 import store from '../store'
 import MessageController from './MessageController'
 import { IChat } from '../interface/chat'
@@ -12,19 +11,20 @@ class ChatsController {
   }
 
   async fetchChats () {
-    const chats = await Chats.getChats()
+    // @ts-expect-error
+    const chats: { data: IChat[] } = await Chats.getChats({})
 
-    chats.map(async (chat: IChat) => {
+    chats.data.map(async (chat: IChat) => {
       const token = await this.getToken(chat.id)
 
       await MessageController.connect(chat.id, token)
     })
 
-    store.set('chats', chats)
+    store.set('chats', chats.data)
   }
 
   addUserToChat (id: number, userId: number) {
-    this.api.addUsers(id, [userId])
+    void Chats.addUserToChat({ chatId: id, users: [userId] })
   }
 
   async delete (id: number) {

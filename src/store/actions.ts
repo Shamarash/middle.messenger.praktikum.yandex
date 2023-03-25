@@ -5,11 +5,11 @@ import { router } from '../router'
 import authApi from '../api/auth'
 import { ISignInProps, ISignUpProps, IUserInfo } from '../interface/api/auth'
 import { ProfileModeEnum } from '../enum/profile'
-import { IProfileChangeProps } from '../interface/api/profile'
+import {IChangePasswordProps, IProfileChangeProps} from '../interface/api/profile'
 import { baseUrl } from '../api/base'
 import chatApi from '../api/chats'
-import Chats from "../api/chats";
-import ChatsController from "../controllers/ChatsController";
+import Chats from '../api/chats'
+import ChatsController from '../controllers/ChatsController'
 
 const store = new Store()
 
@@ -80,6 +80,18 @@ export const ChangeAvatar = (data: FormData) => {
   })
 }
 
+export const ChangePassword = (data: IChangePasswordProps) => {
+  userApi.changePassword(data).then(res => {
+    console.log(res)
+    if (res.code !== 200) {
+      throw new Error('change Password error')
+    }
+    store.set('profileMode', ProfileModeEnum.normal)
+  }).catch(error => {
+    console.log(error)
+  })
+}
+
 export const LogOut = () => {
   authApi.logOut().then(res => {
     console.log(res)
@@ -107,12 +119,13 @@ export const SearchUsers = (data: string) => {
 }
 
 export const CreateChat = (data: { chatTitle: string, userId: number }) => {
-  chatApi.createChat({ title: data.name }).then(res => {
+  chatApi.createChat({ title: data.chatTitle }).then(res => {
     console.log(res)
     if (res.code !== 200) {
       throw new Error('create chat error')
     }
-    const id = res.data as number
+    // @ts-expect-error
+    const id = res.data?.id as number
 
     chatApi.addUserToChat({
       users: [data.userId],
@@ -124,11 +137,9 @@ export const CreateChat = (data: { chatTitle: string, userId: number }) => {
       }
 
       void ChatsController.fetchChats()
-      void ChatsController.fetchChats()
     }).catch(error => {
       console.log(error)
     })
-
   }).catch(error => {
     console.log(error)
   })

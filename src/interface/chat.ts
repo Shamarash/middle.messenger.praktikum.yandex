@@ -10,12 +10,6 @@ export interface IAttachment {
   url?: string
 }
 
-export enum MessageTypeEnum {
-  message = 'message',
-  file = 'file',
-  sticker = 'sticker',
-}
-
 export interface IMessage {
   id: string
   time: string
@@ -59,8 +53,9 @@ export type IChats = Record<string, IChat>
 
 export interface IChatsProps extends IBaseProps {
   chats?: IChats
-  selectedChatId?: number | null
+  selectedChat?: IChat | null
   profileLink: Component<ILinkProps>
   contactsSearch: Component<IInputProps>
+  contacts: any
   searchUsers?: IUserInfo[]
 }
