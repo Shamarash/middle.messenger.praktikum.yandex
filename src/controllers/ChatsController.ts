@@ -30,6 +30,7 @@ class ChatsController {
   async delete (id: number) {
     await Chats.deleteChat({ chatId: id })
 
+    store.set('selectedChat', null)
     await this.fetchChats()
   }
 

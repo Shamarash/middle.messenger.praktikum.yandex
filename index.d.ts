@@ -1,6 +1,6 @@
 import Store from './src/store'
 import MessageController from './src/controllers/MessageController'
-import chatsController from "./src/controllers/ChatsController";
+import chatsController from './src/controllers/ChatsController'
 
 export {}
 

@@ -18,7 +18,6 @@ export default `<ul class="contactsList">
              {{/each}}
 {{else}}
 {{#each chatList}}
-{{log this}}
                     <li id="{{this.id}}" class="{{#if this.selected}}selectedChat{{/if}}">
                         {{#if this.person.avatar}}
                             <img class="contactAvatar" alt="contact avatar" src={{this.avatar}}/>

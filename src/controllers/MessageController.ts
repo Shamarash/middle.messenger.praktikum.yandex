@@ -57,7 +57,6 @@ class MessagesController {
     if (!socket) {
       throw new Error(`Chat ${id} is not connected`)
     }
-
     socket.send({ type: 'get old', content: '0' })
   }
 
@@ -69,17 +68,19 @@ class MessagesController {
     let messagesToAdd: Message[] = []
 
     if (Array.isArray(messages)) {
-      messagesToAdd = messages.reverse()
+      messagesToAdd = messages.filter(i => i.type === 'message').reverse()
     } else {
-      messagesToAdd.push(messages)
+      if (messages.type === 'message') {
+        messagesToAdd.push(messages)
+      }
     }
-
-    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
-    const currentMessages = (store.getState().messages || {})[id] || []
+    // @ts-expect-error
+    const currentMessages = store.getState()[`messages.${id}`] || []
 
     messagesToAdd = [...currentMessages, ...messagesToAdd]
 
-    store.set('messages', { ...store.getState().messages, [id]: messagesToAdd })
+    // @ts-expect-error
+    store.set(`messages.${id}`, messagesToAdd)
   }
 
   private onClose (id: number) {

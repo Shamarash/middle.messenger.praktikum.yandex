@@ -5,11 +5,11 @@ import { router } from '../router'
 import authApi from '../api/auth'
 import { ISignInProps, ISignUpProps, IUserInfo } from '../interface/api/auth'
 import { ProfileModeEnum } from '../enum/profile'
-import {IChangePasswordProps, IProfileChangeProps} from '../interface/api/profile'
+import { IChangePasswordProps, IProfileChangeProps } from '../interface/api/profile'
 import { baseUrl } from '../api/base'
 import chatApi from '../api/chats'
-import Chats from '../api/chats'
 import ChatsController from '../controllers/ChatsController'
+import messageController from '../controllers/MessageController'
 
 const store = new Store()
 
@@ -98,6 +98,7 @@ export const LogOut = () => {
     if (res.code !== 200) {
       throw new Error('Log out error')
     }
+    messageController.closeAll()
     store.set('user', {})
     router.go('/login')
   }).catch(error => {

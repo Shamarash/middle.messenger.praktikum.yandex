@@ -11,7 +11,7 @@ class ChatAPI {
   }
 
   async deleteChat (data: IChatDeleteProps) {
-    return await request.post(baseUrl + '/chats', { data })
+    return await request.delete(baseUrl + '/chats', { data })
   }
 
   async getToken (id: number) {

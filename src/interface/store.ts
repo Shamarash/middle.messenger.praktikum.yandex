@@ -10,7 +10,7 @@ export interface IStore {
   searchUsers: IUserInfo[]
   searchValue: string
   user: IUserInfo | Record<string, unknown>
-  selectedChat: IChat | null
+  selectedChat: number | null
   profileMode: ProfileModeEnum
   messages: Record<number, Message[]>
 }

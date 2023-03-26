@@ -367,7 +367,7 @@ button:disabled {
 
 .message {
   display: flex;
-  padding: 11px 40px 20px 11px;
+  padding: 11px 50px 20px 11px;
   position: relative;
   border-radius: 0 12px 12px;
   background: $messageBackground;
@@ -430,6 +430,22 @@ button:disabled {
     overflow: hidden;
     object-fit: cover;
     background-color: $avatarBackground;
+  }
+
+  .searchContacts {
+    position: absolute;
+    cursor: pointer;
+    top: 96px;
+    width: 309px;
+    height: 88vh;
+    max-height: 88vh;
+    overflow: overlay;
+    background: $backgroundSecondary;
+
+    .contactInfo {
+      width: 100%;
+      margin-left: 10px;
+    }
   }
 
   .contactsList {
@@ -518,7 +534,6 @@ button:disabled {
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid $boxShadow;
-
   }
 
   input {
@@ -606,8 +621,9 @@ button:disabled {
 
   .messagesHeaderDots {
     height: 20px;
-    width: 20px;
-    background: url("./icons/Dots.svg") no-repeat center;
+    width: 80px;
+    color: $errorPrimary;
+    background: transparent;
   }
 
   .messageInputContainer {
@@ -674,7 +690,7 @@ button:disabled {
   display: flex;
   position: absolute;
   bottom: 10px;
-  right: 40px;
+  right: 50px;
   background: center no-repeat url("./icons/MessageRead.svg");
   width: 11px;
   height: 5px;
@@ -806,21 +822,4 @@ button:disabled {
   line-height: 13px;
   margin-top: 10px;
   cursor: pointer;
-}
-
-.searchContacts {
-  position: absolute;
-  cursor: pointer;
-  top: 96px;
-  width: 309px;
-  height: 88vh;
-  max-height: 88vh;
-  overflow: overlay;
-  background: $backgroundSecondary;
-
-  .contactInfo {
-    width: 100%;
-    margin-left: 10px;
-  }
-
 }

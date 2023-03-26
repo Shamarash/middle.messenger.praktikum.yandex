@@ -28,18 +28,18 @@ export default class Store extends EventBus {
 
     super()
 
-    const savedState = localStorage.getItem(Store.STORE_NAME)
-
-    this._state = savedState ? (JSON.parse(savedState) ?? {}) : {}
+    // const savedState = localStorage.getItem(Store.STORE_NAME)
+    //
+    // this._state = savedState ? (JSON.parse(savedState) ?? {}) : {}
 
     Store._instance = this
 
-    this.on(
-      Store.EVENT_UPDATE,
-      () => {
-        localStorage.setItem(Store.STORE_NAME, JSON.stringify(this._state))
-      }
-    )
+    // this.on(
+    //   Store.EVENT_UPDATE,
+    //   () => {
+    //     localStorage.setItem(Store.STORE_NAME, JSON.stringify(this._state))
+    //   }
+    // )
   }
 
   getState () {
@@ -52,6 +52,7 @@ export default class Store extends EventBus {
   }
 
   set (id: keyof IStore, value: any) {
+    // @ts-expect-error
     this._state[id] = value
     this.emit(Store.EVENT_UPDATE)
     return this

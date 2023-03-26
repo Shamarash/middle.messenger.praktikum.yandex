@@ -1,34 +1,9 @@
-import { AttachmentEnum, MessageTypeEnum } from '../enum/chat'
 import { IBaseProps } from './component'
 import { Component } from '../component'
 import { ILinkProps } from './link'
 import { IInputProps } from './input'
 import { IUserInfo } from './api/auth'
-
-export interface IAttachment {
-  type: AttachmentEnum
-  url?: string
-}
-
-export interface IMessage {
-  id: string
-  time: string
-  user_id: string
-  content: string
-  type: MessageTypeEnum
-}
-
-export interface IFileOrSticker extends IMessage {
-  file: {
-    id: number
-    user_id: number
-    path: string
-    filename: string
-    content_type: string
-    content_size: string
-    upload_date: string
-  }
-}
+import { Message } from '../controllers/MessageController'
 
 export interface IChat {
   id: number
@@ -58,4 +33,5 @@ export interface IChatsProps extends IBaseProps {
   contactsSearch: Component<IInputProps>
   contacts: any
   searchUsers?: IUserInfo[]
+  messages?: Message[]
 }

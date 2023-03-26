@@ -11,7 +11,7 @@ class ContactsList extends Component<IContactsListProps> {
     return this.compile(template, {
       ...this._props,
       users: this._props.searchUsers,
-      chatList: this._props.chats.map(i => {
+      chatList: this._props.chats?.map((i: { id: number | null }) => {
         return {
           ...i, selected: store.getState().selectedChat === i.id
         }
@@ -42,7 +42,7 @@ const Contacts = Connect(
           click: function (e: MouseEvent) {
             const name = (e.target as HTMLUListElement).closest('li')?.querySelector('h4')?.textContent
             const id = (e.target as HTMLUListElement).closest('li')?.getAttribute('id')
-              console.log(id)
+
             if (isSearch && id && name) {
               store.set('searchValue', '')
               const search = document.getElementById('search') as HTMLInputElement

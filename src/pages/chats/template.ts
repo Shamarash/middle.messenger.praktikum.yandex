@@ -15,24 +15,24 @@ export default `<div class="contacts">
                     {{/if}}
                     <h3 class="messagesHeaderTitle">{{selectedChat.person.name}}</h3>
                 </div>
-                <button class="messagesHeaderDots"></button>
+                <button id="deleteChat" class="messagesHeaderDots">Удалить чат</button>
             </div>
             <div class="messagesList">
                 <ul>
                     {{#each messages}}
                         <li class="message
-                    {{#if (isMineMessage this.to)}}messageMine{{/if}}
-                            {{#if this.attachments}} messageImage{{/if}}">
-                            {{#if this.text}}
-                                <p>{{this.text}}</p>
+                    {{#if this.isMineMessage}}messageMine{{/if}}
+                            {{#if this.file}} messageImage{{/if}}">
+                            {{#if this.content}}
+                                <p>{{this.content}}</p>
                             {{else}}
-                                {{#each this.attachments}}
-                                    <img alt="message attachment" src="{{this.url}}"/>
-                                {{/each}}
+                                {{#if this.file}}
+                                    <img alt="message attachment" src="{{this.file.path}}"/>
                             {{/if}}
-                            {{#if this.read}}
-                                <div class="readIcon"></div>{{/if}}
-                            <div class="messageTime">{{this.dateTime}}</div>
+                            {{/if}}
+                          
+                                <div class="readIcon"></div>
+                            <div class="messageTime">{{this.time}}</div>
                         </li>
                     {{/each}}
                 </ul>

@@ -7,9 +7,6 @@ import Chats, { chatsProps } from './pages/chats'
 import Profile from './pages/profile'
 import handlebars from 'handlebars'
 import ErrorPage, { errorPageProps } from './components/errorPage'
-// @ts-expect-error
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import MessageController from './controllers/MessageController'
 
 window.store = Store
 

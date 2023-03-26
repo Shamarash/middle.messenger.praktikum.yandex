@@ -10,8 +10,8 @@ import { baseUrl } from '../../api/base'
 import link from '../../components/link'
 import { Component } from '../../component'
 import template from './template'
-import {ChangeAvatar, ChangePassword, ChangeProfile, ChangeProfileState, GetMe, LogOut} from '../../store/actions'
-import {IChangePasswordProps, IProfileChangeProps} from '../../interface/api/profile'
+import { ChangeAvatar, ChangePassword, ChangeProfile, ChangeProfileState, GetMe, LogOut } from '../../store/actions'
+import { IChangePasswordProps, IProfileChangeProps } from '../../interface/api/profile'
 
 class Profile extends Component<IProfileProps> {
   render (): Node | void {

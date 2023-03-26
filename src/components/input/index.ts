@@ -29,7 +29,9 @@ export default (props: IInputProps, onChange?: (value: string) => void) => new I
           const input = this._element.querySelector('input') as HTMLInputElement
           if (input) {
             input.setAttribute('value', target.value)
-            onChange && onChange(target.value)
+            if (onChange) {
+              onChange(target.value)
+            }
           }
           this.setProps({
             ...oldProps,
