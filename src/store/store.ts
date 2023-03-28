@@ -11,7 +11,9 @@ const InitialState: IStore = {
   searchUsers: [],
   profileMode: ProfileModeEnum.normal,
   messages: {},
-  searchValue: ''
+  searchValue: '',
+  addChatModalOpened: false,
+  addUserModalOpened: false
 }
 
 export default class Store extends EventBus {

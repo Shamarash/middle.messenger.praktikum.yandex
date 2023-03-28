@@ -102,7 +102,4 @@ export const loginProps: ILoginProps = {
       }
     }
   },
-  events: {
-
-  }
 }

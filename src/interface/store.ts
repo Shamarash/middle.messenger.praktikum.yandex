@@ -13,4 +13,6 @@ export interface IStore {
   selectedChat: number | null
   profileMode: ProfileModeEnum
   messages: Record<number, Message[]>
+  addChatModalOpened: boolean
+  addUserModalOpened: boolean
 }

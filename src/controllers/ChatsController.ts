@@ -23,8 +23,19 @@ class ChatsController {
     store.set('chats', chats.data)
   }
 
-  addUserToChat (id: number, userId: number) {
+  async addUserToChat (id: number, userId: number) {
     void Chats.addUserToChat({ chatId: id, users: [userId] })
+    await this.getChatUsers(id)
+  }
+
+  async deleteUserFromChat (id: number, userId: number) {
+    void Chats.addUserToChat({ chatId: id, users: [userId] })
+    await this.getChatUsers(id)
+  }
+
+  async getChatUsers (id: number) {
+    const users = await Chats.getChatUsers(id)
+    store.set('chatUsers', users.data)
   }
 
   async delete (id: number) {
@@ -41,6 +52,8 @@ class ChatsController {
 
   selectChat (id: number) {
     store.set('selectedChat', id)
+    store.set('chatUsers', [])
+    void this.getChatUsers(id)
   }
 }
 

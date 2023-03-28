@@ -1,7 +1,6 @@
 import { IBaseProps } from './component'
 import { Component } from '../component'
 import { ILinkProps } from './link'
-import { IInputProps } from './input'
 import { IUserInfo } from './api/auth'
 import { Message } from '../controllers/MessageController'
 
@@ -30,8 +29,10 @@ export interface IChatsProps extends IBaseProps {
   chats?: IChats
   selectedChat?: IChat | null
   profileLink: Component<ILinkProps>
-  contactsSearch: Component<IInputProps>
-  contacts: any
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  addChatModal: unknown
+  addUserModal: unknown
+  contacts: unknown
   searchUsers?: IUserInfo[]
   messages?: Message[]
 }

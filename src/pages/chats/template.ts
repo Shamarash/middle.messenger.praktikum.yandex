@@ -1,20 +1,23 @@
 export default `<div class="contacts">
         {{{profileLink}}}
-            {{{contactsSearch}}}
+        <button class="addChatButton" id="addChatButton">Создать новый чат</button>
+        {{{addChatModal}}}
+        {{{addUserModal}}}
             {{{contacts}}}
     </div>
     <div class="messages">
-        {{#if selectedChat}}
+        {{#if selectedChatId}}
             <div class="messagesHeader">
                 <div class="messagesHeaderProfile">
-                    {{#if selectedChat.person.avatar}}
+                    {{#if selectedChat.avatar}}
                         <img class="messagesHeaderAvatar" alt="selected chat person avatar"
-                             src={{selectedChat.person.avatar}}/>
+                             src={{selectedChat.avatar}}/>
                     {{else}}
                         <div class="headerWithoutAvatar"></div>
                     {{/if}}
-                    <h3 class="messagesHeaderTitle">{{selectedChat.person.name}}</h3>
+                    <h3 class="messagesHeaderTitle">{{selectedChat.title}}</h3>
                 </div>
+                <button id="addUserToChat">Участники чата</button>
                 <button id="deleteChat" class="messagesHeaderDots">Удалить чат</button>
             </div>
             <div class="messagesList">

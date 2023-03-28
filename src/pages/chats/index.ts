@@ -1,15 +1,16 @@
 import { IChatsProps } from '../../interface/chat'
 import { Component } from '../../component'
 import template from './template'
-import { Connect } from '../../store'
+import store, { Connect } from '../../store'
 import { IStore } from '../../interface/store'
 import link from '../../components/link'
 import { GetMe } from '../../store/actions'
 import Contacts from '../../components/contactList'
-import ContactsSearch from '../../components/contactsSearch'
+import AddUserModal from '../../components/addUserToChatModal'
 import ChatsController from '../../controllers/ChatsController'
 import MessageController, { Message } from '../../controllers/MessageController'
 import { baseUrl } from '../../api/base'
+import AddChatModal from '../../components/addChatModal'
 
 class Chats extends Component<IChatsProps> {
   render (): Node | void {
@@ -30,7 +31,8 @@ export const chatsProps: IChatsProps = {
   attributes: {
     class: 'chat'
   },
-  contactsSearch: ContactsSearch,
+  addChatModal: AddChatModal,
+  addUserModal: AddUserModal,
   contacts: Contacts,
   profileLink: link({
     name: 'Профиль',
@@ -45,9 +47,14 @@ export default Connect(
   (state: IStore) => {
     // @ts-expect-error
     const messages: Message[] = state[`messages.${state.selectedChat ?? 0}`] || []
+    const selectedChat = state.chats.find(i => i.id === state.selectedChat)
     return {
       ...chatsProps,
-      selectedChat: state.selectedChat,
+      selectedChatId: selectedChat?.id,
+      selectedChat: {
+        ...selectedChat,
+        avatar: selectedChat?.avatar ? baseUrl + selectedChat?.avatar : null
+      },
       messages: messages.map(msg => {
         const time = new Date(msg.time)
         return {
@@ -85,6 +92,16 @@ export default Connect(
             if (state.selectedChat) {
               void ChatsController.delete(state.selectedChat)
             }
+          }
+        },
+        '#addChatButton': {
+          click: function () {
+            store.set('addChatModalOpened', true)
+          }
+        },
+        '#addUserToChat': {
+          click: function () {
+            store.set('addUserModalOpened', true)
           }
         }
       }

@@ -110,7 +110,7 @@ export const SearchUsers = (data: string) => {
   userApi.userSearch(data).then(res => {
     console.log(res)
     if (res.code !== 200) {
-      throw new Error('Change profile error')
+      throw new Error('SearchUsers error')
     }
     const users = res.data as IUserInfo[]
     store.set('searchUsers', users.map(i => ({ ...i, avatar: i.avatar ? baseUrl + '/resources' + i.avatar : null })))
@@ -119,28 +119,29 @@ export const SearchUsers = (data: string) => {
   })
 }
 
-export const CreateChat = (data: { chatTitle: string, userId: number }) => {
-  chatApi.createChat({ title: data.chatTitle }).then(res => {
+export const CreateChat = (chatTitle: string) => {
+  chatApi.createChat({ title: chatTitle }).then(res => {
     console.log(res)
     if (res.code !== 200) {
       throw new Error('create chat error')
     }
-    // @ts-expect-error
-    const id = res.data?.id as number
+    store.set('addChatModalOpened', false)
+    void ChatsController.fetchChats()
+  }).catch(error => {
+    console.log(error)
+  })
+}
 
-    chatApi.addUserToChat({
-      users: [data.userId],
-      chatId: id
-    }).then(res => {
-      console.log(res)
-      if (res.code !== 200) {
-        throw new Error('create chat error')
-      }
-
-      void ChatsController.fetchChats()
-    }).catch(error => {
-      console.log(error)
-    })
+export const AddUserToChat = (data: { chatId: number, userId: number }) => {
+  chatApi.addUserToChat({
+    users: [data.userId],
+    chatId: data.chatId
+  }).then(res => {
+    console.log(res)
+    if (res.code !== 200) {
+      throw new Error('addUserToChat error')
+    }
+    void ChatsController.fetchChats()
   }).catch(error => {
     console.log(error)
   })

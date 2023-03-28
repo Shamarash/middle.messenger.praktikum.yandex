@@ -18,8 +18,16 @@ class ChatAPI {
     return await request.post<{ token: string }>(baseUrl + `/chats/token/${id}`)
   }
 
+  async getChatUsers (id: number) {
+    return await request.get(baseUrl + `/chats/${id}/users`)
+  }
+
   async addUserToChat (data: IAddUserToChat) {
     return await request.put(baseUrl + '/chats/users', { data })
+  }
+
+  async deleteUserFromChat (data: IAddUserToChat) {
+    return await request.delete(baseUrl + '/chats/users', { data })
   }
 }
 

@@ -31,6 +31,7 @@ $selectedItem: #e4edfd;
 $avatarBackground: #efefef;
 $separator: #eaeaea;
 $messageBackground: #f8f8f8;
+$modalBackground: rgb(0 0 0 / 10%);
 $messageTime: rgb(82 82 82 / 50%);
 $scrollbar: rgb(51 51 51 / 40%);
 $black: #000;
@@ -420,6 +421,10 @@ button:disabled {
   background: $backgroundSecondary;
   position: relative;
 
+  .addChatButton {
+    margin: 20px;
+  }
+
   .contactAvatar {
     height: 47px;
     width: 47px;
@@ -548,6 +553,7 @@ button:disabled {
     flex-direction: column;
     height: 100%;
     overflow: scroll;
+    border-top: 1px solid $boxShadow;
   }
 
   li {
@@ -586,8 +592,8 @@ button:disabled {
   flex-direction: column;
 
   .messagesHeader {
-    min-height: 54px;
-    max-height: 54px;
+    min-height: 64px;
+    max-height: 64px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -620,7 +626,6 @@ button:disabled {
   }
 
   .messagesHeaderDots {
-    height: 20px;
     width: 80px;
     color: $errorPrimary;
     background: transparent;
@@ -823,3 +828,73 @@ button:disabled {
   margin-top: 10px;
   cursor: pointer;
 }
+
+.modalOverlay {
+  background: $modalBackground;
+  position: fixed;
+  display: flex;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+}
+
+.modal {
+  background: $backgroundPrimary;
+  display: flex;
+  padding: 24px;
+  border-radius: 12px;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 400px;
+  input {
+    width: 100%;
+    background: $avatarBackground;
+  }
+  button {
+    width: 100px;
+  }
+  h3 {
+    align-self: start;
+  }
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  display: flex;
+  background: $textSecondary;
+}
+
+.modalVisible {
+  visibility: visible;
+}
+
+.scrollContainer {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  overflow: scroll;
+  width: 100%;
+  gap: 12px;
+  align-items: center;
+}
+
+.addUserRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  p {
+    margin: 0;
+  }
+}
+
+#addUserToChat {
+  padding: 6px 12px;
+}
+
