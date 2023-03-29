@@ -29,6 +29,10 @@ class ChatAPI {
   async deleteUserFromChat (data: IAddUserToChat) {
     return await request.delete(baseUrl + '/chats/users', { data })
   }
+
+  async changeAvatar (data: FormData) {
+    return await request.put(baseUrl + '/chats/avatar', { data })
+  }
 }
 
 const chatApi = new ChatAPI()

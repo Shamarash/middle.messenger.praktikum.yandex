@@ -4,15 +4,19 @@ import { IContactsListProps } from '../../interface/contactsList'
 import store, { Connect } from '../../store'
 import { IStore } from '../../interface/store'
 import ChatsController from '../../controllers/ChatsController'
+import { baseUrl } from '../../api/base'
+import { IChat } from '../../interface/chat'
 
 class ContactsList extends Component<IContactsListProps> {
   render (): Node | void {
     return this.compile(template, {
       ...this._props,
       users: this._props.searchUsers,
-      chatList: this._props.chats?.map((i: { id: number | null }) => {
+      chatList: this._props.chats?.map((i: IChat) => {
         return {
-          ...i, selected: store.getState().selectedChat === i.id
+          ...i,
+          selected: store.getState().selectedChat === i.id,
+          avatar: i?.avatar ? baseUrl + '/resources' + i.avatar : null,
         }
       }),
     })

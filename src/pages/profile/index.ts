@@ -259,7 +259,7 @@ export default Connect(
       isEdit: state.profileMode !== ProfileModeEnum.normal,
       chatsLink: link({
         name: '',
-        href: '/chats',
+        href: '/messenger',
         className: 'goBackLink'
       }),
       showProfileTitle: state.profileMode === ProfileModeEnum.normal,

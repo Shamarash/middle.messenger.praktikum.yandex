@@ -2,7 +2,7 @@ export default `<ul class="contactsList">
 {{#each chatList}}
                     <li id="{{this.id}}" class="{{#if this.selected}}selectedChat{{/if}}">
                         {{#if this.avatar}}
-                            <img class="contactAvatar" alt="contact avatar" src={{this.avatar}}/>
+                            <img class="contactAvatar" alt="contact avatar" src="{{this.avatar}}"/>
                         {{else}}
                             <div class="contactWithoutAvatar"></div>
                         {{/if}}

@@ -61,7 +61,9 @@ class MessagesController {
   }
 
   closeAll () {
-    Array.from(this.sockets.values()).forEach(socket => { socket.close() })
+    Array.from(this.sockets.values()).forEach(socket => {
+      socket.close()
+    })
   }
 
   private onMessage (id: number, messages: Message | Message[]) {
@@ -88,8 +90,12 @@ class MessagesController {
   }
 
   private subscribe (transport: WSTransport, id: number) {
-    transport.on(WSTransportEvents.Message, (message: any) => { this.onMessage(id, message) })
-    transport.on(WSTransportEvents.Close, () => { this.onClose(id) })
+    transport.on(WSTransportEvents.Message, (message: any) => {
+      this.onMessage(id, message)
+    })
+    transport.on(WSTransportEvents.Close, () => {
+      this.onClose(id)
+    })
   }
 }
 

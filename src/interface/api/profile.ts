@@ -1,4 +1,3 @@
-
 export interface IChangePasswordProps {
   oldPassword: string
   newPassword: string

@@ -18,7 +18,7 @@ export const GetMe = () => {
     console.log(res)
     if (res.code === 401) {
       store.set('user', {})
-      router.go('/login')
+      router.go('/sign-in')
       return
     }
     if (res.code === 200) {
@@ -36,7 +36,7 @@ export const LogIn = (data: ISignInProps) => {
     if (res.code !== 200) {
       throw new Error('Log in error')
     }
-    router.go('/chats')
+    router.go('/messenger')
   }).catch(error => {
     console.log(error)
   })
@@ -48,7 +48,7 @@ export const SignIn = (data: ISignUpProps) => {
     if (res.code !== 200) {
       throw new Error('Register error')
     }
-    router.go('/chats')
+    router.go('/messenger')
   }).catch(error => {
     console.log(error)
   })
@@ -60,7 +60,7 @@ export const ChangeProfile = (data: IProfileChangeProps) => {
     if (res.code !== 200) {
       throw new Error('Change profile error')
     }
-    store.set('user', data)
+    GetMe()
     store.set('profileMode', ProfileModeEnum.normal)
   }).catch(error => {
     console.log(error)
@@ -100,7 +100,7 @@ export const LogOut = () => {
     }
     messageController.closeAll()
     store.set('user', {})
-    router.go('/login')
+    router.go('/sign-in')
   }).catch(error => {
     console.log(error)
   })
@@ -153,4 +153,15 @@ export const ChangeProfileState = (data: ProfileModeEnum) => {
 
 export const ClearUsersSearch = () => {
   store.set('searchUsers', [])
+}
+
+export const ChangeChatAvatar = (data: FormData) => {
+  chatApi.changeAvatar(data).then(res => {
+    if (res.code !== 200) {
+      throw new Error('Change Chat avatar error')
+    }
+    void ChatsController.fetchChats()
+  }).catch(error => {
+    console.log(error)
+  })
 }

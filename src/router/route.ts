@@ -29,15 +29,21 @@ export default class Route {
   }
 
   navigate (path: string) {
-    if (this.match(path)) { this.render() }
+    if (this.match(path)) {
+      this.render()
+    }
   }
 
   leave () {
-    if (this.block) { this.block.hide() }
+    if (this.block) {
+      this.block.hide()
+    }
   }
 
   match (path: string) {
-    if (this.props.withId) { return path.includes(this.path) }
+    if (this.props.withId) {
+      return path.includes(this.path)
+    }
     return path === this.path
   }
 }

@@ -4,30 +4,37 @@ import { ClearUsersSearch, SearchUsers } from '../../store/actions'
 import store, { Connect } from '../../store'
 import { IStore } from '../../interface/store'
 import { debounce } from '../../utils/debounce'
-import { IBaseProps } from '../../interface/component'
 import ChatsController from '../../controllers/ChatsController'
 import { baseUrl } from '../../api/base'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 class AddUserToChatModal extends Component<{}> {
   render (): Node | void {
-    return this.compile(template, this._props)
+    return this.compile(template, {
+      ...this._props,
+      chatUsers: this._props.currentUsers,
+      newUsers: this._props.usersToAdd,
+    })
   }
 
-  componentDidUpdate (oldProps: IBaseProps, newProps: IBaseProps): boolean {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  componentDidUpdate (oldProps: {}, newProps: {}): boolean {
     setTimeout(() => {
       const input = document.getElementById('addUserInput') as HTMLInputElement
-      input.value = store.getState().searchValue
-      input.focus()
+      if (input) {
+        input.value = store.getState().searchValue
+        input.focus()
+      }
     }, 0)
-
     return super.componentDidUpdate(oldProps, newProps)
   }
 }
 
 export const closeAddUserModal = () => {
   const input = document.getElementById('addUserInput') as HTMLInputElement
-  input.value = ''
+  if (input) {
+    input.value = ''
+  }
   ClearUsersSearch()
   store.set('searchValue', '')
   store.set('addUserModalOpened', false)
@@ -47,27 +54,32 @@ function handleInput (e: Event) {
 const AddUserModal = Connect(
   AddUserToChatModal,
   (state: IStore) => {
+    const usersToAdd = state.searchUsers
+    const currentUsers = state.chatUsers.map(user => {
+      return {
+        ...user,
+        avatar: user?.avatar ? baseUrl + '/resources' + user?.avatar : null,
+        me: state.user.id === user.id
+      }
+    })
     return {
-      currentUsers: state.chatUsers.map(user => {
-        return {
-          ...user,
-          avatar: user?.avatar ? baseUrl + user?.avatar : null
-        }
-      }),
-      usersToAdd: state.searchUsers,
+      currentUsers,
+      usersToAdd,
       search: !!state.searchValue,
-      attributes: {
-        class: `modalOverlay ${state.addUserModalOpened ? 'modalVisible' : ''}`,
-        id: 'addUserToChatModalOverlay',
-      },
-      events: {
-        click: function (e: Event) {
-          if (e.target === e.currentTarget) {
-            closeAddUserModal()
-          }
+      attributesWithSelector: {
+        '#addUserToChatModalOverlay': {
+          class: `modalOverlay ${state.addUserModalOpened ? 'modalVisible' : ''}`,
         }
       },
       eventsWithSelector: {
+        '#addUserToChatModalOverlay': {
+          click: function (e: Event) {
+            console.log(e)
+            if (e.target === e.currentTarget) {
+              closeAddUserModal()
+            }
+          }
+        },
         '#addUserButton': {
           click: function () {
             const input = document.getElementById('addUserInput') as HTMLInputElement
@@ -86,9 +98,11 @@ const AddUserModal = Connect(
         '#userList': {
           click: function (e: Event) {
             const el = e.target as HTMLButtonElement
+
             if (el?.classList.contains('deleteUserButton')) {
               const id = el.getAttribute('id')
               const chatId = state.selectedChat
+              console.log(id, chatId)
               if (id && chatId) {
                 void ChatsController.deleteUserFromChat(chatId, +id)
               }

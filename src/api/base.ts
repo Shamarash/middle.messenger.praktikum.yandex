@@ -52,7 +52,9 @@ export class HttpRequest {
     return await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       const newUrl = (queryParams != null) ? url + queryStringify(queryParams) : url
-      if (method) { xhr.open(method, newUrl) }
+      if (method) {
+        xhr.open(method, newUrl)
+      }
       if (!(data instanceof FormData)) {
         xhr.setRequestHeader('content-type', 'application/json')
       }

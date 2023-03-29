@@ -56,7 +56,7 @@ const content: ILoginProps = {
     submit: true
   }),
   linkToRegister: link({
-    href: '/register',
+    href: '/sign-up',
     id: 'link-register',
     name: 'Нет аккаунта? Зарегистрироваться',
     className: 'button',

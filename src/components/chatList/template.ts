@@ -4,7 +4,7 @@ export default `{{#each chats}}
                             window.dispatchEvent(new CustomEvent('selectedChatChange'))
                             })()">
                         {{#if this.person.avatar}}
-                            <img class="contactAvatar" alt="contact avatar" src={{this.person.avatar}}/>
+                            <img class="contactAvatar" alt="contact avatar" src="{{this.person.avatar}}"/>
                         {{else}}
                             <div class="contactWithoutAvatar"></div>
                         {{/if}}

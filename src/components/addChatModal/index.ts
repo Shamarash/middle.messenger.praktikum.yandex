@@ -15,20 +15,23 @@ const ChatModal = Connect(
   AddChatModal,
   (state: IStore) => {
     return {
-      attributes: {
-        class: `modalOverlay ${state.addChatModalOpened ? 'modalVisible' : ''}`,
-        id: 'addChatModalOverlay',
-      },
-      events: {
-        click: function (e: Event) {
-          if (e.target === e.currentTarget) {
-            store.set('addChatModalOpened', false)
-            const input = document.getElementById('modalInput') as HTMLInputElement
-            input.value = ''
-          }
+      attributesWithSelector: {
+        '#addChatModalOverlay': {
+          class: `modalOverlay ${state.addChatModalOpened ? 'modalVisible' : ''}`,
         }
       },
       eventsWithSelector: {
+        '#addChatModalOverlay': {
+          click: function (e: Event) {
+            if (e.target === e.currentTarget) {
+              store.set('addChatModalOpened', false)
+              const input = document.getElementById('modalInput') as HTMLInputElement
+              if (input) {
+                input.value = ''
+              }
+            }
+          }
+        },
         '#createChatButton': {
           click: function () {
             const input = document.getElementById('modalInput') as HTMLInputElement

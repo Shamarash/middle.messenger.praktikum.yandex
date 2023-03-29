@@ -9,20 +9,27 @@ export default `<div class="contacts">
         {{#if selectedChatId}}
             <div class="messagesHeader">
                 <div class="messagesHeaderProfile">
+                <div class="avatarContainer">
                     {{#if selectedChat.avatar}}
                         <img class="messagesHeaderAvatar" alt="selected chat person avatar"
-                             src={{selectedChat.avatar}}/>
+                             src="{{selectedChat.avatar}}"/>
                     {{else}}
-                        <div class="headerWithoutAvatar"></div>
+                        <input id="chatAvatarInput" class="chatAvatarInput" type="file"/>
+<h5>Выбрать аватар</h5>
+                         <button id="chatAvatarUpdate" class="chatAvatarUpdate">Сохранить</button>
+                      
                     {{/if}}
-                    <h3 class="messagesHeaderTitle">{{selectedChat.title}}</h3>
+                    </div>
+
                 </div>
+                                    <h3 class="messagesHeaderTitle">{{selectedChat.title}}</h3>
                 <button id="addUserToChat">Участники чата</button>
                 <button id="deleteChat" class="messagesHeaderDots">Удалить чат</button>
             </div>
             <div class="messagesList">
                 <ul>
                     {{#each messages}}
+                    {{log this}}
                         <li class="message
                     {{#if this.isMineMessage}}messageMine{{/if}}
                             {{#if this.file}} messageImage{{/if}}">
@@ -33,9 +40,19 @@ export default `<div class="contacts">
                                     <img alt="message attachment" src="{{this.file.path}}"/>
                             {{/if}}
                             {{/if}}
-                          
+                          {{#if this.is_read}}
                                 <div class="readIcon"></div>
+                                {{/if}}
                             <div class="messageTime">{{this.time}}</div>
+                             {{#if this.isMineMessage}}
+                             {{else}}
+                            <h5 class="messageLogin">{{this.login}}</h5>
+                            {{#if this.avatar}}
+                            <img class="messageAvatar" alt="message avatar" src="{{this.avatar}}"/>
+                            {{else}}
+                            <div class="messageEmptyAvatar"></div>
+                            {{/if}}
+                            {{/if}}
                         </li>
                     {{/each}}
                 </ul>

@@ -4,7 +4,7 @@ import template from './template'
 import store, { Connect } from '../../store'
 import { IStore } from '../../interface/store'
 import link from '../../components/link'
-import { GetMe } from '../../store/actions'
+import { ChangeChatAvatar, GetMe } from '../../store/actions'
 import Contacts from '../../components/contactList'
 import AddUserModal from '../../components/addUserToChatModal'
 import ChatsController from '../../controllers/ChatsController'
@@ -36,7 +36,7 @@ export const chatsProps: IChatsProps = {
   contacts: Contacts,
   profileLink: link({
     name: 'Профиль',
-    href: '/profile',
+    href: '/settings',
     className: 'linkToProfile'
   }),
 
@@ -53,23 +53,33 @@ export default Connect(
       selectedChatId: selectedChat?.id,
       selectedChat: {
         ...selectedChat,
-        avatar: selectedChat?.avatar ? baseUrl + selectedChat?.avatar : null
+        avatar: selectedChat?.avatar ? baseUrl + '/resources' + selectedChat?.avatar : null,
       },
       messages: messages.map(msg => {
         const time = new Date(msg.time)
+        const user = state.chatUsers.find(i => i.id === msg.user_id)
         return {
           ...msg,
           isMineMessage: msg.user_id === state.user.id,
           time: time.toLocaleTimeString(),
+          login: user?.login,
+          avatar: user?.avatar ? baseUrl + '/resources' + user.avatar : null,
           file: msg.file
             ? {
                 ...msg.file,
-                path: baseUrl + msg.file.path
+                path: baseUrl + '/resources' + msg.file.path
               }
             : undefined
         }
       }),
       eventsWithSelector: {
+        '#chatAvatarInput': {
+          change: function (e: SubmitEvent) {
+            if ((e.target as HTMLInputElement).files?.length) {
+              document.getElementById('chatAvatarUpdate')?.classList.add('visible')
+            }
+          }
+        },
         '#messageSendForm': {
           submit: function (e: SubmitEvent) {
             e.preventDefault()
@@ -91,6 +101,18 @@ export default Connect(
             e.preventDefault()
             if (state.selectedChat) {
               void ChatsController.delete(state.selectedChat)
+            }
+          }
+        },
+        '#chatAvatarUpdate': {
+          click: function (e: MouseEvent) {
+            e.preventDefault()
+            const input = document.getElementById('chatAvatarInput') as HTMLInputElement
+            if (input?.files && input?.files[0] && state.selectedChat) {
+              const formData = new FormData()
+              formData.append('avatar', input?.files[0])
+              formData.append('chatId', state.selectedChat.toString())
+              ChangeChatAvatar(formData)
             }
           }
         },

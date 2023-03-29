@@ -12,7 +12,7 @@ export default class ErrorPage extends Component<IErrorPageProps> {
 export const errorPageProps: IErrorPageProps = {
   goBackLink: link({
     name: 'Назад к чатам',
-    href: '/chats'
+    href: '/messenger'
   }),
   attributes: {
     class: 'centeredFlex errorPage',

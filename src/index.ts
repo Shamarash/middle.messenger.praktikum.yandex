@@ -16,8 +16,8 @@ handlebars.registerHelper('log', function (something) {
 
 router
   .use('/404', ErrorPage, 'div', { ...errorPageProps, code: 404, text: 'Не туда попали' })
-  .use('/register', Register, 'div', registerProps)
-  .use('/chats', Chats, 'div', chatsProps)
-  .use('/profile', Profile, 'div', {})
-  .use('/login', LoginPage, 'div', loginProps)
+  .use('/sign-up', Register, 'div', registerProps)
+  .use('/messenger', Chats, 'div', chatsProps)
+  .use('/settings', Profile, 'div', {})
+  .use('/sign-in', LoginPage, 'div', loginProps)
   .start()

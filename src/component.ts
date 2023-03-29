@@ -20,13 +20,13 @@ type IAttribute = [string, boolean | string | undefined]
 export type IObject = Record<string, any>
 
 export class Component<T extends IObject> {
-  private _element: HTMLElement = document.createElement('div')
   readonly _meta: IMeta<T>
   _props: IObject
   readonly _eventBus: EventBus
   _children: IObject
-  private _setUpdate = false
   readonly _id: string
+  private _element: HTMLElement = document.createElement('div')
+  private _setUpdate = false
 
   constructor (tagName = 'div', propsAndChilds: T) {
     const { children, props } = this.getChildren(propsAndChilds)

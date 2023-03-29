@@ -24,18 +24,26 @@ class ChatsController {
   }
 
   async addUserToChat (id: number, userId: number) {
-    void Chats.addUserToChat({ chatId: id, users: [userId] })
-    await this.getChatUsers(id)
+    Chats.addUserToChat({ chatId: id, users: [userId] }).then(() => {
+      void this.getChatUsers(id)
+    }).catch(err => {
+      console.log(err)
+    })
   }
 
   async deleteUserFromChat (id: number, userId: number) {
-    void Chats.addUserToChat({ chatId: id, users: [userId] })
-    await this.getChatUsers(id)
+    Chats.deleteUserFromChat({ chatId: id, users: [userId] }).then(() => {
+      void this.getChatUsers(id)
+    }).catch(err => {
+      console.log(err)
+    })
   }
 
   async getChatUsers (id: number) {
     const users = await Chats.getChatUsers(id)
-    store.set('chatUsers', users.data)
+    if (Array.isArray(users.data)) {
+      store.set('chatUsers', users.data)
+    }
   }
 
   async delete (id: number) {

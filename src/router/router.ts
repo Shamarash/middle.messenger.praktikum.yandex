@@ -50,7 +50,7 @@ export default class Router {
     const route = this.getRoute(path)
 
     if (path === '/') {
-      this.go('/chats')
+      this.go('/messenger')
       return
     }
 

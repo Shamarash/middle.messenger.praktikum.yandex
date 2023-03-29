@@ -6,6 +6,7 @@ export interface ISignUpProps {
   password: string
   phone: string
 }
+
 export interface ISignUpResponse {
   id: string
 }
