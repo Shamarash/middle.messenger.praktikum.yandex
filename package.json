@@ -4,7 +4,7 @@
   "description": "Messenger app",
   "source": "src/index.html",
   "scripts": {
-    "start": "parcel src/index.html --port 3000 --no-source-maps --target default --open",
+    "start": "parcel src/index.html --port 3002 --no-source-maps --target default --open",
     "build": "parcel build"
   },
   "author": "",

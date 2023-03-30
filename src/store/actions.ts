@@ -10,6 +10,7 @@ import { baseUrl } from '../api/base'
 import chatApi from '../api/chats'
 import ChatsController from '../controllers/ChatsController'
 import messageController from '../controllers/MessageController'
+import { setAlert } from '../utils/alert'
 
 const store = new Store()
 
@@ -34,10 +35,12 @@ export const LogIn = (data: ISignInProps) => {
   authApi.logIn(data).then(res => {
     console.log(res)
     if (res.code !== 200) {
-      throw new Error('Log in error')
+      // @ts-expect-error
+      throw new Error(res.data?.reason ?? 'Log in error')
     }
     router.go('/messenger')
   }).catch(error => {
+    setAlert(error)
     console.log(error)
   })
 }
@@ -46,10 +49,12 @@ export const SignIn = (data: ISignUpProps) => {
   authApi.register(data).then(res => {
     console.log(res)
     if (res.code !== 200) {
-      throw new Error('Register error')
+      // @ts-expect-error
+      throw new Error(res.data?.reason ?? 'Register error')
     }
     router.go('/messenger')
   }).catch(error => {
+    setAlert(error)
     console.log(error)
   })
 }
@@ -58,11 +63,13 @@ export const ChangeProfile = (data: IProfileChangeProps) => {
   userApi.changeProfile(data).then(res => {
     console.log(res)
     if (res.code !== 200) {
-      throw new Error('Change profile error')
+      // @ts-expect-error
+      throw new Error(res.data?.reason ?? 'Change profile error')
     }
     GetMe()
     store.set('profileMode', ProfileModeEnum.normal)
   }).catch(error => {
+    setAlert(error)
     console.log(error)
   })
 }
@@ -71,11 +78,13 @@ export const ChangeAvatar = (data: FormData) => {
   userApi.changeAvatar(data).then(res => {
     console.log(res)
     if (res.code !== 200) {
-      throw new Error('Change avatar error')
+      // @ts-expect-error
+      throw new Error(res.data?.reason ?? 'Change avatar error')
     }
     const user = res.data as IProfile
     store.set('user', user)
   }).catch(error => {
+    setAlert(error)
     console.log(error)
   })
 }
@@ -84,10 +93,12 @@ export const ChangePassword = (data: IChangePasswordProps) => {
   userApi.changePassword(data).then(res => {
     console.log(res)
     if (res.code !== 200) {
-      throw new Error('change Password error')
+      // @ts-expect-error
+      throw new Error(res.data?.reason ?? 'change Password error')
     }
     store.set('profileMode', ProfileModeEnum.normal)
   }).catch(error => {
+    setAlert(error)
     console.log(error)
   })
 }
@@ -96,12 +107,14 @@ export const LogOut = () => {
   authApi.logOut().then(res => {
     console.log(res)
     if (res.code !== 200) {
-      throw new Error('Log out error')
+      // @ts-expect-error
+      throw new Error(res.data?.reason ?? 'Log out error')
     }
     messageController.closeAll()
     store.set('user', {})
     router.go('/sign-in')
   }).catch(error => {
+    setAlert(error)
     console.log(error)
   })
 }
@@ -123,11 +136,13 @@ export const CreateChat = (chatTitle: string) => {
   chatApi.createChat({ title: chatTitle }).then(res => {
     console.log(res)
     if (res.code !== 200) {
-      throw new Error('create chat error')
+      // @ts-expect-error
+      throw new Error(res.data?.reason ?? 'create chat error')
     }
     store.set('addChatModalOpened', false)
     void ChatsController.fetchChats()
   }).catch(error => {
+    setAlert(error)
     console.log(error)
   })
 }
@@ -158,10 +173,12 @@ export const ClearUsersSearch = () => {
 export const ChangeChatAvatar = (data: FormData) => {
   chatApi.changeAvatar(data).then(res => {
     if (res.code !== 200) {
-      throw new Error('Change Chat avatar error')
+      // @ts-expect-error
+      throw new Error(res.data?.reason ?? 'Change Chat avatar error')
     }
     void ChatsController.fetchChats()
   }).catch(error => {
+    setAlert(error)
     console.log(error)
   })
 }

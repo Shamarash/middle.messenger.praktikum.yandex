@@ -969,3 +969,26 @@ button:disabled {
   transform: none !important;
   position: static;
 }
+
+.alert {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  font-weight: 500;
+  border: 1px solid #ff2f2f;
+  border-radius: 5px;
+  background: white;
+  text-align: center;
+  padding: 20px 30px;
+  visibility: hidden;
+  transition: all 0.5s linear;
+  z-index: 3;
+}
+
+.alertVisible {
+  visibility: visible;
+  transition: top 0.5s linear;
+  top: 20px;
+}
