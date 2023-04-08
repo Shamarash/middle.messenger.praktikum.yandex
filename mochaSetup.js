@@ -2,14 +2,14 @@ const { JSDOM } = require('jsdom')
 const Handlebars = require('handlebars')
 const fs = require('fs')
 
-const { window } = new JSDOM('<div id="app"></div>', {
+const { window } = new JSDOM('<main class="App"></main>', {
   url: 'http://localhost:3000'
 })
 
 global.window = window
 global.document = window.document
 global.DocumentFragment = window.DocumentFragment
-global.setTimeout = window.setTimeout
+global.Node = window.Node
 
 // eslint-disable-next-line n/no-deprecated-api
 require.extensions['.hbs'] = function (module, filename) {
@@ -17,8 +17,6 @@ require.extensions['.hbs'] = function (module, filename) {
 
   module.exports = Handlebars.compile(contents)
 }
-
-// eslint-disable-next-line n/no-deprecated-api
-require.extensions['.scss'] = function () {
+require.extensions['.pcss'] = function () {
   module.exports = () => ({})
 }

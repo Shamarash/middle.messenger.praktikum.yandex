@@ -9,41 +9,52 @@ module.exports = {
     filename: 'project-name.bundle.js'
   },
   resolve: {
-    extensions: ['.ts', '.js', '.json']
+    extensions: ['.ts', '.js', '.json'],
+    alias: {
+      handlebars: 'handlebars/dist/handlebars.js'
+    }
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 3000,
-    proxy: [
-      {
-        context: ['/proxy-api/**'],
-        target: 'https://proxy-api/api/',
-        pathRewrite: { '^/api/': '/' },
-        secure: false,
-        onProxyReq: proxyReq => {
-          proxyReq.setHeader('Host', 'my-custom-host')
-        }
-      }
-    ],
-    https: true,
+    historyApiFallback: true,
     open: true,
-    watch: true,
     hot: true
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [new HtmlWebpackPlugin({
+    filename: 'index.html',
+    template: path.resolve(__dirname, 'src/index.html'),
+    inject: 'body'
+  })],
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ],
+        exclude: /(node_modules)/
+      },
+      {
+        test: /\.ts?$/,
         use: [
           {
-            loader: 'ts-loader',
-            options: {
-              configFile: path.resolve(__dirname, 'tsconfig.json')
-            }
+            loader: 'ts-loader'
+
           }
         ],
+        exclude: /(node_modules)/
+      },
+      {
+        test: /\.hbs$/,
+        use: [
+          {
+            loader: 'handlebars-loader'
+          }
+        ],
+
         exclude: /(node_modules)/
       },
       {

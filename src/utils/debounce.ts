@@ -5,6 +5,7 @@ export function debounce (callee: (...args: any[]) => string, timeoutMs: number)
     if (previousCall && this.lastCall - previousCall <= timeoutMs) {
       clearTimeout(this.lastCallTimer)
     }
+    // @ts-expect-error
     this.lastCallTimer = setTimeout(() => callee(...args), timeoutMs)
   }
 }

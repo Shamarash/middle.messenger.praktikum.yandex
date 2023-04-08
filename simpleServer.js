@@ -1,14 +1,10 @@
-const http = require('http')
+const express = require('express')
+const path = require('path')
 
-const hostname = '0.0.0.0' // сервер запустим на всех интерфейсах
-const port = 3000
+const app = express()
+const PORT = 3000
+app.use(express.static(path.resolve(__dirname, '/dist')))
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200
-  res.setHeader('Content-Type', 'text/plain')
-  res.end('Hello World')
-})
-
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`)
+app.listen(PORT, function () {
+  console.log(`Example app listening on port ${PORT}!`)
 })
