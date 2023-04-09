@@ -9,6 +9,7 @@
     "test": "mocha --require ts-node/register --require ./mochaSetup.js './src/**/*.test.ts'",
     "lint:css": "stylelint **/*.scss",
     "lint:js": "eslint .",
+    "linters": "npm-run-all --parallel lint:*",
     "precommit": "npm-run-all --parallel lint:* test",
     "prepare": "husky install"
   },
@@ -32,7 +33,7 @@
     "file-loader": "6.2.0",
     "handlebars-loader": "1.7.3",
     "html-webpack-plugin": "5.5.0",
-    "husky": "8.0.0",
+    "husky": "8.0.3",
     "jsdom": "21.1.1",
     "jsdom-global": "3.0.2",
     "mocha": "10.2.0",
