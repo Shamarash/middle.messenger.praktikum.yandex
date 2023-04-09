@@ -1,4 +1,4 @@
-import { Component } from '../../component'
+import Component from '../../component'
 import template from './template'
 import { CreateChat } from '../../store/actions'
 import store, { Connect } from '../../store'

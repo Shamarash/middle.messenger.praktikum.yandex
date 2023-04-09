@@ -1,5 +1,5 @@
 import renderDOM from '../utils/render'
-import { Component } from '../component'
+import Component from '../component'
 
 export default class Route {
   Component: typeof Component<any>

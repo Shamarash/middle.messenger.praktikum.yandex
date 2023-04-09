@@ -19,13 +19,13 @@ type IAttribute = [string, boolean | string | undefined]
 
 export type IObject = Record<string, any>
 
-export class Component<T extends IObject> {
+class Component<T extends IObject> {
   readonly _meta: IMeta<T>
   _props: IObject
   readonly _eventBus: EventBus
   _children: IObject
   readonly _id: string
-  private _element: HTMLElement = document.createElement('div')
+  _element: HTMLElement = document.createElement('div')
   private _setUpdate = false
 
   constructor (tagName = 'div', propsAndChilds: T) {
@@ -308,3 +308,4 @@ export class Component<T extends IObject> {
     this.getContent().style.display = 'none'
   }
 }
+export default Component

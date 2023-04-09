@@ -1,5 +1,5 @@
 import { IBaseProps } from './component'
-import { Component } from '../component'
+import Component from '../component'
 import { ILinkProps } from './link'
 import { IUserInfo } from './api/auth'
 import { Message } from '../controllers/MessageController'

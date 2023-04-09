@@ -1,5 +1,5 @@
 import { IChatsProps } from '../../interface/chat'
-import { Component } from '../../component'
+import Component from '../../component'
 import template from './template'
 import store, { Connect } from '../../store'
 import { IStore } from '../../interface/store'

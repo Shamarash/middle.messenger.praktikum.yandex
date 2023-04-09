@@ -1,5 +1,5 @@
 import { IInputProps } from '../../interface/input'
-import { Component } from '../../component'
+import Component from '../../component'
 import template from './template'
 
 class Input extends Component<IInputProps> {

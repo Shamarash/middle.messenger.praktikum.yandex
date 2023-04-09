@@ -1,5 +1,5 @@
 import { ILinkProps } from '../../interface/link'
-import { Component } from '../../component'
+import Component from '../../component'
 import template from './template'
 import { router } from '../../router'
 
