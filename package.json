@@ -12,6 +12,11 @@
     "lint": "npm-run-all --parallel lint:*",
     "pre-commit": "npm-run-all test lint"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pre-commit"
+    }
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
