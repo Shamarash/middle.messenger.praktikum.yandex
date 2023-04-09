@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --mode=development --open",
     "build": "webpack",
     "test": "mocha --require ts-node/register --require ./mochaSetup.js './src/**/*.test.ts'",
-    "lint:css": "stylelint **/*.css",
+    "lint:css": "stylelint **/*.scss",
     "lint:js": "eslint .",
     "lint": "npm-run-all --parallel lint:*"
   },
