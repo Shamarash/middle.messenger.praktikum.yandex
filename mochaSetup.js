@@ -17,6 +17,7 @@ require.extensions['.hbs'] = function (module, filename) {
 
   module.exports = Handlebars.compile(contents)
 }
-require.extensions['.pcss'] = function () {
+// eslint-disable-next-line n/no-deprecated-api
+require.extensions['.scss'] = function () {
   module.exports = () => ({})
 }

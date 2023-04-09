@@ -1,5 +1,5 @@
 import { IButtonProps } from '../../interface/button'
-import { Component } from '../../component'
+import Component from '../../component'
 import template from './template'
 
 class Button extends Component<IButtonProps> {

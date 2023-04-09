@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { router } from '../router'
+import { router } from './index'
 import Register, { registerProps } from '../pages/register'
 import LoginPage, { loginProps } from '../pages/login'
 

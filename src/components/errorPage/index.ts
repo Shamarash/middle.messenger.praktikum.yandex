@@ -1,5 +1,5 @@
 import { IErrorPageProps } from '../../interface/errorPage'
-import { Component } from '../../component'
+import Component from '../../component'
 import template from './template'
 import link from '../link'
 
